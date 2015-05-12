@@ -1,0 +1,25 @@
+<?php  
+  $mensagem = isset($_SESSION["AlertaMsg"]) ? $_SESSION["AlertaMsg"] : null;
+?>
+
+<div id="wrapper">
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">	    
+
+                    <?php echo HtmlUtils::Alerta($mensagem); ?>
+
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">ERRO</h3>
+                        </div>
+                        <div class="panel-body">
+                            <p>Página não encontrada!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

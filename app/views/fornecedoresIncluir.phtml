@@ -1,0 +1,41 @@
+<div id="wrapper">
+    <div id="page-content-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">	    
+
+                    <?php echo HtmlUtils::Alerta($this->session->getAlerta()); ?>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Fornecedor</h3>
+                        </div>
+                        <div class="panel-body">
+                            <form action="/TESTE/fornecedores/validar" method="post">                                
+                                <div class="form-group">
+                                    <label for="Nome">Nome do Fornecedor</label>
+                                    <input type="text" name="RegForm[Nome]" class="form-control" id="Nome" required
+                                           value="<?php echo $view_get["Nome"]; ?>">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="Celular">Celular</label>
+                                    <input type="text" name="RegForm[Celular]" class="form-control" id="Celular" required
+                                           value="<?php echo $view_get["Celular"]; ?>">
+                                </div>
+                                
+                                <div>
+                                    <input type="hidden" name="RegForm[ID]" value="<?php echo $view_get["ID"]; ?>">
+                                    <input type="hidden" name="acao" value="<?php echo $view_acao; ?>" />
+                                    <input class="btn btn-default" type="reset" value="Limpar" />
+                                    <input class="btn btn-success"type="submit" value="Salvar">
+                                    <a class="btn btn-warning" href="/TESTE/fornecedores">Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
