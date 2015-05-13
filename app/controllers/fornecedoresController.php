@@ -18,31 +18,17 @@
 
 		//-----------------------------------------------------------------------------------		
 		public function antesGravar(&$dados) {
-			$dadosCache = $this->getDadosCache();
-
-			$this->setDados($dados, 'Nome', $this->getDados($dados, 'Nome').' - '.$this->getDados($dadosCache, 'Celular'));
-
+			$this->dataSet['Nome'] = $this->dataCache['Nome'].' - '.$this->dataCache['Celular'];
 			return $dados;
 		}
 
-		//-----------------------------------------------------------------------------------
-		public function Validar() {
-			$dados = $this->setDadosGravacao();
-
-			$id = (int)$this->regPOST("ID");
-
-			$this->antesGravar($dados);
-
-			$ok = $this->model->Salvar($dados, $id); 
-			//$ok = FALSE;
-
-			$this->session->addAlerta($ok ? SALVO : NAO_SALVO);	
-
-			if ($ok)
-				$this->Redirect($this->indexLocation);
-			
-			$this->session->setDadosCache($this->getDadosCache());
-			$this->redirectInterno($id);			
-		}
+		//-----------------------------------------------------------------------------------		
+		public function validar() {
+			if (strlen($this->dataCache['Celular']) >= 8) {
+				return TRUE;
+			} 
+			$this->session->addAlerta(NAO_SALVO, "Celular precisa ter pelo menos 8 dígitos!");
+			return FALSE;
+		}		
 	}
 ?>

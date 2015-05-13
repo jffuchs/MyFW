@@ -7,10 +7,12 @@
 		protected $editLocation;
 		protected $insertLocation;
 		protected $camposEdicao;
-		protected $camposPost;		
+		protected $camposPost;
 		protected $pagina;
 		protected $prefixView;
-		protected $nomeRegForm;		
+		protected $nomeRegForm;
+		protected $dataCache;		//dados que vem do POST
+		protected $dataSet;			//dados que irão para o BD
 
 		//-----------------------------------------------------------------------------------
 		public function __construct($nome = NULL) {
@@ -97,12 +99,12 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function setDadosGravacao() {
+		protected function getDadosGravacao() {
 			return $this->ExtrairPOST($this->camposPost);
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function setDadosEdicao($id = 0) {
+		protected function getDadosEdicao($id = 0) {
 			$dadosView = $this->session->getDadosCache();
 
 			if (isset($dadosView)) {		
@@ -135,27 +137,9 @@
 		//-----------------------------------------------------------------------------------
 		protected function redirectInterno($id = NULL) {
 			if ($id > 0) {
-				$this->Redirect($this->editLocation.$id, $this->setDadosEdicao($id));	
+				$this->Redirect($this->editLocation.$id, $this->getDadosEdicao($id));	
 			} else {
-				$this->Redirect($this->insertLocation, $this->setDadosEdicao());	
-			}
-		}
-
-		//-----------------------------------------------------------------------------------
-		public function setDados(&$dados, $campo, $valor) {
-			if (isset($dados[$campo])) {
-				$dados[$campo] = $valor;
-			} else {
-				$dados['get'][$campo] = $valor;	
-			}			
-		}
-
-		//-----------------------------------------------------------------------------------
-		public function getDados(&$dados, $campo) {
-			if (isset($dados[$campo])) {
-				return $dados[$campo];
-			} else {
-				return $dados['get'][$campo];
+				$this->Redirect($this->insertLocation, $this->getDadosEdicao());	
 			}
 		}
 
@@ -165,7 +149,7 @@
 		}
 
 		public function Incluir() {
-			$dados = $this->setDadosEdicao();
+			$dados = $this->getDadosEdicao();
 			$this->antesIncluir($dados);
 			$this->view(CONTROLLER_EDICAO, $dados);	
 		}
@@ -177,7 +161,7 @@
 
 		public function Editar($id = NULL) {
 			$id = $this->getID();
-			$dados = $this->setDadosEdicao($id);
+			$dados = $this->getDadosEdicao($id);
 			$this->antesEditar($dados);
 			$this->view(CONTROLLER_EDICAO, $dados);
 		}
@@ -197,6 +181,30 @@
 		//-----------------------------------------------------------------------------------		
 		public function antesGravar(&$dados) {
 			return $dados;
+		}
+
+		//-----------------------------------------------------------------------------------		
+		public function validar() {
+			return TRUE;
+		}
+
+		//-----------------------------------------------------------------------------------
+		public function gravar() {
+			$id = (int)$this->regPOST("ID");
+
+			$this->dataCache = $this->getDadosCache();
+			$this->dataSet = $this->getDadosGravacao();
+			
+			if ($this->validar()) {
+				$this->antesGravar($this->dataSet);	
+
+				$ok = $this->model->Salvar($this->dataSet, $id); 			
+				$this->session->addAlerta($ok ? SALVO : NAO_SALVO);	
+				if ($ok)
+					$this->Redirect($this->indexLocation);
+			}			
+			$this->session->setDadosCache($this->dataCache);
+			$this->redirectInterno($id);			
 		}
 	}
 ?>
