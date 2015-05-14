@@ -1,3 +1,8 @@
+<script type="text/javascript">
+    jQuery(function($){
+        $("#Celular").mask("(99) 9999-9999");
+    });
+</script>
 <div id="wrapper">
     <div id="page-content-wrapper">
         <div class="container-fluid">
@@ -11,7 +16,7 @@
                             <h3 class="panel-title">Fornecedor</h3>
                         </div>
                         <div class="panel-body">
-                            <form action="/TESTE/fornecedores/gravar" method="post">                                
+                            <form action="/TESTE/fornecedores/gravar" role="form" method="post">
                                 <div class="form-group">
                                     <label for="Nome">Nome do Fornecedor</label>
                                     <input type="text" name="RegForm[Nome]" class="form-control" id="Nome" required
@@ -20,20 +25,19 @@
 
                                 <div class="form-group">
                                     <label for="Celular">Celular</label>
-                                    <input type="text" name="RegForm[Celular]" class="form-control" id="Celular" required
-                                           value="<?php echo $view_get["Celular"]; ?>">
+                                    <input type="text" name="RegForm[Celular]" class="form-control" id="Celular"       required value="<?php echo $view_get["Celular"]; ?>">
                                 </div>
                                 
                                 <div>
                                     <input type="hidden" name="RegForm[ID]" value="<?php echo $view_get["ID"]; ?>">
                                     <input type="hidden" name="acao" value="<?php echo $view_acao; ?>" />
                                     <input class="btn btn-default" type="reset" value="Limpar" />
-                                    <input class="btn btn-success"type="submit" value="Salvar">
+                                    <input class="btn btn-success" type="submit" value="Salvar">
                                     <a class="btn btn-warning" href="/TESTE/fornecedores">Cancelar</a>
                                 </div>
                             </form>
                         </div>
-                    </div>
+                    </div>                       
                 </div>
             </div>
         </div>
