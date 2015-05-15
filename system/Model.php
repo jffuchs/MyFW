@@ -53,31 +53,24 @@
 			return $this->nrRegistros;
 		}
 
-		public function getTotalRegistros() 
-		{
+		public function getTotalRegistros() {
 			$query = "SELECT 1 FROM ".$this->nomeTabela;
-			if ($this->valoresFiltros) 
-			{
-				$query .= $this->getFiltroTxt();
+			if ($this->valoresFiltros) {
+				$query .= $this->getFilterText();
 			}
 			$sth = $this->db->query($query);
     		return $sth->rowCount();
 		}
 
-		private function getFiltroTxt()
-		{
+		private function getFilterText() {
 			if (!$this->valoresFiltros) {
 				return NULL;
-			} else 
-			{
+			} else {
 				$result = "";
 				$aux = $this->getFiltros();
-				for ($i=0; $i < count($aux); $i++) 
-				{ 
-					if ($this->valoresFiltros[$i]) 
-					{
-						if ($result) 
-						{
+				for ($i=0; $i < count($aux); $i++) { 
+					if ($this->valoresFiltros[$i]) {
+						if ($result) {
 							$result .= " AND ";
 						}
 						if ($aux[$i][2] == "LIKE") {
@@ -96,8 +89,7 @@
 
 		//--------------------------------------------------------------------------------------------
 
-		public function Insert(Array $dados) 
-		{
+		public function insert(Array $dados) {
 			$campos = implode(", ", array_keys($dados));
 			$valores = "'".implode("', '", array_values($dados))."'";
 
@@ -105,8 +97,7 @@
 			return $this->db->query($sql);
 		}		
 
-		public function Update(Array $dados, $where = NULL) 
-		{
+		public function update(Array $dados, $where = NULL) {
 			$where = ($where != NULL ? "WHERE {$where};" : "");
 
 			foreach ($dados as $inds => $vals) {
@@ -118,8 +109,7 @@
   			return $this->db->query($sql);
 		}	
 
-		public function Delete($where = NULL) 
-		{
+		public function delete($where = NULL) {
 			if ($where != NULL) {				
 				$sql = "DELETE FROM {$this->nomeTabela} WHERE ".$where;
 				return $this->db->query($sql);
@@ -128,8 +118,7 @@
 			}			
 		}
 
-		public function Read($where = NULL, $limit = null, $orderBy = NULL) 
-		{			
+		public function read($where = NULL, $limit = null, $orderBy = NULL) {			
 			$where = ($where != NULL ? " WHERE {$where}" : "");
 			$limit = ($limit != NULL ? " LIMIT {$limit}" : "");
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
@@ -138,14 +127,13 @@
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		public function Existe($where) {
+		public function find($where) {
 			return count($this->read($where)) > 0;
 		}
 
-		public function getAll($inicio, $limite)
-		{
+		public function getAll($inicio, $limite) {
 			$query = "SELECT * FROM ".$this->nomeTabela;
-			$query .= $this->getFiltroTxt();
+			$query .= $this->getFilterText();
 			
 			if ($this->orderBy) {
 				$query .= " ORDER BY ".$this->orderBy;

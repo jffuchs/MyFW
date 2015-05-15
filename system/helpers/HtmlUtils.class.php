@@ -1,56 +1,9 @@
 <?php 
 	class HtmlUtils 
 	{
-		//Monta um array com informações para serem usadas na mensagem de alerta
-		public static function MontarAlerta($tipo = NULL, $msgDetalhe = NULL) 
-		{
-			$ret = NULL;
-			if (isset($tipo)) 
-			{
-				switch ($tipo) 
-				{
-					case SALVO:
-						$ret = array('titulo' => "Sucesso!", 
-							         'msg' => "Dados foram salvos!", 
-							         'class' => "success");
-						break;
-					case NAO_SALVO:
-						$ret = array('titulo' => "Atenção!", 
-							         'msg' => "Dados não foram salvos!", 
-							         'class' => "warning");
-						break;
-					case EXCLUIDO:
-						$ret = array('titulo' => "OK!", 
-							         'msg' => "O registro que você selecionou foi excluído!", 
-							         'class' => "success");
-						break;
-					case NAO_EXCLUIDO:
-						$ret = array('titulo' => "Atenção!", 
-							         'msg' => "O registro que você selecionou não foi excluído!", 
-							         'class' => "warning");
-						break;					
-					case DADOS_INVALIDOS:
-					 	$ret = array('titulo' => "ATENÇÃO!", 
-							         'msg' => "Dados inválidos! Por favor verifique.", 
-							         'class' => "warning");
-						break;
-					case NAO_ENCONTRADO:
-					 	$ret = array('titulo' => "ERRO!", 
-							         'msg' => "Registro não encontrado! Por favor verifique.", 
-							         'class' => "danger");
-						break;						
-				}
-				$ret["detalhe"] = $msgDetalhe;
-
-				return $ret;
-			}
-		}
-
 		//Cria o html da mensagem de alerta 
-		public static function Alerta($msgAlerta) 
-		{	
-			if ($msgAlerta) 
-			{
+		public static function Alerta($msgAlerta) {	
+			if ($msgAlerta) {
 				$Aux = '<div class="alert alert-'.$msgAlerta["class"].' "alert-dismissible" role="alert">
 			    	    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        	<strong>'.$msgAlerta["titulo"].'</strong> '.$msgAlerta["msg"];
@@ -62,11 +15,9 @@
 		}
 
 		//Cria o html dos títulos da table
-		public static function TitulosTabela($colunas, $orderBy) 
-		{
+		public static function TitulosTabela($colunas, $orderBy) {
 			$Aux = '';
-			foreach ($colunas as $fieldName => $fieldTitle) 
-			{
+			foreach ($colunas as $fieldName => $fieldTitle) {
 				if ($fieldName != "actions") {
 				  	$class = sprintf('<th class="header%s">', ($fieldName == $orderBy) ? " headerSortDown" : "");
 				} else {
@@ -78,11 +29,9 @@
 		}
 
 		//Cria o html das colunas da table
-		public static function CamposTabela($colunas) 
-		{			
+		public static function CamposTabela($colunas) {			
 			$Aux = '';
-			foreach ($colunas as $fieldName => $valor) 
-			{
+			foreach ($colunas as $fieldName => $valor) {
 				if ($fieldName != "actions") {
 					$Aux .= "<td>{".$fieldName."}</td>";
 				}
@@ -91,12 +40,10 @@
 		}
 
 		//Cria os labels e inputs html para os campos que podem ser filtrados na table
-		public static function CamposFiltros($filtros) 
-		{
+		public static function CamposFiltros($filtros) {
 			$Aux = '';
 			$arrayFiltros = $filtros;
-        	for ($i=0; $i < count($arrayFiltros); $i++) 
-        	{ 
+        	for ($i=0; $i < count($arrayFiltros); $i++)	{ 
         		$Aux .= '<div class="form-group">
                          <label>'.$arrayFiltros[$i][1].'</label>  
                          <input type="'.$arrayFiltros[$i][3].'" name="filtros[]" class="form-control">
@@ -107,11 +54,9 @@
 
 		//Cria os links html dos itens de menu
 		//Expandir aqui pra mais níveis
-		public static function MontarMenus($menus) 
-		{
+		public static function MontarMenus($menus) {
         	$aux = "";
-        	foreach ($menus as $item) 
-        	{
+        	foreach ($menus as $item) {
             	$chave = key($item);
             	$aux .= '<li '.activeMenu($chave).'><a href="'.PATH.$chave.'">'.$item[$chave].'</a></li>';
         	}

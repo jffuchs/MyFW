@@ -9,11 +9,11 @@
 		}		
 		
 		//-----------------------------------------------------------------------------------
-		public function Index_Action() {
+		public function index_action() {
 			$this->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));
 			$this->model->setFiltros(array(array("ID", "ID", "= %d", "number"),
 				          		           array("Nome", "Nome", "LIKE", "text")));
-			parent::Index_Action();
+			parent::index_action();
 		}	
 
 		//-----------------------------------------------------------------------------------		
@@ -26,8 +26,8 @@
 		public function validar() {
 			if (strlen($this->dataCache['Celular']) >= 8) {
 				return TRUE;
-			} 
-			$this->session->addAlerta(NAO_SALVO, "Celular precisa ter pelo menos 8 dígitos!");
+			}
+			Alert::set(NAO_SALVO, "Celular precisa ter pelo menos 8 dígitos!");
 			return FALSE;
 		}		
 	}

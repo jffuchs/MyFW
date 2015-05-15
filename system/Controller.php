@@ -50,8 +50,8 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function Index_Action() {
-			$this->session->setDadosCache(NULL);
+		public function index_action() {
+			Session::set(DADOS_CACHE, NULL);
 
 			$pagina = new PaginaLista($this->model);
 			$pagina->setPaginaAtual($this->getPagina());
@@ -60,7 +60,7 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function View($nome, $vars = NULL) {
+		protected function view($nome, $vars = NULL) {
 			if (is_array($vars) && count($vars) > 0) {
 				extract($vars, EXTR_PREFIX_ALL, $this->prefixView);				
 			}
@@ -68,7 +68,7 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function Redirect($local, $vars = NULL) {
+		protected function redirect($local, $vars = NULL) {
 			if (is_array($vars) && count($vars) > 0) {
 				extract($vars, EXTR_PREFIX_ALL, $this->prefixView);				
 			}
@@ -85,7 +85,7 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function ExtrairPOST($arrayCampos) {
+		protected function extrairPOST($arrayCampos) {
 			$dados = array();
 			foreach ($arrayCampos as $nomeCampo) {
 				$dados[$nomeCampo] = $this->regPOST($nomeCampo);
@@ -105,7 +105,7 @@
 
 		//-----------------------------------------------------------------------------------
 		protected function getDadosEdicao($id = 0) {
-			$dadosView = $this->session->getDadosCache();
+			$dadosView = Session::get(DADOS_CACHE);
 
 			if (isset($dadosView)) {		
 				$lista = $dadosView;
@@ -127,8 +127,8 @@
 			$idParam = $this->getParam("id");
 			$id = (int)$idParam;
 
-			if (!$this->model->Existe("ID = $id")) {
-				$this->session->addAlerta(NAO_ENCONTRADO);
+			if (!$this->model->find("ID = $id")) {
+				Alert::set(NAO_ENCONTRADO);
 				$this->Redirect($this->indexLocation);
 			}
 			return $id;
@@ -148,7 +148,7 @@
 			return $dados;
 		}
 
-		public function Incluir() {
+		public function incluir() {
 			$dados = $this->getDadosEdicao();
 			$this->antesIncluir($dados);
 			$this->view(CONTROLLER_EDICAO, $dados);	
@@ -159,7 +159,7 @@
 			return $dados;
 		}
 
-		public function Editar($id = NULL) {
+		public function editar($id = NULL) {
 			$id = $this->getID();
 			$dados = $this->getDadosEdicao($id);
 			$this->antesEditar($dados);
@@ -167,14 +167,14 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function Excluir() {
+		public function excluir() {
 			$id = $this->getID();
 			$ok = $this->model->Delete("ID = $id");
 			$this->depoisExclui($ok);
 		}				
 
 		protected function depoisExclui($ok) {			
-			$this->session->addAlerta($ok ? EXCLUIDO : NAO_EXCLUIDO);	
+			Alert::set($ok ? EXCLUIDO : NAO_EXCLUIDO);	
 			$this->Redirect($this->indexLocation);			
 		}
 
@@ -198,12 +198,15 @@
 			if ($this->validar()) {
 				$this->antesGravar($this->dataSet);	
 
-				$ok = $this->model->Salvar($this->dataSet, $id); 			
-				$this->session->addAlerta($ok ? SALVO : NAO_SALVO);	
+				$ok = $this->model->Salvar($this->dataSet, $id); 
+				//$ok = FALSE;
+
+				Alert::set($ok ? SALVO : NAO_SALVO);
+
 				if ($ok)
 					$this->Redirect($this->indexLocation);
-			}			
-			$this->session->setDadosCache($this->dataCache);
+			}						
+			Session::set(DADOS_CACHE, $this->dataCache);
 			$this->redirectInterno($id);			
 		}
 	}

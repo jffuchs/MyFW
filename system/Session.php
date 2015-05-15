@@ -1,19 +1,29 @@
  <?php
 	class Session 
 	{		
-		//-----------------------------------------------------------------------------------
-		public function addAlerta($tipo, $msg = NULL) {			
-			$_SESSION[MSG_ALERTAS] = HtmlUtils::MontarAlerta($tipo, $msg);	
-			return $this;
-		}
+		public static function init() {        	
+        	if (session_id() == '') {
+            	session_start();
+        	}
+    	}
 
-		public function getAlerta() {
-			return isset($_SESSION[MSG_ALERTAS]) ? $_SESSION[MSG_ALERTAS] : NULL;
-		}
+		public static function set($key, $value) {
+        	$_SESSION[$key] = $value;
+    	}
 
-		public function limparAlertas() {			
-			$_SESSION[MSG_ALERTAS] = NULL;
-		}
+    	public static function get($key) {
+        	if (isset($_SESSION[$key])) {
+            	return $_SESSION[$key];
+        	}
+    	}
+
+    	public static function add($key, $value) {
+        	$_SESSION[$key][] = $value;
+    	}
+
+    	public static function destroy() {
+        	session_destroy();
+    	}
 
 		//-----------------------------------------------------------------------------------
 		public function setDadosCache($dados) {			

@@ -1,9 +1,4 @@
 <?php
-    session_start();
-
-    $_SESSION['UsuarioID'] = 0;
-    $_SESSION['UsuarioNome'] = 'JEAN';
-
     define('PATH', '/TESTE/');
     define('PATH_PUBLIC', '/TESTE/public/');
 
@@ -26,9 +21,10 @@
     define('DADOS_CACHE', 'dadosCache');
 
     require_once 'system/Session.php';
-    require_once 'system/system.php';
+    require_once 'system/System.php';
     require_once 'system/Controller.php';
     require_once 'system/Model.php';
+    require_once 'system/Alert.class.php';
 
     function __autoload($file) 
     {
@@ -40,6 +36,10 @@
             require_once(HELPERS.$file.'.class.php');
         }        
     }
+
+    Session::init();
+    Session::set('UsuarioID', 0);
+    Session::set('UsuarioNome', 'jffuchs');
 
     include VIEWS.'index.phtml';
 

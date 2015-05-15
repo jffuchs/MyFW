@@ -68,7 +68,7 @@
 		    if($tpl->exists("NOME_LISTA")) $tpl->NOME_LISTA =  $oDados::NOME_LISTA;
 		    if($tpl->exists("LINK_INCLUIR")) $tpl->LINK_INCLUIR = $this->nomeController.'/incluir';		    
 		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($oDados->getFiltros());
-		    if($tpl->exists("ALERTA")) $tpl->ALERTA = HtmlUtils::Alerta($msg);
+		    if($tpl->exists("ALERTA")) $tpl->ALERTA = Alert::render();
 		    if($tpl->exists("COL_ACTIONS")) $tpl->COL_ACTIONS = sizeof($oDados->getColunas())-1;
     
 		    foreach ($result as $dados) {
