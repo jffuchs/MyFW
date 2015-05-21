@@ -12,48 +12,58 @@
 		const NOME = "";
 		const NOME_LISTA = "";		
 
-		public function __construct($aNomeTabela) {
+		public function __construct($aNomeTabela) 
+		{
 			$this->nomeTabela = $aNomeTabela;
 			$this->db = new PDO('mysql:host=localhost;dbname=phpbasico', 'root', '');
 		}
 
-		public function setColunas($value) {
+		public function setColunas($value) 
+		{
 			$this->colunas = $value;
 			return $this;
 		}
 
-		public function getColunas() {
+		public function getColunas() 
+		{
 			return $this->colunas;
 		}
 		
-		public function setFiltros($value) {
+		public function setFiltros($value) 
+		{
 			$this->filtros = $value;
 			return $this;
 		}
 
-		public function getFiltros() {
+		public function getFiltros() 
+		{
 			return $this->filtros;
 		}			
 
-		public function setOrderBy($value) {
+		public function setOrderBy($value) 
+		{
 			$this->orderBy = $value;
 			return $this;
 		}
 
-		public function getOrderBy() {
+		public function getOrderBy() 
+		{
 			return $this->orderBy;
 		}	
 
-		public function setValoresFiltros($value) {
+		public function setValoresFiltros($value) 
+		{
 			$this->valoresFiltros = $value;
 			return $this;
 		}
 
-		public function getNrRegistros() {
+		public function getNrRegistros() 
+		{
 			return $this->nrRegistros;
 		}
 
-		public function getTotalRegistros() {
+		public function getTotalRegistros() 
+		{
 			$query = "SELECT 1 FROM ".$this->nomeTabela;
 			if ($this->valoresFiltros) {
 				$query .= $this->getFilterText();
@@ -62,7 +72,8 @@
     		return $sth->rowCount();
 		}
 
-		private function getFilterText() {
+		private function getFilterText() 
+		{
 			if (!$this->valoresFiltros) {
 				return NULL;
 			} else {
@@ -89,7 +100,8 @@
 
 		//--------------------------------------------------------------------------------------------
 
-		public function insert(Array $dados) {
+		public function insert(Array $dados) 
+		{
 			$campos = implode(", ", array_keys($dados));
 			$valores = "'".implode("', '", array_values($dados))."'";
 
@@ -97,7 +109,8 @@
 			return $this->db->query($sql);
 		}		
 
-		public function update(Array $dados, $where = NULL) {
+		public function update(Array $dados, $where = NULL) 
+		{
 			$where = ($where != NULL ? "WHERE {$where};" : "");
 
 			foreach ($dados as $inds => $vals) {
@@ -109,7 +122,8 @@
   			return $this->db->query($sql);
 		}	
 
-		public function delete($where = NULL) {
+		public function delete($where = NULL) 
+		{
 			if ($where != NULL) {				
 				$sql = "DELETE FROM {$this->nomeTabela} WHERE ".$where;
 				return $this->db->query($sql);
@@ -118,7 +132,8 @@
 			}			
 		}
 
-		public function read($where = NULL, $limit = null, $orderBy = NULL) {			
+		public function read($where = NULL, $limit = null, $orderBy = NULL) 
+		{			
 			$where = ($where != NULL ? " WHERE {$where}" : "");
 			$limit = ($limit != NULL ? " LIMIT {$limit}" : "");
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
@@ -127,11 +142,13 @@
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		public function find($where) {
+		public function find($where) 
+		{
 			return count($this->read($where)) > 0;
 		}
 
-		public function getAll($inicio, $limite) {
+		public function getAll($inicio, $limite) 
+		{
 			$query = "SELECT * FROM ".$this->nomeTabela;
 			$query .= $this->getFilterText();
 			

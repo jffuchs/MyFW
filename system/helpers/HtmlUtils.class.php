@@ -2,7 +2,8 @@
 	class HtmlUtils 
 	{
 		//Cria o html da mensagem de alerta 
-		public static function Alerta($msgAlerta) {	
+		public static function Alerta($msgAlerta) 
+		{	
 			if ($msgAlerta) {
 				$Aux = '<div class="alert alert-'.$msgAlerta["class"].' "alert-dismissible" role="alert">
 			    	    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -15,7 +16,8 @@
 		}
 
 		//Cria o html dos títulos da table
-		public static function TitulosTabela($colunas, $orderBy) {
+		public static function TitulosTabela($colunas, $orderBy) 
+		{
 			$Aux = '';
 			foreach ($colunas as $fieldName => $fieldTitle) {
 				if ($fieldName != "actions") {
@@ -29,7 +31,8 @@
 		}
 
 		//Cria o html das colunas da table
-		public static function CamposTabela($colunas) {			
+		public static function CamposTabela($colunas) 
+		{			
 			$Aux = '';
 			foreach ($colunas as $fieldName => $valor) {
 				if ($fieldName != "actions") {
@@ -40,7 +43,8 @@
 		}
 
 		//Cria os labels e inputs html para os campos que podem ser filtrados na table
-		public static function CamposFiltros($filtros) {
+		public static function CamposFiltros($filtros) 
+		{
 			$Aux = '';
 			$arrayFiltros = $filtros;
         	for ($i=0; $i < count($arrayFiltros); $i++)	{ 
@@ -54,7 +58,8 @@
 
 		//Cria os links html dos itens de menu
 		//Expandir aqui pra mais níveis
-		public static function MontarMenus($menus) {
+		public static function MontarMenus($menus) 
+		{
         	$aux = "";
         	foreach ($menus as $item) {
             	$chave = key($item);
@@ -63,7 +68,8 @@
         	return $aux;
     	}
 
-    	public static function MontarConfirmacao($tipo) {
+    	public static function MontarConfirmacao($tipo) 
+    	{
     		$aux = '<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
 					<div class="modal-content">            

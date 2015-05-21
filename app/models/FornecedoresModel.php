@@ -5,21 +5,25 @@
 		const NOME_LISTA = "Fornecedores";
 
 		//-----------------------------------------------------------------------------------
-		public function __construct() {
+		public function __construct() 
+		{
 			parent::__construct("fornecedor");	
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function Lista($id = NULL) {
+		public function lista($id = NULL) 
+		{
 			return $this->read(isset($id) ? "ID = $id" : NULL);
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function Salvar($dados, $id = 0) {	
-			if ($id > 0)
-				return $this->Update($dados, "ID = $id");
-			else
-				return $this->Insert($dados);
+		public function salvar($dados, $id = 0) 
+		{	
+			if ($id > 0) {
+				return $this->update($dados, "ID = $id");
+			} else {
+				return $this->insert($dados);
+			}
 		}
 	}
 ?>

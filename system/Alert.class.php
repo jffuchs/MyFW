@@ -1,7 +1,9 @@
 <?php
-	class Alert {
+	class Alert 
+	{
 		//Monta um array com informações para serem usadas na mensagem de alerta
-		private function MontarAlerta($tipo = NULL, $msgDetalhe = NULL) {
+		private function build($tipo = NULL, $msgDetalhe = NULL) 
+		{
 			$ret = NULL;
 			if (isset($tipo)) {
 				switch ($tipo)	{
@@ -42,20 +44,23 @@
 			}
 		}
 
-		public static function set($tipo, $msg = NULL) {
-			Session::set(MSG_ALERTAS, self::MontarAlerta($tipo, $msg));	
-			return $this;
+		public static function set($tipo, $msg = NULL) 
+		{
+			Session::set(MSG_ALERTAS, self::build($tipo, $msg));			
 		}
 
-		public static function get() {
+		public static function get() 
+		{
 			return Session::get(MSG_ALERTAS);
 		}
 
-		public static function clear() {
+		public static function clear() 
+		{
 			Session::set(MSG_ALERTAS, NULL);
 		}
 
-		public static function render() {
+		public static function render() 
+		{
 			return HtmlUtils::Alerta(self::get());
 		}
 	}

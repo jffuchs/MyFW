@@ -4,6 +4,8 @@
     });
 </script>
 
+<?php echo $this->locationIndexPaginate; ?>
+
 <div id="wrapper">
     <div id="page-content-wrapper">
         <div class="container-fluid">
@@ -34,7 +36,7 @@
                                     <input type="hidden" name="acao" value="<?php echo $view_acao; ?>" />
                                     <input class="btn btn-default" type="reset" value="Limpar" />
                                     <input class="btn btn-success" type="submit" value="Salvar">
-                                    <a class="btn btn-warning" href="/TESTE/fornecedores">Cancelar</a>
+                                    <a class="btn btn-warning" href="<?php echo $view_linkCancelar; ?>">Cancelar</a>
                                 </div>
                             </form>
                         </div>

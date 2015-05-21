@@ -7,7 +7,8 @@
 		private $totalPaginas = 0;
 		private $totalRegistros = 0;		
 
-		public function __construct($value) {
+		public function __construct($value) 
+		{
 			if (!$value) {
 				$this->limite = 50;
 			} else {
@@ -15,38 +16,43 @@
 			}			
 		}
 
-		public function getInicio() {
+		public function getInicio() 
+		{
 			return $this->inicio;
 		}
 
-		public function getLimite() {
+		public function getLimite() 
+		{
 			return $this->limite;
 		}
 
-		public function getTotalRegistros() {
+		public function getTotalRegistros() 
+		{
 			return $this->totalRegistros;
 		}
 
-		public function getPaginaAtual() {
+		public function getPaginaAtual() 
+		{
 			return $this->paginaAtual;
 		}
 
-		public function getTotalPaginas() {			
+		public function getTotalPaginas() 
+		{			
 			return $this->totalPaginas; 
 		}
 
-
-		public function setPaginaAtual($value = 0) {			
+		public function setPaginaAtual($value = 0) 
+		{			
 			$this->paginaAtual = (int)$value;
 			$this->paginaAtual = filter_var($this->paginaAtual, FILTER_VALIDATE_INT);
 			$this->inicio = ($this->paginaAtual * $this->limite) - $this->limite;
 		}
 		
-		public function setTotalRegistros($value) {
+		public function setTotalRegistros($value) 
+		{
 			$this->totalRegistros = (int)$value;
 			$this->totalPaginas = Ceil($this->totalRegistros / $this->limite);
 		}	
-
 		
 		public function htmlPaginacao($paginaList) 
 		{			

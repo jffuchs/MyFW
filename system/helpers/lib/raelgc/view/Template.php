@@ -122,6 +122,11 @@ namespace raelgc\view {
 			$this->createBlocks($blocks);
 		}
 
+		//Jean.Fuchs: 18/05/2015 - setar propriedade
+		public function set($propr, $value) {
+			if($this->exists($propr)) $this->$propr = $value;
+		}
+
 		/**
 		 * Do not use. Properties setter method
 		 *
