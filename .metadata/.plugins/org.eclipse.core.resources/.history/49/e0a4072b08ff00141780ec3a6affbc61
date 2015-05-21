@@ -1,9 +1,0 @@
-<?php 
-
-	class Teste {
-		public function FazAlgo() {
-			echo "XXX";
-		}
-	}
-
-?>
