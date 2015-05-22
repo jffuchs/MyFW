@@ -2,16 +2,37 @@
 	abstract class Repository 
 	{
 		protected $nome;	
-		protected $model;
+		public $model;
+
+		//-----------------------------------------------------------------------------------
+		private function loadModel() {
+			$model_path = MODELS.$this->nome.'Model.php';
+			
+			if (!file_exists($model_path)) {				
+				Warning::page404("Arquivo de modelo <strong>{$model_path}</strong> não encontrado!");
+				exit;
+			}			
+			$nomeClasseModel = $this->nome.'Model';
+			$this->model = new $nomeClasseModel();
+		}
 
 		//-----------------------------------------------------------------------------------
 		public function __construct($nome) 
 		{
 			$this->nome = $nome;
+			$this->loadModel();
+		}
 
-			//Instancia um objeto pelo nome do controller...
-			$nomeClasseModel = $nome.'Model';
-			$this->model = new $nomeClasseModel();
+		//-----------------------------------------------------------------------------------
+		public function find($where) 
+		{
+			return count($this->model->read($where)) > 0;
+		}
+
+		//-----------------------------------------------------------------------------------
+		public function excluir($id)
+		{
+			return $this->model->delete("ID = $id");
 		}
 
 		/*public abstract function validaCadastrar();

@@ -58,7 +58,7 @@
 			$paginacao->setPaginaAtual($this->paginaAtual);
 			
 			//$result = $oDados->setOrderBy("Nome")->getAll($paginacao->getInicio(), $paginacao->getLimite());
-			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite());
+			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite());			
 
 			$tpl = new Template($this->arqTemplate);
 

@@ -2,7 +2,6 @@
 	class Controller extends Router
 	{
 		protected $nome;
-		protected $model;
 		protected $repository;
 		protected $locationIndex;
 		protected $locationIndexPaginate;
@@ -24,10 +23,21 @@
 			if (isset($nome)) {
 				$this->setNome($nome);
 			}
-
 			$this->prefixView = 'view';
 			$this->regForm = 'RegForm';
 		}		
+
+		//-----------------------------------------------------------------------------------
+		private function loadRepository() {
+			$repo_path = REPOSITORIES.$this->nome.'Repo.php';
+			
+			if (!file_exists($repo_path)) {				
+				Warning::page404("Arquivo de repositório <strong>{$repo_path}</strong> não encontrado!");
+				exit;
+			}
+			$nomeClasseRepo = $this->nome.'Repo';
+			$this->repository = new $nomeClasseRepo($this->nome);
+		}
 
 		//-----------------------------------------------------------------------------------
 		protected function setNome($nome) 
@@ -41,22 +51,7 @@
 
 			define('CONTROLLER_EDICAO', $nome.'Incluir');
 
-			//Instancia um objeto pelo nome do controller...
-			$nomeClasseModel = $nome.'Model';
-			$this->model = new $nomeClasseModel();
-
-			//Instancia um objeto pelo nome do controller...
-			$nomeClasseModel = $nome.'Repo';
-			$this->repository = new $nomeClasseModel($nome);
-		}
-
-		//-----------------------------------------------------------------------------------
-		protected function getPagina()
-		{
-			$pag = $this->getParam("pag");
-			if ($pag < 1 or empty($pag))
-				$pag = 1;	
-			return $pag;
+			$this->loadRepository();
 		}
 
 		//-----------------------------------------------------------------------------------
@@ -64,10 +59,10 @@
 		{
 			Session::set(DADOS_CACHE, NULL);
 
-			Session::set('actualPage', $this->getPagina());
+			Session::set('actualPage', $this->pageNumber);
 
-			$pagina = new PaginaLista($this->model);
-			$pagina->setPaginaAtual($this->getPagina());
+			$pagina = new PaginaLista($this->repository->model);
+			$pagina->setPaginaAtual($this->pageNumber);
 			$pagina->setPath(PATH.$this->nome);
 			$pagina->show();
 		}
@@ -84,10 +79,7 @@
 		//-----------------------------------------------------------------------------------
 		protected function regPOST($nome) 
 		{
-			if (isset($_POST[$this->regForm]) && isset($_POST[$this->regForm][$nome])) {
-				return $_POST[$this->regForm][$nome];
-			}
-			return NULL;
+			return Request::post($this->regForm)[$nome];			
 		}
 
 		//-----------------------------------------------------------------------------------
@@ -122,7 +114,7 @@
 			} else {
 				$lista = array_fill_keys($this->camposEdicao, '');
 				if ($id > 0) {					
-					$dados = $this->model->lista($id);
+					$dados = $this->repository->lista($id);
 					$lista = array_merge($lista, $dados[0]);
 				}
 			}
@@ -139,7 +131,7 @@
 			$idParam = $this->getParam("id");
 			$id = (int)$idParam;
 
-			if (!$this->model->find("ID = $id")) {
+			if (!$this->repository->find("ID = $id")) {
 				Alert::set(NAO_ENCONTRADO);
 				Redirect::to($this->locationIndex);
 			}
@@ -197,7 +189,7 @@
 		public function excluir() 
 		{
 			$id = $this->getID();
-			$ok = $this->model->Delete("ID = $id");
+			$ok = $this->repository->Delete($id);
 			$this->depoisExcluir($ok);
 		}				
 
@@ -230,7 +222,7 @@
 			if ($this->validar()) {
 				$this->antesGravar($this->dataSet);	
 
-				$ok = $this->model->salvar($this->dataSet, $id); 
+				$ok = $this->repository->salvar($this->dataSet, $id); 
 				//$ok = FALSE;
 
 				Alert::set($ok ? SALVO : NAO_SALVO);

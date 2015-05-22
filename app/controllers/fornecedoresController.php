@@ -12,9 +12,9 @@
 		//-----------------------------------------------------------------------------------
 		public function index_action() 
 		{
-			$this->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));
-			$this->model->setFiltros(array(array("ID", "ID", "= %d", "number"),
-				          		           array("Nome", "Nome", "LIKE", "text")));
+			$this->repository->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));
+			$this->repository->model->setFiltros(array(array("ID", "ID", "= %d", "number"),
+				          		           			   array("Nome", "Nome", "LIKE", "text")));
 			parent::index_action();
 		}	
 
