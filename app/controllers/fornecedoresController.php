@@ -1,6 +1,7 @@
 <?php 
 	class Fornecedores extends Controller
 	{		
+		//-----------------------------------------------------------------------------------
 		public function __construct() 
 		{
 			parent::__construct('fornecedores');

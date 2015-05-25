@@ -32,7 +32,7 @@
 			$repo_path = REPOSITORIES.$this->nome.'Repo.php';
 			
 			if (!file_exists($repo_path)) {				
-				Warning::page404("Arquivo de repositório <strong>{$repo_path}</strong> não encontrado!");
+				Warning::page404("Arquivo de repositório <b>{$repo_path}</b> não encontrado!");
 				exit;
 			}
 			$nomeClasseRepo = $this->nome.'Repo';

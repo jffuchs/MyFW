@@ -5,24 +5,24 @@
 		public $model;
 
 		//-----------------------------------------------------------------------------------
-		private function loadModel() {
-			$model_path = MODELS.$this->nome.'Model.php';
-			
-			if (!file_exists($model_path)) {				
-				Warning::page404("Arquivo de modelo <strong>{$model_path}</strong> não encontrado!");
-				exit;
-			}			
-			$nomeClasseModel = $this->nome.'Model';
-			$this->model = new $nomeClasseModel();
-		}
-
-		//-----------------------------------------------------------------------------------
 		public function __construct($nome) 
 		{
 			$this->nome = $nome;
 			$this->loadModel();
 		}
 
+		//-----------------------------------------------------------------------------------
+		private function loadModel() {
+			$model_path = MODELS.$this->nome.'Model.php';
+			
+			if (!file_exists($model_path)) {				
+				Warning::page404("Arquivo de modelo <b>{$model_path}</b> não encontrado!");
+				exit;
+			}			
+			$nomeClasseModel = $this->nome.'Model';
+			$this->model = new $nomeClasseModel();
+		}
+		
 		//-----------------------------------------------------------------------------------
 		public function find($where) 
 		{

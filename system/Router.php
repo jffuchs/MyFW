@@ -10,6 +10,7 @@
 		public $session;	
 		public $pageNumber;
 
+		//-----------------------------------------------------------------------------------
 		public function __construct() 
 		{
 			$this->setUrl();
@@ -101,7 +102,7 @@
 			$controller_path = CONTROLLERS.$this->controller.'Controller.php';
 			
 			if (!file_exists($controller_path)) {				
-				Warning::page404("Arquivo de controller <strong>{$controller_path}</strong> não encontrado!");
+				Warning::page404("Arquivo de controller <b>{$controller_path}</b> não encontrado!");
 				exit;
 			}
 
@@ -110,7 +111,7 @@
 			$app = new $this->controller();			
 
 			if (!method_exists($app, $this->action)) {
-				Warning::page404("Action <strong>{$this->action}</strong> do arquivo de controller <strong>{$controller_path}</strong> não encontrado!");
+				Warning::page404("Action <b>{$this->action}</b> do arquivo de controller <b>{$controller_path}</b> não encontrado!");
 				exit;
 			}
 
