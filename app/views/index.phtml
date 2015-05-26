@@ -1,7 +1,7 @@
-<?php  	
+<?php   
     ob_start();
 
-	function activeMenu($menu) {
+    function activeMenu($menu) {
         $aux = isset($_GET) ? implode("/", $_GET) : "";
         return (strpos($aux, $menu) === 0) ? 'class="active"' : NULL;
     }
@@ -9,28 +9,28 @@
     $menus = [];
     $menus[] = array("fornecedores" => "Fornecedores");
     $menus[] = array("alunos" => "Alunos");
-?>    
+?> 
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Exemplo utilizando MVC e Templates em PHP">
     <meta name="author" content="JEAN FABIO FUCHS">
-	<title>Teste</title>
+    <title>Teste</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-	<!--link href="<?php echo PATH_PUBLIC; ?>css/sb-admin/css/bootstrap.min.css" rel="stylesheet"-->
+    <!--link href="<?php echo PATH_PUBLIC; ?>css/sb-admin/css/bootstrap.min.css" rel="stylesheet"-->
     <link href="<?php echo PATH_PUBLIC; ?>css/sb-admin/css/sb-admin.css" rel="stylesheet">
     <link href="<?php echo PATH_PUBLIC; ?>css/sb-admin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">  
     <link href="<?php echo PATH_PUBLIC; ?>js/tablesorter/themes/blue/style2.css" rel="stylesheet" type="text/css">
 </head>
-
 <body>
-    <div id="wrapper"> 
-        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div id="wrapper">
 
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
@@ -39,38 +39,129 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+
                 <a class="navbar-brand" href="<?php echo PATH; ?>">HOME</a>
             </div>
 
             <!-- Top Menu Items -->
-            <ul class="nav navbar-right top-nav">             
+            <ul class="nav navbar-right top-nav">
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
-                        <?php echo Session::get('UsuarioNome'); ?><b class="caret"></b></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="formulario.php?id=<?php echo Session::get('UsuarioID'); ?>">
-                            <i class="fa fa-fw fa-user"></i> Cadastro</a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a></li>
-                        <li><a href="#"><i class="fa fa-fw fa-gear"></i> Configurações</a></li>
-                        <li class="divider"></li>
-                        <li><a href="banco_alunos.php?acao=sair"><i class="fa fa-fw fa-power-off"></i> Sair</a></li>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-envelope"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu message-dropdown">
+                        <li class="message-preview">
+                            <a href="#">
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            <strong><?php echo Session::get('UsuarioNome'); ?></strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-preview">
+                            <a href="#">
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            <strong><?php echo Session::get('UsuarioNome'); ?></strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-preview">
+                            <a href="#">
+                                <div class="media">
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://placehold.it/50x50" alt="">
+                                    </span>
+                                    <div class="media-body">
+                                        <h5 class="media-heading">
+                                            <strong><?php echo Session::get('UsuarioNome'); ?></strong>
+                                        </h5>
+                                        <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                        <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="message-footer">
+                            <a href="#">Read All New Messages</a>
+                        </li>
                     </ul>
-                </li>                
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell"></i> <b class="caret"></b></a>
+                    <ul class="dropdown-menu alert-dropdown">
+                        <li>
+                            <a href="#">Alert Name <span class="label label-default">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-primary">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-success">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-info">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-warning">Alert Badge</span></a>
+                        </li>
+                        <li>
+                            <a href="#">Alert Name <span class="label label-danger">Alert Badge</span></a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">View All</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo Session::get('UsuarioNome'); ?> <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Inbox</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-gear"></i> Settings</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
-
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <?php echo HtmlUtils::MontarMenus($menus); ?>                    
+                    <?php echo HtmlUtils::MontarMenus($menus); ?>
                 </ul>
-            </div>            
+            </div>
+            <!-- /.navbar-collapse -->
         </nav>
-    </div> 
-      
+    </div>
+    <!-- /#wrapper -->
+
     <!-- jQuery -->    
     <script src="<?php echo PATH_PUBLIC; ?>js/jquery-2.1.3.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>js/tablesorter/jquery.tablesorter.min.js" type="text/javascript"></script>
     <script src="<?php echo PATH_PUBLIC; ?>css/sb-admin/js/bootstrap.min.js"></script>
-    <script src="<?php echo PATH_PUBLIC; ?>js/jquery.maskedinput.js"></script>
-</body>
+    <script src="<?php echo PATH_PUBLIC; ?>js/jquery.maskedinput.js"></script>    
 </html>
+</body>

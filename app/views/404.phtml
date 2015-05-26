@@ -1,28 +1,30 @@
-<div id="wrapper">
-    <div id="page-content-wrapper">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">	    
-                    <div class="panel panel-danger">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">ERRO 404</h3>
-                        </div>
-                        <div class="panel-body">
-                            <h3 style="color:red">Página não encontrada!</h3>
-                            <br />                            
+<body>
+    <div id="wrapper">
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            ERRO 404
+                        </h1>
+
+                        <div class="jumbotron">
+                            <h1>Página não encontrada!</h1>
+
                             <?php 
                                 $msgErro = Session::get('msgErro');
                                 foreach ($msgErro as $msg) {
                                     echo "<p>".$msg."</p>";
                                 }
                             ?>
-                            <br />
+                            <p>Por favor, entre em contato com o administrador do sistema.</p>
+
                             <a href="<?php echo PATH; ?>" class="btn btn-large btn-info">
                                 <i class="icon-home icon-white"></i>HOME</a>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</body>

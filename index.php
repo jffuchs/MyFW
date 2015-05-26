@@ -63,4 +63,6 @@
 
     $start = new Router;
     $start->run();
+
+    include VIEWS.'footer.phtml';
 ?>

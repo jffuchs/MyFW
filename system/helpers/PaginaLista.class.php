@@ -6,7 +6,7 @@
 
 		private $ObjetoDados;
 		private $arqTemplate;
-		private $itensPorPagina = 13;
+		private $itensPorPagina = 12;
 		private $paginaAtual;
 		private $path;
 
@@ -78,6 +78,7 @@
 
 		    //Ver isso depois, se não é melhor!
 		    $tpl->set("NOME_LISTA", $oDados::NOME_LISTA);
+		    $tpl->set("PATH", PATH);
     
 		    foreach ($result as $dados) {
 		    	foreach ($oDados->getColunas() as $fieldName => $valor) {

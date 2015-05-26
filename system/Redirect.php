@@ -21,5 +21,12 @@
 			header("location: ".PATH.$path);
 			exit;
 		}
+
+		public static function add($path, $arquivo) 
+		{
+			if (file_exists($path.$arquivo)) {
+				include $path.$arquivo;
+			}			
+		}
 	}
 ?>
