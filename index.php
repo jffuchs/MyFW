@@ -29,6 +29,7 @@
     require_once 'system/Redirect.php';
     require_once 'system/Router.php';
     require_once 'system/Data.class.php';
+    require_once 'system/Filter.php';
     require_once 'system/Controller.php';
     require_once 'system/Repository.php';
     require_once 'system/Model.php';
@@ -63,6 +64,4 @@
 
     $start = new Router;
     $start->run();
-
-    include VIEWS.'footer.phtml';
 ?>

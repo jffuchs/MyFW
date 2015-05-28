@@ -16,6 +16,9 @@
 			$this->repository->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));
 			$this->repository->model->setFiltros(array(array("ID", "ID", "= %d", "number"),
 				          		           			   array("Nome", "Nome", "LIKE", "text")));
+
+			$this->filtros->add('ID', 'ID', '= %d')->add('Nome', 'Nome', 'LIKE');
+
 			parent::index_action();
 		}	
 

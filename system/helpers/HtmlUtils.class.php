@@ -63,7 +63,7 @@
         	$aux = "";
         	foreach ($menus as $item) {
             	$chave = key($item);
-            	$aux .= '<li '.activeMenu($chave).'><a href="'.PATH.$chave.'">'.$item[$chave].'</a></li>';
+            	$aux .= '<li '.activeMenu($chave).'><a href="'.PATH.$chave.'"><i class="fa fa-fw fa-edit"></i> '.$item[$chave].'</a></li>';
         	}
         	return $aux;
     	}
@@ -91,6 +91,27 @@
 					</div>
 					</div>';
 			return $aux;
+    	}
+
+    	public function MontarBreadCrumbs($ctrlActive, $nomeCtrl = NULL, $linkCtrl = NULL, $id = NULL) 
+    	{
+    		$aux = '<ol class="breadcrumb">
+                            <li>
+                                <i class="fa fa-home"></i> <a href="'.PATH.'">Home</a>
+                            </li>';
+            if (isset($nomeCtrl)) {
+            	$aux .= '    <li>
+                                <i class="fa fa-folder-open"></i> <a href="'.$linkCtrl.'">'.$nomeCtrl.'</a>
+                             </li>';
+            }
+
+            $auxActive = isset($id) ? ($id > 0 ? 'Editar' : 'Incluir') : $ctrlActive;
+
+            $aux .= '    <li class="active">
+                             <i class="fa fa-folder-open"></i> '.$auxActive.'
+                         </li>
+                     </ol>';
+            return $aux;
     	}
 	}
 ?>

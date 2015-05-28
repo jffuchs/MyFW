@@ -14,19 +14,16 @@
                         <h1 class="page-header">
                             {NOME_LISTA}
                             <small>Lista</small>
+
+                            <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
+                            <button type="button" class="btn btn-info pull-right" style="margin-right: 5px;" 
+                            data-toggle="modal" data-target="#myModal">Filtrar</button>        
                         </h1>
 
                         {ALERTA}
-                        
-                        <ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-home"></i> <a href="{PATH}">Home</a>
-                            </li>
-                            <li class="active">
-                                <i class="fa fa-folder-open"></i> {NOME_LISTA}
-                            </li>
-                        </ol>     
 
+                        {BREADCRUMBS}                        
+                        
                         <table id="myTable" class="table table-striped table-bordered table-hover tablesorter">     
                         <thead>
                             {TABELA_TITULOS}

@@ -14,6 +14,7 @@
 		protected $regForm;
 		protected $dataCache;		//dados que vem do POST
 		protected $dataSet;			//dados que irão para o BD
+		protected $filtros;
 
 		//-----------------------------------------------------------------------------------
 		public function __construct($nome = NULL) 
@@ -25,6 +26,8 @@
 			}
 			$this->prefixView = 'view';
 			$this->regForm = 'RegForm';
+
+			$this->filtros = new Filter();
 		}		
 
 		//-----------------------------------------------------------------------------------

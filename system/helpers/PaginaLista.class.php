@@ -79,6 +79,7 @@
 		    //Ver isso depois, se não é melhor!
 		    $tpl->set("NOME_LISTA", $oDados::NOME_LISTA);
 		    $tpl->set("PATH", PATH);
+		    $tpl->set("BREADCRUMBS", HtmlUtils::MontarBreadCrumbs($oDados::NOME_LISTA));
     
 		    foreach ($result as $dados) {
 		    	foreach ($oDados->getColunas() as $fieldName => $valor) {
