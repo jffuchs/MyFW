@@ -14,7 +14,8 @@
 		protected $regForm;
 		protected $dataCache;		//dados que vem do POST
 		protected $dataSet;			//dados que irão para o BD
-		protected $filtros;
+		
+		public $filtros;
 
 		//-----------------------------------------------------------------------------------
 		public function __construct($nome = NULL) 
@@ -31,7 +32,8 @@
 		}		
 
 		//-----------------------------------------------------------------------------------
-		private function loadRepository() {
+		private function loadRepository() 
+		{
 			$repo_path = REPOSITORIES.$this->nome.'Repo.php';
 			
 			if (!file_exists($repo_path)) {				
@@ -64,7 +66,7 @@
 
 			Session::set('actualPage', $this->pageNumber);
 
-			$pagina = new PaginaLista($this->repository->model);
+			$pagina = new PaginaLista($this->repository->model, $this);
 			$pagina->setPaginaAtual($this->pageNumber);
 			$pagina->setPath(PATH.$this->nome);
 			$pagina->show();
@@ -89,7 +91,8 @@
 		protected function extrairPOST($arrayCampos) 
 		{
 			$dados = array();
-			foreach ($arrayCampos as $nomeCampo) {
+			foreach ($arrayCampos as $nomeCampo) 
+			{
 				$dados[$nomeCampo] = $this->regPOST($nomeCampo);
 			}
 			return $dados;

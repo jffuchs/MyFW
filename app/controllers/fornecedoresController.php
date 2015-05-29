@@ -17,7 +17,8 @@
 			$this->repository->model->setFiltros(array(array("ID", "ID", "= %d", "number"),
 				          		           			   array("Nome", "Nome", "LIKE", "text")));
 
-			$this->filtros->add('ID', 'ID', '= %d')->add('Nome', 'Nome', 'LIKE');
+			$this->filtros->add('ID', 'ID', '= %d', 'number')
+						  ->add('Nome', 'Nome', 'LIKE', 'text');
 
 			parent::index_action();
 		}	

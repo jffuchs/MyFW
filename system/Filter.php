@@ -2,11 +2,15 @@
 	class Filter 
 	{
 		private $params;
-        private $formValues;
+        private $values;
 
-		public function add($key, $label, $operator, $value = NULL) 
+        const COL_OPERATOR = 1;
+        const COL_VALUE = 3;
+
+        //-----------------------------------------------------------------------------------
+		public function add($key, $label, $operator, $type, $value = NULL) 
 		{
-			$this->params[$key] = array($label, $operator, $value);
+			$this->params[$key] = array($label, $operator, $type, $value);
             return $this;
 		}
 
@@ -15,36 +19,72 @@
             return $this->params;
         }
 
-        public function remove($key)
+        //-----------------------------------------------------------------------------------
+        public function setValues($values)
         {
-            if (array_key_exists($key, $params)) {
-                unset($this->params[$key]);
+            $this->values = $values;
+
+            $i = 0;
+            foreach($this->params as $key => $value)
+            {
+                $this->params[$key][self::COL_VALUE] = $values[$i];
+                $i += 1;
             }
             return $this;
         }
 
-        public function setFormValues($values)
+        public function getValues() 
         {
-            $this->formValues = $values;
-            return $this;
+        	return $this->values;
         }
 
+        public function getValuesFromSession($nomeLista) 
+        {
+        	$filtroSession = 'filtro'.$nomeLista;
+			$filtros = Request::post("filtros");
+			if (isset($filtros)) {
+				Session::set($filtroSession, $filtros);
+			} else {
+				$filtros = Session::get($filtroSession);
+			}
+			$this->setValues($filtros);
+        }
+
+        //-----------------------------------------------------------------------------------
         public function getText() 
         {
-            if (!$this->formValues) {
+            $result = "";
+            foreach($this->params as $key => $value)
+            {
+                $valor = $this->params[$key][self::COL_VALUE];
+                if ($valor) {
+                    if ($result) {
+                        $result .= " AND ";
+                    }                
+                    if ($this->params[$key][self::COL_OPERATOR] == "LIKE") {
+                        $result .= $key." LIKE '%".$valor."%'";
+                    } else {
+                        $result .= $key.' = '.$valor; 
+                    }
+                }                
+            }
+            return $result;
+
+            /*if (!$this->values) {
                 return NULL;
             } else {
                 $result = "";
                 $aux = $this->params;
-                for ($i=0; $i < count($aux); $i++) { 
-                    if ($this->formValues[$i]) {
+                for ($i=0; $i < count($aux); $i++) 
+                { 
+                    if ($this->values[$i]) {
                         if ($result) {
                             $result .= " AND ";
                         }
                         if ($aux[$i][2] == "LIKE") {
-                            $result .= $aux[$i][0]." LIKE '%".$this->formValues[$i]."%'";
+                            $result .= $aux[$i][0]." LIKE '%".$this->values[$i]."%'";
                         } else {
-                            $result .= $aux[$i][0].' '.sprintf($aux[$i][2], $this->formValues[$i]); 
+                            $result .= $aux[$i][0].' '.sprintf($aux[$i][2], $this->values[$i]); 
                         }                       
                     }                   
                 }               
@@ -52,7 +92,7 @@
             if ($result) {
                 $result = ' WHERE '.$result;
             }
-            return $result;
+            return $result;*/
         }
 	}
 ?>

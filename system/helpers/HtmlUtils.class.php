@@ -19,7 +19,8 @@
 		public static function TitulosTabela($colunas, $orderBy) 
 		{
 			$Aux = '';
-			foreach ($colunas as $fieldName => $fieldTitle) {
+			foreach ($colunas as $fieldName => $fieldTitle) 
+			{
 				if ($fieldName != "actions") {
 				  	$class = sprintf('<th class="header%s">', ($fieldName == $orderBy) ? " headerSortDown" : "");
 				} else {
@@ -34,7 +35,8 @@
 		public static function CamposTabela($colunas) 
 		{			
 			$Aux = '';
-			foreach ($colunas as $fieldName => $valor) {
+			foreach ($colunas as $fieldName => $valor) 
+			{
 				if ($fieldName != "actions") {
 					$Aux .= "<td>{".$fieldName."}</td>";
 				}
@@ -46,13 +48,14 @@
 		public static function CamposFiltros($filtros) 
 		{
 			$Aux = '';
-			$arrayFiltros = $filtros;
-        	for ($i=0; $i < count($arrayFiltros); $i++)	{ 
-        		$Aux .= '<div class="form-group">
-                         <label>'.$arrayFiltros[$i][1].'</label>  
-                         <input type="'.$arrayFiltros[$i][3].'" name="filtros[]" class="form-control">
+            foreach($filtros as $key => $value)
+            {
+                $Aux .= '<div class="form-group">
+                         <label>'.$filtros[$key][0].'</label>  
+                         <input type="'.$filtros[$key][2].'" name="filtros[]" class="form-control" 
+                         value="'.$filtros[$key][3].'">
                          </div>';
-        	}
+            }
         	return $Aux;
 		}
 
@@ -61,7 +64,8 @@
 		public static function MontarMenus($menus) 
 		{
         	$aux = "";
-        	foreach ($menus as $item) {
+        	foreach ($menus as $item) 
+        	{
             	$chave = key($item);
             	$aux .= '<li '.activeMenu($chave).'><a href="'.PATH.$chave.'"><i class="fa fa-fw fa-edit"></i> '.$item[$chave].'</a></li>';
         	}

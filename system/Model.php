@@ -18,6 +18,7 @@
 			$this->db = new PDO('mysql:host=localhost;dbname=phpbasico', 'root', '');
 		}
 
+		//-----------------------------------------------------------------------------------
 		public function setColunas($value) 
 		{
 			$this->colunas = $value;
@@ -29,17 +30,7 @@
 			return $this->colunas;
 		}
 		
-		public function setFiltros($value) 
-		{
-			$this->filtros = $value;
-			return $this;
-		}
-
-		public function getFiltros() 
-		{
-			return $this->filtros;
-		}			
-
+		//-----------------------------------------------------------------------------------
 		public function setOrderBy($value) 
 		{
 			$this->orderBy = $value;
@@ -51,12 +42,7 @@
 			return $this->orderBy;
 		}	
 
-		public function setValoresFiltros($value) 
-		{
-			$this->valoresFiltros = $value;
-			return $this;
-		}
-
+		//-----------------------------------------------------------------------------------
 		public function getNrRegistros() 
 		{
 			return $this->nrRegistros;
@@ -72,6 +58,24 @@
     		return $sth->rowCount();
 		}
 
+		//-----------------------------------------------------------------------------------
+		public function setFiltros($value) 
+		{
+			$this->filtros = $value;
+			return $this;
+		}
+
+		public function getFiltros() 
+		{
+			return $this->filtros;
+		}			
+
+		public function setValoresFiltros($value) 
+		{
+			$this->valoresFiltros = $value;
+			return $this;
+		}
+
 		private function getFilterText() 
 		{
 			if (!$this->valoresFiltros) {
@@ -79,7 +83,8 @@
 			} else {
 				$result = "";
 				$aux = $this->getFiltros();
-				for ($i=0; $i < count($aux); $i++) { 
+				for ($i=0; $i < count($aux); $i++) 
+				{ 
 					if ($this->valoresFiltros[$i]) {
 						if ($result) {
 							$result .= " AND ";
@@ -99,7 +104,7 @@
 		}				
 
 		//--------------------------------------------------------------------------------------------
-
+		
 		public function insert(Array $dados) 
 		{
 			$campos = implode(", ", array_keys($dados));
@@ -113,7 +118,8 @@
 		{
 			$where = ($where != NULL ? "WHERE {$where};" : "");
 
-			foreach ($dados as $inds => $vals) {
+			foreach ($dados as $inds => $vals) 
+			{
 				$campos[] = "{$inds} = '{$vals}'";				
 			}
 			$campos = implode(", ", $campos);

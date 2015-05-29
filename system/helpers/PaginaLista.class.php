@@ -2,17 +2,19 @@
 	require_once "lib/raelgc/view/Template.php";	
     use raelgc\view\Template;
 
-	class PaginaLista {
-
-		private $ObjetoDados;
+	class PaginaLista 
+	{
+		private $controller;
+		private $objetoDados;
 		private $arqTemplate;
-		private $itensPorPagina = 12;
+		private $itensPorPagina = 20;
 		private $paginaAtual;
 		private $path;
 
-		public function __construct(Model $objDados) 
+		public function __construct(Model $objDados, Controller $objCtrl) 
 		{
-			$this->ObjetoDados = $objDados;
+			$this->controller = $objCtrl;
+			$this->objetoDados = $objDados;
 			$this->arqTemplate = "PaginaLista.html";
 		}
 
@@ -38,20 +40,16 @@
 
 		public function show() 
 		{
-			$oDados = $this->ObjetoDados;
+			$oDados = $this->objetoDados;
+			$oCtrl = $this->controller;
 
-			$filtroSession = 'filtro'.$oDados::NOME_LISTA;
-			$filtros = Request::post("filtros");
-			if (isset($filtros)) {
-				Session::set($filtroSession, $filtros);
-			} else {
-				$filtros = Session::get($filtroSession);
-			}
+			$this->controller->filtros->getValuesFromSession($oDados::NOME_LISTA);
+			$filtros = $this->controller->filtros->getValues();
+
 			$oDados->setValoresFiltros($filtros);
 
 			$paginacao = new Paginacao($this->itensPorPagina);
 			$paginacao->setTotalRegistros($oDados->getTotalRegistros());
-
 			if ($paginacao->getTotalPaginas() < $this->paginaAtual) {
 				$this->setPaginaAtual($paginacao->getTotalPaginas());
 			}
@@ -65,14 +63,15 @@
 			$tpl->addFile("FILTRO_MODAL", "modalFiltro.php");	
 
 			$tpl->addContexto("TABELA_CAMPOS", HtmlUtils::CamposTabela($oDados->getColunas()));
-			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($oDados->getFiltros()));			
+			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($oCtrl->filtros->getParams()));			
 
 			$telaConf = ["Confirmação", "Este procedimento é irreversível.<br />Confirma proceder adiante e excluir o registro?", "danger", "Excluir"];
 			if($tpl->exists("MODAL_EXCLUIR")) $tpl->MODAL_EXCLUIR = Htmlutils::MontarConfirmacao($telaConf);
+
 			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oDados->getColunas(), $oDados->getOrderBy());
 		    if($tpl->exists("NOME_LISTA")) $tpl->NOME_LISTA =  $oDados::NOME_LISTA;
 		    if($tpl->exists("LINK_INCLUIR")) $tpl->LINK_INCLUIR = $this->path.'/incluir';		    
-		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($oDados->getFiltros());
+		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($oCtrl->filtros->getParams());
 		    if($tpl->exists("ALERTA")) $tpl->ALERTA = Alert::render();
 		    if($tpl->exists("COL_ACTIONS")) $tpl->COL_ACTIONS = sizeof($oDados->getColunas())-1;
 
@@ -81,8 +80,10 @@
 		    $tpl->set("PATH", PATH);
 		    $tpl->set("BREADCRUMBS", HtmlUtils::MontarBreadCrumbs($oDados::NOME_LISTA));
     
-		    foreach ($result as $dados) {
-		    	foreach ($oDados->getColunas() as $fieldName => $valor) {
+		    foreach ($result as $dados) 
+		    {
+		    	foreach ($oDados->getColunas() as $fieldName => $valor) 
+		    	{
 		    		if ($fieldName != "actions") {
 		    			if($tpl->exists($fieldName))
 		    			  $tpl->{"$fieldName"} = $dados[$fieldName];
@@ -105,9 +106,9 @@
 		    		$tpl->TXT_REGISTROS = $Aux;
 		    	}		    	
 		    }
+
 		    if($tpl->exists("NR_REGISTROS")) $tpl->NR_REGISTROS = $oDados->getNrRegistros();
-		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $paginacao->getTotalRegistros();
-		    
+		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $paginacao->getTotalRegistros();		    
 		    if($tpl->exists("PAGINACAO")) $tpl->PAGINACAO = $paginacao->htmlPaginacao($this->path);		    
 
 		    $tpl->show();
