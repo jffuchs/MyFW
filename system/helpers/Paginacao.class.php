@@ -26,11 +26,6 @@
 			return $this->limite;
 		}
 
-		public function getTotalRegistros() 
-		{
-			return $this->totalRegistros;
-		}
-
 		public function getPaginaAtual() 
 		{
 			return $this->paginaAtual;

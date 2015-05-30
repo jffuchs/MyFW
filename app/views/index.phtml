@@ -7,8 +7,8 @@
     }
 
     $menus = [];
-    $menus[] = array("fornecedores" => "Fornecedores");
-    $menus[] = array("alunos" => "Alunos");
+    $menus[] = array("fornecedores", "Fornecedores", 'list-alt');
+    $menus[] = array("alunos", "Alunos", 'list-alt');
 ?> 
 
 <!DOCTYPE html>
@@ -151,6 +151,13 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
                     <?php echo HtmlUtils::MontarMenus($menus); ?>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#demo" class="collapsed" aria-expanded="false">
+                        <i class="fa fa-fw fa-print"></i> Relatórios <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="demo" class="collapse" aria-expanded="false" style="height: 0px;">
+                            <?php echo HtmlUtils::MontarMenus($menus); ?>                            
+                        </ul>
+                    </li>
                 </ul>
             </div>
             <!-- /.navbar-collapse -->

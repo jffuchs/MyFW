@@ -15,6 +15,7 @@
 		protected $dataCache;		//dados que vem do POST
 		protected $dataSet;			//dados que irão para o BD
 		
+		public $colunas;
 		public $filtros;
 
 		//-----------------------------------------------------------------------------------
@@ -28,6 +29,7 @@
 			$this->prefixView = 'view';
 			$this->regForm = 'RegForm';
 
+			$this->colunas = new Columns();
 			$this->filtros = new Filter();
 		}		
 

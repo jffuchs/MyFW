@@ -68,31 +68,7 @@
                     }
                 }                
             }
-            return $result;
-
-            /*if (!$this->values) {
-                return NULL;
-            } else {
-                $result = "";
-                $aux = $this->params;
-                for ($i=0; $i < count($aux); $i++) 
-                { 
-                    if ($this->values[$i]) {
-                        if ($result) {
-                            $result .= " AND ";
-                        }
-                        if ($aux[$i][2] == "LIKE") {
-                            $result .= $aux[$i][0]." LIKE '%".$this->values[$i]."%'";
-                        } else {
-                            $result .= $aux[$i][0].' '.sprintf($aux[$i][2], $this->values[$i]); 
-                        }                       
-                    }                   
-                }               
-            }
-            if ($result) {
-                $result = ' WHERE '.$result;
-            }
-            return $result;*/
+            return $result;            
         }
 	}
 ?>

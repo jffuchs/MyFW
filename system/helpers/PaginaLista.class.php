@@ -9,7 +9,7 @@
 		private $arqTemplate;
 		private $itensPorPagina = 20;
 		private $paginaAtual;
-		private $path;
+		private $path;		
 
 		public function __construct(Model $objDados, Controller $objCtrl) 
 		{
@@ -44,36 +44,35 @@
 			$oCtrl = $this->controller;
 
 			$this->controller->filtros->getValuesFromSession($oDados::NOME_LISTA);
-			$filtros = $this->controller->filtros->getValues();
-
-			$oDados->setValoresFiltros($filtros);
+			$filtros = $this->controller->filtros->getText();
+			$camposFiltros = $oCtrl->filtros->getParams();
+			$totalRegistros = $oDados->getRecordCount($filtros);
 
 			$paginacao = new Paginacao($this->itensPorPagina);
-			$paginacao->setTotalRegistros($oDados->getTotalRegistros());
+			$paginacao->setTotalRegistros($totalRegistros);
 			if ($paginacao->getTotalPaginas() < $this->paginaAtual) {
 				$this->setPaginaAtual($paginacao->getTotalPaginas());
 			}
 			$paginacao->setPaginaAtual($this->paginaAtual);
 			
-			//$result = $oDados->setOrderBy("Nome")->getAll($paginacao->getInicio(), $paginacao->getLimite());
-			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite());			
+			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), $filtros);			
 
 			$tpl = new Template($this->arqTemplate);
 
 			$tpl->addFile("FILTRO_MODAL", "modalFiltro.php");	
 
-			$tpl->addContexto("TABELA_CAMPOS", HtmlUtils::CamposTabela($oDados->getColunas()));
-			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($oCtrl->filtros->getParams()));			
+			$tpl->addContexto("TABELA_CAMPOS", HtmlUtils::CamposTabela($oCtrl->colunas->getColunas()));
+			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($camposFiltros));			
 
 			$telaConf = ["Confirmação", "Este procedimento é irreversível.<br />Confirma proceder adiante e excluir o registro?", "danger", "Excluir"];
 			if($tpl->exists("MODAL_EXCLUIR")) $tpl->MODAL_EXCLUIR = Htmlutils::MontarConfirmacao($telaConf);
 
-			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oDados->getColunas(), $oDados->getOrderBy());
+			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oCtrl->colunas->getColunas(), $oDados->getOrderBy());
 		    if($tpl->exists("NOME_LISTA")) $tpl->NOME_LISTA =  $oDados::NOME_LISTA;
 		    if($tpl->exists("LINK_INCLUIR")) $tpl->LINK_INCLUIR = $this->path.'/incluir';		    
-		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($oCtrl->filtros->getParams());
+		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($camposFiltros);
 		    if($tpl->exists("ALERTA")) $tpl->ALERTA = Alert::render();
-		    if($tpl->exists("COL_ACTIONS")) $tpl->COL_ACTIONS = sizeof($oDados->getColunas())-1;
+		    if($tpl->exists("COL_ACTIONS")) $tpl->COL_ACTIONS = sizeof($oCtrl->colunas->getColunas())-1;
 
 		    //Ver isso depois, se não é melhor!
 		    $tpl->set("NOME_LISTA", $oDados::NOME_LISTA);
@@ -82,7 +81,7 @@
     
 		    foreach ($result as $dados) 
 		    {
-		    	foreach ($oDados->getColunas() as $fieldName => $valor) 
+		    	foreach ($oCtrl->colunas->getColunas() as $fieldName => $valor) 
 		    	{
 		    		if ($fieldName != "actions") {
 		    			if($tpl->exists($fieldName))
@@ -97,18 +96,16 @@
 		    }
 
 		    if($tpl->exists("TXT_REGISTROS")) {
-		    	if (is_array($filtros)) {
-		    		if (array_filter($filtros)) {
-		    			$Aux = "<p>Encontrados <strong>{$oDados->getNrRegistros()}</strong> registro(s).</p>";	
-		    		} else {
-		    			$Aux = "<p>Exibindo <strong>{$oDados->getNrRegistros()}</strong> de um total de <strong>{$paginacao->getTotalRegistros()}</strong> Registros.</p>";	
-		    		}		    	
-		    		$tpl->TXT_REGISTROS = $Aux;
-		    	}		    	
+		    	if ($filtros) {
+		    		$Aux = "<p>Encontrados <strong>{$oDados->getRecordCountFromLastRead()}</strong> registro(s).</p>";	
+		    	} else {
+		    		$Aux = "<p>Exibindo <strong>{$oDados->getRecordCountFromLastRead()}</strong> de um total de <strong>{$totalRegistros}</strong> Registros.</p>";	
+		    	}		    			    		
+		    	$tpl->TXT_REGISTROS = $Aux;	    	
 		    }
 
-		    if($tpl->exists("NR_REGISTROS")) $tpl->NR_REGISTROS = $oDados->getNrRegistros();
-		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $paginacao->getTotalRegistros();		    
+		    if($tpl->exists("NR_REGISTROS")) $tpl->NR_REGISTROS = $oDados->getRecordCountFromLastRead();
+		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $totalRegistros;		    
 		    if($tpl->exists("PAGINACAO")) $tpl->PAGINACAO = $paginacao->htmlPaginacao($this->path);		    
 
 		    $tpl->show();

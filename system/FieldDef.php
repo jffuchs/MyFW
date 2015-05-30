@@ -8,6 +8,11 @@
             $this->fields[$key] = array($label, $type, $value, $required);
         }
 
+        public function getFields() 
+        {
+            return $this->fields;
+        }
+
         public function setValue($key, $value)
         {
             if (array_key_exists($key, $fields)) {

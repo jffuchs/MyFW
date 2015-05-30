@@ -13,9 +13,11 @@
 		//-----------------------------------------------------------------------------------
 		public function index_action() 
 		{
-			$this->repository->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));
-			$this->repository->model->setFiltros(array(array("ID", "ID", "= %d", "number"),
-				          		           			   array("Nome", "Nome", "LIKE", "text")));
+			$this->repository->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));			
+
+			$this->colunas->add('ID', 'ID', 'number', '.col-md-1')
+						  ->add('Nome', 'Nome', 'text', '.col-md-10')
+						  ->add('actions', 'Ações', 'text', '.col-md-1');
 
 			$this->filtros->add('ID', 'ID', '= %d', 'number')
 						  ->add('Nome', 'Nome', 'LIKE', 'text');

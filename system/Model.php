@@ -5,10 +5,8 @@
 		protected $nomeTabela;
 		protected $orderBy;
 		protected $nrRegistros;
-		protected $valoresFiltros;
 		protected $colunas;
-		protected $filtros;		
-
+		
 		const NOME = "";
 		const NOME_LISTA = "";		
 
@@ -43,65 +41,20 @@
 		}	
 
 		//-----------------------------------------------------------------------------------
-		public function getNrRegistros() 
+		public function getRecordCountFromLastRead() 
 		{
 			return $this->nrRegistros;
 		}
 
-		public function getTotalRegistros() 
+		public function getRecordCount($where = NULL) 
 		{
 			$query = "SELECT 1 FROM ".$this->nomeTabela;
-			if ($this->valoresFiltros) {
-				$query .= $this->getFilterText();
+			if ($where) {
+				$query .= ' WHERE '.$where;
 			}
 			$sth = $this->db->query($query);
     		return $sth->rowCount();
 		}
-
-		//-----------------------------------------------------------------------------------
-		public function setFiltros($value) 
-		{
-			$this->filtros = $value;
-			return $this;
-		}
-
-		public function getFiltros() 
-		{
-			return $this->filtros;
-		}			
-
-		public function setValoresFiltros($value) 
-		{
-			$this->valoresFiltros = $value;
-			return $this;
-		}
-
-		private function getFilterText() 
-		{
-			if (!$this->valoresFiltros) {
-				return NULL;
-			} else {
-				$result = "";
-				$aux = $this->getFiltros();
-				for ($i=0; $i < count($aux); $i++) 
-				{ 
-					if ($this->valoresFiltros[$i]) {
-						if ($result) {
-							$result .= " AND ";
-						}
-						if ($aux[$i][2] == "LIKE") {
-							$result .= $aux[$i][0]." LIKE '%".$this->valoresFiltros[$i]."%'";
-						} else {
-							$result .= $aux[$i][0].' '.sprintf($aux[$i][2], $this->valoresFiltros[$i]);	
-						}						
-					}					
-				}				
-			}
-			if ($result) {
-				$result = ' WHERE '.$result;
-			}
-			return $result;
-		}				
 
 		//--------------------------------------------------------------------------------------------
 		
@@ -145,6 +98,7 @@
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
 			$sql = "SELECT * FROM {$this->nomeTabela}".$where.$orderBy.$limit;
 			$q = $this->db->query($sql);
+			$this->nrRegistros = $q->rowCount();
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 
@@ -153,22 +107,9 @@
 			return count($this->read($where)) > 0;
 		}
 
-		public function getAll($inicio, $limite) 
+		public function getAll($inicio, $limite, $where) 
 		{
-			$query = "SELECT * FROM ".$this->nomeTabela;
-			$query .= $this->getFilterText();
-			
-			if ($this->orderBy) {
-				$query .= " ORDER BY ".$this->orderBy;
-			}
-			if ($limite) {
-				$query .= " LIMIT $inicio, $limite";
-			}			
-			$stm = $this->db->prepare($query);			
-			$stm->execute();
-			$this->nrRegistros = $stm->rowCount();
-
-			return $stm->fetchAll(PDO::FETCH_ASSOC);	//FETCH_OBJ
+			return $this->read($where, $inicio.', '.$limite, $this->orderBy);
 		}
 	}
 ?>

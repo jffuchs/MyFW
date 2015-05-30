@@ -19,15 +19,16 @@
 		public static function TitulosTabela($colunas, $orderBy) 
 		{
 			$Aux = '';
-			foreach ($colunas as $fieldName => $fieldTitle) 
-			{
-				if ($fieldName != "actions") {
-				  	$class = sprintf('<th class="header%s">', ($fieldName == $orderBy) ? " headerSortDown" : "");
-				} else {
-					$class = '<th class="col-xs-2">';
-				}				
-				$Aux .= $class.$fieldTitle."</th>";
-			}			
+
+            foreach ($colunas as $fieldName => $value)
+            {
+                if ($fieldName != "actions") {
+                    $class = sprintf('<th class="header%s">', ($fieldName == $orderBy) ? " headerSortDown" : "");
+                } else {
+                    $class = '<th class="'.$value[2].'">';
+                }
+                $Aux .= $class.$value[0]."</th>";
+            }
 			return "<tr>$Aux</tr>";
 		}
 
@@ -55,7 +56,7 @@
                          <input type="'.$filtros[$key][2].'" name="filtros[]" class="form-control" 
                          value="'.$filtros[$key][3].'">
                          </div>';
-            }
+            }                          
         	return $Aux;
 		}
 
@@ -66,8 +67,8 @@
         	$aux = "";
         	foreach ($menus as $item) 
         	{
-            	$chave = key($item);
-            	$aux .= '<li '.activeMenu($chave).'><a href="'.PATH.$chave.'"><i class="fa fa-fw fa-edit"></i> '.$item[$chave].'</a></li>';
+                $controller = $item[0];
+            	$aux .= '<li '.activeMenu($controller).'><a href="'.PATH.$controller.'"><i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';
         	}
         	return $aux;
     	}
