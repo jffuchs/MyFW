@@ -9,11 +9,11 @@
 		protected $locationInsert;
 		protected $camposEdicao;
 		protected $camposPost;
-		protected $pagina;
 		protected $prefixView;
 		protected $regForm;
 		protected $dataCache;		//dados que vem do POST
 		protected $dataSet;			//dados que irão para o BD
+		protected $orderBy;
 		
 		public $colunas;
 		public $filtros;
@@ -60,6 +60,18 @@
 
 			$this->loadRepository();
 		}
+
+		//-----------------------------------------------------------------------------------
+		public function setOrderBy($value) 
+		{
+			$this->orderBy = $value;
+			return $this;
+		}
+
+		public function getOrderBy() 
+		{
+			return $this->orderBy;
+		}		
 
 		//-----------------------------------------------------------------------------------
 		public function index_action() 

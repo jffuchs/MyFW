@@ -65,7 +65,8 @@
 
 			$i = 0;
 			if (!empty($this->parts)) {
-				foreach ($this->parts as $val) {
+				foreach ($this->parts as $val) 
+				{
 					if ($i % 2 == 0)
 						$ind[] = $val;						
 					else

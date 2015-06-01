@@ -19,7 +19,6 @@
 		public static function TitulosTabela($colunas, $orderBy) 
 		{
 			$Aux = '';
-
             foreach ($colunas as $fieldName => $value)
             {
                 if ($fieldName != "actions") {
@@ -36,12 +35,12 @@
 		public static function CamposTabela($colunas) 
 		{			
 			$Aux = '';
-			foreach ($colunas as $fieldName => $valor) 
-			{
-				if ($fieldName != "actions") {
-					$Aux .= "<td>{".$fieldName."}</td>";
-				}
-			}			
+			foreach ($colunas as $fieldName => $value)
+            {
+                if ($fieldName != "actions") {
+                    $Aux .= '<td align="'.$value[3].'">{'.$fieldName.'}</td>';
+                }                
+            }
 			return $Aux;
 		}
 

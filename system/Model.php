@@ -2,48 +2,23 @@
 	class Model 
 	{
 		protected $db;
-		protected $nomeTabela;
-		protected $orderBy;
-		protected $nrRegistros;
-		protected $colunas;
+		protected $nomeTabela;		
+		protected $recordCount;
 		
 		const NOME = "";
 		const NOME_LISTA = "";		
 
-		public function __construct($aNomeTabela) 
+		//--------------------------------------------------------------------------------------------		
+		public function __construct($nomeTabela) 
 		{
-			$this->nomeTabela = $aNomeTabela;
+			$this->nomeTabela = $nomeTabela;
 			$this->db = new PDO('mysql:host=localhost;dbname=phpbasico', 'root', '');
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function setColunas($value) 
-		{
-			$this->colunas = $value;
-			return $this;
-		}
-
-		public function getColunas() 
-		{
-			return $this->colunas;
-		}
-		
-		//-----------------------------------------------------------------------------------
-		public function setOrderBy($value) 
-		{
-			$this->orderBy = $value;
-			return $this;
-		}
-
-		public function getOrderBy() 
-		{
-			return $this->orderBy;
-		}	
-
-		//-----------------------------------------------------------------------------------
 		public function getRecordCountFromLastRead() 
 		{
-			return $this->nrRegistros;
+			return $this->recordCount;
 		}
 
 		public function getRecordCount($where = NULL) 
@@ -56,8 +31,7 @@
     		return $sth->rowCount();
 		}
 
-		//--------------------------------------------------------------------------------------------
-		
+		//--------------------------------------------------------------------------------------------		
 		public function insert(Array $dados) 
 		{
 			$campos = implode(", ", array_keys($dados));
@@ -67,6 +41,7 @@
 			return $this->db->query($sql);
 		}		
 
+		//--------------------------------------------------------------------------------------------		
 		public function update(Array $dados, $where = NULL) 
 		{
 			$where = ($where != NULL ? "WHERE {$where};" : "");
@@ -81,6 +56,7 @@
   			return $this->db->query($sql);
 		}	
 
+		//--------------------------------------------------------------------------------------------		
 		public function delete($where = NULL) 
 		{
 			if ($where != NULL) {				
@@ -91,6 +67,7 @@
 			}			
 		}
 
+		//--------------------------------------------------------------------------------------------		
 		public function read($where = NULL, $limit = null, $orderBy = NULL) 
 		{			
 			$where = ($where != NULL ? " WHERE {$where}" : "");
@@ -98,18 +75,20 @@
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
 			$sql = "SELECT * FROM {$this->nomeTabela}".$where.$orderBy.$limit;
 			$q = $this->db->query($sql);
-			$this->nrRegistros = $q->rowCount();
+			$this->recordCount = $q->rowCount();
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 
+		//--------------------------------------------------------------------------------------------		
 		public function find($where) 
 		{
 			return count($this->read($where)) > 0;
 		}
 
-		public function getAll($inicio, $limite, $where) 
+		//--------------------------------------------------------------------------------------------		
+		public function getAll($inicio, $limite, $where, $orderBy = NULL) 
 		{
-			return $this->read($where, $inicio.', '.$limite, $this->orderBy);
+			return $this->read($where, $inicio.', '.$limite, $orderBy);
 		}
 	}
 ?>

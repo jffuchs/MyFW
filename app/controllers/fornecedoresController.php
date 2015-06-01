@@ -13,14 +13,14 @@
 		//-----------------------------------------------------------------------------------
 		public function index_action() 
 		{
-			$this->repository->model->setColunas(array("ID" => "ID", "Nome" => "Nome", "actions" => "Ações"));			
-
-			$this->colunas->add('ID', 'ID', 'number', '.col-md-1')
+			$this->colunas->add('ID', 'ID', 'number', '.col-md-1', "right")
 						  ->add('Nome', 'Nome', 'text', '.col-md-10')
 						  ->add('actions', 'Ações', 'text', '.col-md-1');
 
 			$this->filtros->add('ID', 'ID', '= %d', 'number')
 						  ->add('Nome', 'Nome', 'LIKE', 'text');
+
+			$this->setOrderBy('Nome');
 
 			parent::index_action();
 		}	
