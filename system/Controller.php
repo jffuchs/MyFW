@@ -81,7 +81,7 @@
 			Session::set('actualPage', $this->pageNumber);
 
 			$pagina = new PaginaLista($this->repository->model, $this);
-			$pagina->setPaginaAtual($this->pageNumber);
+			//$pagina->setPaginaAtual($this->pageNumber);
 			$pagina->setPath(PATH.$this->nome);
 			$pagina->show();
 		}

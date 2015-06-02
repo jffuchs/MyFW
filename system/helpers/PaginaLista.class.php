@@ -6,16 +6,16 @@
 	{
 		private $controller;
 		private $objetoDados;
-		private $arqTemplate;
-		private $itensPorPagina = 20;
-		private $paginaAtual;
+		private $arqTemplate;		
+		//private $paginaAtual;
 		private $path;		
+		//private $itensPorPagina = 20;
 
 		public function __construct(Model $objDados, Controller $objCtrl) 
 		{
 			$this->controller = $objCtrl;
 			$this->objetoDados = $objDados;
-			$this->arqTemplate = "PaginaLista.html";
+			$this->arqTemplate = "PaginaLista.phtml";
 		}
 
 		public function setArqTemplate($arquivo) 
@@ -23,39 +23,43 @@
 			$this->arqTemplate = $arquivo;
 		}
 
-		public function setPaginaAtual($numero) 
+		/*public function setPaginaAtual($numero) 
 		{
 			$this->paginaAtual = $numero;
-		}
+		}*/
 
 		public function setPath($path) 
 		{
 			$this->path = $path;
 		}
 
-		public function setItensPorPagina($numero) 
+		/*public function setItensPorPagina($numero) 
 		{
 			$this->itensPorPagina = $numero;
-		}
+		}*/
 
 		public function show() 
 		{
 			$oDados = $this->objetoDados;
 			$oCtrl = $this->controller;
 
+//var_dump(Session::get('fornecedores_filter_text')); 
+//exit;
+
 			$this->controller->filtros->getValuesFromSession($oDados::NOME_LISTA);
 			$filtros = $this->controller->filtros->getText();
 			$camposFiltros = $oCtrl->filtros->getParams();
-			$totalRegistros = $oDados->getRecordCount($filtros);
+			//$totalRegistros = $oDados->getRecordCount($filtros);
 
-			$paginacao = new Paginacao($this->itensPorPagina);
+			/*$paginacao = new Paginacao($this->itensPorPagina);
 			$paginacao->setTotalRegistros($totalRegistros);
 			if ($paginacao->getTotalPaginas() < $this->paginaAtual) {
 				$this->setPaginaAtual($paginacao->getTotalPaginas());
 			}
-			$paginacao->setPaginaAtual($this->paginaAtual);
-						
-			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), $filtros, $oCtrl->getOrderBy());			
+			$paginacao->setPaginaAtual($this->paginaAtual);						
+			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), $filtros, $oCtrl->getOrderBy());*/
+
+			$result = $oDados->getAll(1, 100000000, $filtros, $oCtrl->getOrderBy());
 
 			$tpl = new Template($this->arqTemplate);
 
@@ -104,8 +108,8 @@
 		    	$tpl->TXT_REGISTROS = $Aux;	    	
 		    }
 
-		    if($tpl->exists("NR_REGISTROS")) $tpl->NR_REGISTROS = $oDados->getRecordCountFromLastRead();
-		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $totalRegistros;		    
+		    //if($tpl->exists("NR_REGISTROS")) $tpl->NR_REGISTROS = $oDados->getRecordCountFromLastRead();
+		    //if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $totalRegistros;		    
 		    //if($tpl->exists("PAGINACAO")) $tpl->PAGINACAO = $paginacao->htmlPaginacao($this->path);		    
 
 		    $tpl->show();
