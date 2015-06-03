@@ -87,9 +87,9 @@
 		    			if($tpl->exists($fieldName))
 		    			  $tpl->{"$fieldName"} = $dados[$fieldName];
 		    		} else {
-		    			$tpl->LINK_EDITAR = $this->path.'/editar/id/'.$dados["ID"];
-		    			$tpl->LINK_EXCLUIR = $this->path.'/excluir/id/'.$dados["ID"];
-		    			if($tpl->exists("REG_ID")) $tpl->REG_ID = $dados["ID"];
+		    			$tpl->LINK_EDITAR = $this->path.'/editar/id/'.$dados[$oCtrl->nomeCampoID];
+		    			$tpl->LINK_EXCLUIR = $this->path.'/excluir/id/'.$dados[$oCtrl->nomeCampoID];
+		    			if($tpl->exists("REG_ID")) $tpl->REG_ID = $dados[$oCtrl->nomeCampoID];
 		    		}
 		    	}
 		    	$tpl->block("BLOCK_REGISTROS");

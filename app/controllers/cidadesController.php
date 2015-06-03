@@ -6,9 +6,9 @@
         {
             parent::__construct('cidades');
 
-            $this->setNomeCampoID("id");
             $this->camposEdicao = array("id", "nome");
             $this->camposPost = array("nome");
+            $this->nomeCampoID = 'id';
         }       
         
         //-----------------------------------------------------------------------------------

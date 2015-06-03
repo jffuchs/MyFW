@@ -14,12 +14,23 @@
                         {BREADCRUMBS}                        
                         
                         <div class="panel panel-default">
-                            <div class="panel-heading clearfix">                            
-                                <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
-                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
-                                <h3 class="panel-title" style="padding-top: 7.5px;"><strong>{NOME_LISTA}</strong></h3>
+                            <div class="panel-heading clearfix">                                  
+                                <h3 class="panel-title"><strong>{NOME_LISTA}</strong></h3>
                             </div>                           
-                        <div class="panel-body">                        
+                        <div class="panel-body">    
+                            <form class="form-inline">
+                                <label>Linhas                                    
+                                    <select id="selectNrLinhas" class="form-control input-sm">
+                                        <option value="10">10</option>
+                                        <option value="25">25</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                    </select>                                    
+                                </label>                                
+                                <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
+                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
+                            </form>
+                            
                             <table class="table table-striped table-bordered table-hover table-condensed" id="myTable">    
                             <thead>
                                 {TABELA_TITULOS}
@@ -48,12 +59,14 @@
     </div>    
 </body>
 
-<script type="text/javascript">
+<script>
     $(document).ready(function() { 
-        $("#myTable").tablesorter({headers: { {COL_ACTIONS}: { sorter: false} }}); 
+        var nrRegistros = $("#selectNrLinhas").find("select");
+        console.info(nrRegistros.val());
     } 
 ); 
 </script>
+
 <script>
     $('#confirm-delete').on('show.bs.modal', function(e) {
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));        
