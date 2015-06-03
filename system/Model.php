@@ -3,7 +3,7 @@
 	{
 		protected $db;
 		protected $nomeTabela;		
-		protected $recordCount;
+		protected $nrRegistros;
 		
 		const NOME = "";
 		const NOME_LISTA = "";		
@@ -18,7 +18,7 @@
 		//-----------------------------------------------------------------------------------
 		public function getRecordCountFromLastRead() 
 		{
-			return $this->recordCount;
+			return $this->nrRegistros;
 		}
 
 		public function getRecordCount($where = NULL) 
@@ -75,7 +75,7 @@
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
 			$sql = "SELECT * FROM {$this->nomeTabela}".$where.$orderBy.$limit;
 			$q = $this->db->query($sql);
-			$this->recordCount = $q->rowCount();
+			$this->nrRegistros = $q->rowCount();
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 
