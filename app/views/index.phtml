@@ -8,8 +8,7 @@
 
     $menus = [];
     $menus[] = array("fornecedores", "Fornecedores", 'table');
-    $menus[] = array("cidades", "Cidades", 'table');
-    $menus[] = array("marcacaoPratica", "Marcação de Aula Prática com Instrutor Habilitado pelo DETRAN", 'table');
+    $menus[] = array("cidades", "Cidades", 'table');    
 ?> 
 
 <!DOCTYPE html>
@@ -23,12 +22,11 @@
     <title>Teste</title>
     
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- MetisMenu CSS -->
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
     <link href="<?php echo PATH_PUBLIC; ?>sb/dist/css/sb-admin-2.css" rel="stylesheet">
-    <!-- Custom Fonts -->
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <link href="<?php echo PATH_PUBLIC; ?>js/tablesorter/themes/blue/style2.css" rel="stylesheet" type="text/css">
 </head>
 <body>    
     <div id="wrapper">
@@ -245,7 +243,7 @@
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="logout.php"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -314,5 +312,6 @@
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/dist/js/sb-admin-2.js"></script>    
+    <!--script src="<?php echo PATH_PUBLIC; ?>js/sorttable.js"></script>-->
 </html>
 </body>

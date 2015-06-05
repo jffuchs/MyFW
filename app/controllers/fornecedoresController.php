@@ -20,7 +20,7 @@
 			$this->filtros->add('ID', 'ID', '= %d', 'number')
 						  ->add('Nome', 'Nome', 'LIKE', 'text');
 
-			$this->setOrderBy('Nome');
+			//$this->setOrderBy($this->getParam('orderBy'));
 
 			parent::index_action();
 		}	

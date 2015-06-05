@@ -1,6 +1,7 @@
 <?php 
 	class HtmlUtils 
 	{
+        //---------------------------------------------------------------------------------------------
 		//Cria o html da mensagem de alerta 
 		public static function Alerta($msgAlerta) 
 		{	
@@ -15,22 +16,33 @@
 			return NULL;
 		}
 
+        //---------------------------------------------------------------------------------------------
 		//Cria o html dos títulos da table
-		public static function TitulosTabela($colunas, $orderBy) 
+		public static function TitulosTabela($colunas, $orderBy, $path, $orderAD = 'ASC') 
 		{
 			$Aux = '';
             foreach ($colunas as $fieldName => $value)
             {
+                $desc = ($orderAD == 'DESC') ? 'headerSortUp' : 'headerSortDown';
+
                 if ($fieldName != "actions") {
-                    $class = sprintf('<th class="header%s">', ($fieldName == $orderBy) ? " headerSortDown" : "");
+                    $class = sprintf(' class="header%s"', ($fieldName == $orderBy) ? " $desc" : "");                    
                 } else {
-                    $class = '<th class="'.$value[2].'">';
+                    $class = '';
                 }
-                $Aux .= $class.$value[0]."</th>";
+                //$Aux .= $class.$value[0]."</th>";*/
+
+                /*if ($fieldName != "actions") {
+                    $Aux .= '<th><a href="'.$path.'/orderBy/column/'.$fieldName.$orderBy.'">'.$value[0].'</a></th>';
+                } else {
+                    $Aux .= '<th>'.$value[0].'</th>';
+                }*/
+                $Aux .= '<th'.$class.' data_aux="'.$orderAD.'" id="'.$fieldName.'">'.$value[0].'</th>';
             }
 			return "<tr>$Aux</tr>";
 		}
 
+        //---------------------------------------------------------------------------------------------
 		//Cria o html das colunas da table
 		public static function CamposTabela($colunas) 
 		{			
@@ -44,6 +56,7 @@
 			return $Aux;
 		}
 
+        //---------------------------------------------------------------------------------------------
 		//Cria os labels e inputs html para os campos que podem ser filtrados na table
 		public static function CamposFiltros($filtros) 
 		{
@@ -59,6 +72,7 @@
         	return $Aux;
 		}
 
+        //---------------------------------------------------------------------------------------------
 		//Cria os links html dos itens de menu
 		//Expandir aqui pra mais níveis
 		public static function MontarMenus($menus) 
@@ -72,6 +86,7 @@
         	return $aux;
     	}
 
+        //---------------------------------------------------------------------------------------------
     	public static function MontarConfirmacao($tipo) 
     	{
     		$aux = '<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -97,6 +112,7 @@
 			return $aux;
     	}
 
+        //---------------------------------------------------------------------------------------------
     	public function MontarBreadCrumbs($ctrlActive, $nomeCtrl = NULL, $linkCtrl = NULL, $id = NULL) 
     	{
     		$aux = '<ol class="breadcrumb">
@@ -117,5 +133,19 @@
                      </ol>';
             return $aux;
     	}
+
+        //---------------------------------------------------------------------------------------------
+        public function OpcoesLinhasTable($selected) 
+        {
+            $lista = array(10,20,50,100);
+
+            $aux = '';
+            for ($i=0; $i < count($lista); $i++) 
+            {
+                $sel = ($lista[$i] == $selected) ? ' selected="selected"' : '';
+                $aux .= '<option value="'.$lista[$i].'"'.$sel.'>'.$lista[$i].'</option>';
+            }
+            return $aux;
+        }
 	}
 ?>

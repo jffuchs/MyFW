@@ -11,7 +11,7 @@
                         <p>
                         {ALERTA}
 
-                        {BREADCRUMBS}                        
+                        {BREADCRUMBS}
                         
                         <div class="panel panel-default">
                             <div class="panel-heading clearfix">                                  
@@ -21,17 +21,14 @@
                             <form class="form-inline">
                                 <label>Linhas                                    
                                     <select id="selectNrLinhas" class="form-control input-sm">
-                                        <option value="10">10</option>
-                                        <option value="25">25</option>
-                                        <option value="50">50</option>
-                                        <option value="100">100</option>
+                                        {LISTA_NRLINHAS}                                        
                                     </select>                                    
                                 </label>                                
                                 <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
                                 <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
                             </form>
                             
-                            <table class="table table-striped table-bordered table-hover table-condensed" id="myTable">    
+                            <table class="table table-striped table-bordered table-hover table-condensed tablesorter" id="myTable">    
                             <thead>
                                 {TABELA_TITULOS}
                             </thead>            
@@ -59,12 +56,58 @@
     </div>    
 </body>
 
-<script>
-    $(document).ready(function() { 
-        var nrRegistros = $("#selectNrLinhas").find("select");
-        console.info(nrRegistros.val());
-    } 
-); 
+<script type="text/javascript">
+    $('#myTable th').click(function() {
+        var nome = $(this).attr("id");
+
+        if (nome == 'actions') return;
+
+        var desc = $(this).attr("data_aux");
+        
+        if (desc == 'DESC') {
+            desc = "ASC"
+        } else {
+            desc = "DESC"
+        };
+        $(this).attr("data_aux", desc);
+
+        var nLinhas = $('#selectNrLinhas').val();        
+
+        $.ajax({
+            url: '/TESTE/SaveSession.php',
+            type: 'GET',
+            dataType: 'json',
+            data: {_linhas: nLinhas, _orderBy: nome, _orderAD: desc},
+        })
+        .done(function(dados) {
+            /*console.info(dados);
+            var tbody = $('#myTable').find('tbody');
+            tbody.find('tr').remove();
+            $.each(dados, function(index, val) 
+            {
+                 var tr = '<tr>';
+                 tr += '<td>'+val.ID+'</td>';
+                 tr += '<td>'+val.Nome+'</td>';
+                 tr += '<td>actions</td>';
+                 tr += '</tr>';                 
+                 
+                 tbody.append(tr);                
+
+                 console.info(tbody);
+                 console.info(val);
+                 console.info(tr);                 
+            });*/
+            location.reload();
+        })        
+        .fail(function(jqXHR, textStatus, errorThrown) {
+            console.info(jqXHR);
+            console.info(textStatus);
+            console.info(errorThrown);
+        })
+        .always(function() {
+            console.log("complete");
+        });
+    });
 </script>
 
 <script>

@@ -86,8 +86,9 @@
 		}
 
 		//--------------------------------------------------------------------------------------------		
-		public function getAll($inicio, $limite, $where, $orderBy = NULL) 
+		public function getAll($inicio, $limite, $where, $orderBy = NULL, $orderAD = NULL) 
 		{
+			$orderBy = isset($orderBy) ? $orderBy.' '.$orderAD : NULL;
 			return $this->read($where, $inicio.', '.$limite, $orderBy);
 		}
 	}

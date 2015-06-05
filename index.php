@@ -55,6 +55,7 @@
     Session::init();
     Session::set('UsuarioID', 0);
     Session::set('UsuarioNome', 'jffuchs');
+    //Session::set('_orderBy', 'ID');    
 
     if (file_exists(VIEWS.'index.phtml')) {
         include VIEWS.'index.phtml';

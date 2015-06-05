@@ -66,7 +66,7 @@
 		//-----------------------------------------------------------------------------------
 		public function setOrderBy($value) 
 		{
-			$this->orderBy = $value;
+			$this->orderBy = $value;	
 			return $this;
 		}
 
@@ -79,7 +79,6 @@
 		public function index_action() 
 		{
 			Session::set(DADOS_CACHE, NULL);
-
 			Session::set('actualPage', $this->pageNumber);
 
 			$pagina = new PaginaLista($this->repository->model, $this);
@@ -89,12 +88,30 @@
 		}
 
 		//-----------------------------------------------------------------------------------
+		protected function orderBy()
+		{
+			$this->setOrderBy($this->getParam("column"));
+			$this->index_action();
+		} 
+
+		public function fooBar() 
+		{
+			return json_encode(['Jean','Fabio','Fuchs']);
+		}
+
+		//-----------------------------------------------------------------------------------
 		protected function view($nome, $vars = NULL) 
 		{
+			$arqView = VIEWS.$nome.'.phtml';
+			if (!file_exists($arqView)) {				
+				Warning::page404("Arquivo de view <b>{$arqView}</b> não encontrado!");
+				exit;
+			}
+
 			if (is_array($vars) && count($vars) > 0) {
 				extract($vars, EXTR_PREFIX_ALL, $this->prefixView);				
 			}
-			require_once(VIEWS.$nome.'.phtml');
+			require_once($arqView);
 		}
 
 		//-----------------------------------------------------------------------------------

@@ -22,8 +22,6 @@
             $this->filtros->add('id', 'ID', '= %d', 'number')
                           ->add('nome', 'Nome', 'LIKE', 'text');
 
-            $this->setOrderBy('Nome');
-
             parent::index_action();
         }   
     }

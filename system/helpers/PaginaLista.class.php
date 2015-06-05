@@ -48,14 +48,29 @@
 			$camposFiltros = $oCtrl->filtros->getParams();
 			$totalRegistros = $oDados->getRecordCount($filtros);
 
+			$this->setItensPorPagina(Session::get('_linhas'));
+
 			$paginacao = new Paginacao($this->itensPorPagina);
 			$paginacao->setTotalRegistros($totalRegistros);
 			if ($paginacao->getTotalPaginas() < $this->paginaAtual) {
 				$this->setPaginaAtual($paginacao->getTotalPaginas());
-			}
+			}			
 			$paginacao->setPaginaAtual($this->paginaAtual);
-			
-			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), $filtros);			
+
+			//$orderBy = $oCtrl->getOrderBy();
+			$orderBy = Session::get('_orderBy');
+			$orderBy = isset($orderBy) ? $orderBy : '';
+
+			$orderDESC = Session::get('_orderAD');
+			$orderDESC = isset($orderDESC) ? $orderDESC : '';
+			/*$orderDESC = '';
+			$pos = strpos($orderBy, 'DESC');
+			if ($pos === FALSE) {
+				$orderDESC = " DESC";
+			}			*/
+
+			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), $filtros, 
+			                          $orderBy, $orderDESC);
 
 			$tpl = new Template($this->arqTemplate);
 
@@ -67,7 +82,7 @@
 			$telaConf = ["Confirmação", "Este procedimento é irreversível.<br />Confirma proceder adiante e excluir o registro?", "danger", "Excluir"];
 			if($tpl->exists("MODAL_EXCLUIR")) $tpl->MODAL_EXCLUIR = Htmlutils::MontarConfirmacao($telaConf);
 
-			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oCtrl->colunas->get(), $oCtrl->getOrderBy());
+			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oCtrl->colunas->get(), $orderBy, $this->path, $orderDESC);
 		    if($tpl->exists("NOME_LISTA")) $tpl->NOME_LISTA =  $oDados::NOME_LISTA;
 		    if($tpl->exists("LINK_INCLUIR")) $tpl->LINK_INCLUIR = $this->path.'/incluir';		    
 		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($camposFiltros);
@@ -78,6 +93,7 @@
 		    $tpl->set("NOME_LISTA", $oDados::NOME_LISTA);
 		    $tpl->set("PATH", PATH);
 		    $tpl->set("BREADCRUMBS", HtmlUtils::MontarBreadCrumbs($oDados::NOME_LISTA));
+		    $tpl->set("LISTA_NRLINHAS", HtmlUtils::OpcoesLinhasTable(Session::get('_linhas')));
     
 		    foreach ($result as $dados) 
 		    {
