@@ -5,7 +5,9 @@
         {        	
         	if (session_id() == '') {
             	session_start();
+                return TRUE;
         	}
+            return FALSE;
     	}
 
 		public static function set($key, $value) 
@@ -20,10 +22,19 @@
         	}
     	}
 
-    	public static function add($key, $value) 
+    	public static function setAdd($keyPrimary, $key, $value) 
         {
-        	$_SESSION[$key][] = $value;
+        	$_SESSION[$keyPrimary][$key] = $value;
     	}
+
+        public static function getFrom($keyPrimary, $key)
+        {
+            if (isset($_SESSION[$keyPrimary])) {
+                if (isset($_SESSION[$keyPrimary][$key])) {
+                    return $_SESSION[$keyPrimary][$key];
+                }
+            }            
+        }
 
     	public static function destroy() 
         {

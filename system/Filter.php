@@ -5,6 +5,7 @@
         private $values;
 
         const COL_OPERATOR = 1;
+        const COL_TYPE = 2;
         const COL_VALUE = 3;
 
         //-----------------------------------------------------------------------------------
@@ -67,6 +68,28 @@
                         $result .= $key.' = '.$valor; 
                     }
                 }                
+            }
+            return $result;            
+        }
+
+        //-----------------------------------------------------------------------------------
+        public function getTextAnyField($text) 
+        {
+            $result = "";
+            foreach($this->params as $key => $value)
+            {                
+                if ($this->params[$key][self::COL_OPERATOR] == "LIKE") {
+                    $parametros = array($key, $text, $key." LIKE '%".$text."%'");
+                } elseif ($this->params[$key][self::COL_TYPE] == "number") {                    
+                    $valor = abs(filter_var($text, FILTER_SANITIZE_NUMBER_INT));
+                    $parametros = array($key, $valor, $key.' = '.$valor);
+                }
+                if ($parametros[1]) {
+                    if ($result) {
+                       $result .= " OR ";
+                    }
+                    $result .= $parametros[2]; 
+                }
             }
             return $result;            
         }

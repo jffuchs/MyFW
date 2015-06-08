@@ -4,7 +4,7 @@
 		//-----------------------------------------------------------------------------------
 		public function __construct() 
 		{
-			parent::__construct('fornecedores');
+			parent::__construct('fornecedores', 'Fornecedores');
 
 			$this->camposEdicao = array("ID", "Nome", "Celular");
 			$this->camposPost = array("Nome");
@@ -19,8 +19,6 @@
 
 			$this->filtros->add('ID', 'ID', '= %d', 'number')
 						  ->add('Nome', 'Nome', 'LIKE', 'text');
-
-			//$this->setOrderBy($this->getParam('orderBy'));
 
 			parent::index_action();
 		}	

@@ -1,7 +1,7 @@
 <?php
 	class Controller extends Router
 	{
-		protected $nome;
+		protected $nomeLogico;
 		protected $repository;
 		protected $locationIndex;
 		protected $locationIndexPaginate;
@@ -15,14 +15,17 @@
 		protected $dataSet;			//dados que irão para o BD
 		protected $orderBy;
 
+		public $nome;
 		public $nomeCampoID;		
 		public $colunas;
 		public $filtros;
 
 		//-----------------------------------------------------------------------------------
-		public function __construct($nome = NULL) 
+		public function __construct($nome = NULL, $nomeLogico = NULL) 
 		{
 			parent::__construct();
+
+			$this->nomeLogico = $nomeLogico;
 
 			if (isset($nome)) {
 				$this->setNome($nome);
@@ -64,39 +67,15 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function setOrderBy($value) 
-		{
-			$this->orderBy = $value;	
-			return $this;
-		}
-
-		public function getOrderBy() 
-		{
-			return $this->orderBy;
-		}		
-
-		//-----------------------------------------------------------------------------------
 		public function index_action() 
 		{
-			Session::set(DADOS_CACHE, NULL);
-			Session::set('actualPage', $this->pageNumber);
+			Session::setAdd($this->nomeLogico, DADOS_CACHE, NULL);
+			Session::setAdd($this->nomeLogico, 'actualPage', $this->pageNumber);
 
 			$pagina = new PaginaLista($this->repository->model, $this);
 			$pagina->setPaginaAtual($this->pageNumber);
 			$pagina->setPath(PATH.$this->nome);
 			$pagina->show();
-		}
-
-		//-----------------------------------------------------------------------------------
-		protected function orderBy()
-		{
-			$this->setOrderBy($this->getParam("column"));
-			$this->index_action();
-		} 
-
-		public function fooBar() 
-		{
-			return json_encode(['Jean','Fabio','Fuchs']);
 		}
 
 		//-----------------------------------------------------------------------------------
@@ -146,7 +125,7 @@
 		//-----------------------------------------------------------------------------------
 		protected function getDadosEdicao($id = 0) 
 		{
-			$dataView = Session::get(DADOS_CACHE);
+			$dataView = Session::getFrom($this->nomeLogico, DADOS_CACHE);
 
 			if (isset($dataView)) {		
 				$lista = $dataView;
@@ -190,7 +169,7 @@
 		//-----------------------------------------------------------------------------------
 		protected function redirectIndexPaginate($retornarLink = NULL) 
 		{
-			$link = $this->locationIndexPaginate.Session::get('actualPage');
+			$link = $this->locationIndexPaginate.Session::getFrom($this->nomeLogico, 'actualPage');
 			if (isset($retornarLink)) {
 				return $link;
 			}
@@ -270,7 +249,7 @@
 					$this->redirectIndexPaginate();
 				}					
 			}						
-			Session::set(DADOS_CACHE, $this->dataCache);
+			Session::setAdd($this->nomeLogico, DADOS_CACHE, $this->dataCache);
 			$this->redirectEditOrInsert($id);			
 		}
 	}

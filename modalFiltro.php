@@ -5,13 +5,14 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Filtrar {NOME_LISTA}</h4>
       </div>
-      <form class="form" action="{PAGE_LISTA}" method="post">
+      <form id="myFormModalFilter" class="form" action="{PAGE_LISTA}" method="post">
       <div class="modal-body"> 
         {FILTRO_CAMPOS}     	        
       </div>
-      <div class="modal-footer">
+      <div class="modal-footer">        
+        <input name="reset" type="reset" class="btn btn-danger" value="Limpar" onclick="resetForm('myFormModalFilter'); return false;" />
         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <button type="submit" class="btn btn-primary">Filtrar</button>        
       </div>
   	  </form>
     </div>

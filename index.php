@@ -52,10 +52,11 @@
         }      
     }
 
-    Session::init();
-    Session::set('UsuarioID', 0);
-    Session::set('UsuarioNome', 'jffuchs');
-    //Session::set('_orderBy', 'ID');    
+    if (Session::init()) {
+        Session::setAdd('Login', 'ID', 0);
+        Session::setAdd('Login', 'Nome', 'jffuchs');
+        Session::setAdd('Login', 'Debug', TRUE);
+    };    
 
     if (file_exists(VIEWS.'index.phtml')) {
         include VIEWS.'index.phtml';
@@ -66,4 +67,9 @@
 
     $start = new Router;
     $start->run();
+
+    if (Session::getFrom('Login', 'Debug')) {
+        echo '<pre>';
+        print_r($_SESSION);
+    }    
 ?>

@@ -35,7 +35,7 @@
                             <div>
                                 <input type="hidden" name="RegForm[ID]" value="<?php echo $view_get["ID"]; ?>">
                                 <input type="hidden" name="acao" value="<?php echo $view_acao; ?>" />
-                                <input class="btn btn-default" type="reset" value="Limpar" />
+                                <input name="reset" type="reset" class="btn btn-danger" value="Limpar" onclick="resetForm('reservationForm'); return false;" />                                
                                 <input class="btn btn-success" type="submit" value="Salvar">
                                 <a class="btn btn-warning" href="<?php echo $view_linkCancelar; ?>">Cancelar</a>
                             </div>

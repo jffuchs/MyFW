@@ -1,10 +1,10 @@
 <?php 
-    class Cidades extends Controller
+    class Usuarios extends Controller
     {       
         //-----------------------------------------------------------------------------------
         public function __construct() 
         {
-            parent::__construct('cidades', 'Cidades');
+            //parent::__construct('usuarios');
 
             $this->camposEdicao = array("id", "nome");
             $this->camposPost = array("nome");
@@ -24,5 +24,10 @@
 
             parent::index_action();
         }   
+        public function logOut() {
+            Session::destroy();
+
+            Redirect::to(PATH);
+        }
     }
 ?>

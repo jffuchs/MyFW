@@ -41,6 +41,9 @@
 			$this->paginaAtual = (int)$value;
 			$this->paginaAtual = filter_var($this->paginaAtual, FILTER_VALIDATE_INT);
 			$this->inicio = ($this->paginaAtual * $this->limite) - $this->limite;
+			if ($this->inicio < 0) {
+				$this->inicio = 0;
+			}
 		}
 		
 		public function setTotalRegistros($value) 

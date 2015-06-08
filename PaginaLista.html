@@ -2,7 +2,7 @@
 
 {MODAL_EXCLUIR}
 
-<body>
+<body id="index" controller="{NOME_LISTA}">
     <div id="wrapper">
         <div id="page-wrapper">
             <div class="container-fluid">
@@ -20,12 +20,19 @@
                         <div class="panel-body">    
                             <form class="form-inline">
                                 <label>Linhas                                    
-                                    <select id="selectNrLinhas" class="form-control input-sm">
+                                    <select id="selectNrLinhas" class="form-control input-sm" onchange="changeFunc(value);">
                                         {LISTA_NRLINHAS}                                        
                                     </select>                                    
-                                </label>                                
+                                </label>      
+
+                                <label style="margin-left: 10px;">Pesquisar
+                                   <input type="text" name="pesquisar" class="form-control input-sm" id="pesquisar" value="{TXT_FILTRO}" 
+                                   onchange="changePesquisarFunc(value);">
+                                </label> 
+
                                 <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
-                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
+                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" 
+                                        data-toggle="modal" data-target="#myModal">Filtrar</button>
                             </form>
                             
                             <table class="table table-striped table-bordered table-hover table-condensed tablesorter" id="myTable">    
@@ -57,13 +64,28 @@
 </body>
 
 <script type="text/javascript">
-    $('#myTable th').click(function() {
-        var nome = $(this).attr("id");
+    function changeFunc($i) 
+    {
+        var controller = $("body[id^=index]").attr("controller");
+        changeTable({'_controller': controller, '_linhas': $i});
+    }
+</script>
 
+<script type="text/javascript">
+    function changePesquisarFunc($txt) 
+    {
+        var controller = $("body[id^=index]").attr("controller");
+        changeTable({'_controller': controller, '_filtros': $txt});
+    }
+</script>
+
+<script type="text/javascript">
+    $('#myTable th').click(function() 
+    {
+        var nome = $(this).attr("id");
         if (nome == 'actions') return;
 
-        var desc = $(this).attr("data_aux");
-        
+        var desc = $(this).attr("data_aux");        
         if (desc == 'DESC') {
             desc = "ASC"
         } else {
@@ -71,42 +93,10 @@
         };
         $(this).attr("data_aux", desc);
 
-        var nLinhas = $('#selectNrLinhas').val();        
+        var nLinhas = $('#selectNrLinhas').val(); 
+        var controller = $("body[id^=index]").attr("controller");
 
-        $.ajax({
-            url: '/TESTE/SaveSession.php',
-            type: 'GET',
-            dataType: 'json',
-            data: {_linhas: nLinhas, _orderBy: nome, _orderAD: desc},
-        })
-        .done(function(dados) {
-            /*console.info(dados);
-            var tbody = $('#myTable').find('tbody');
-            tbody.find('tr').remove();
-            $.each(dados, function(index, val) 
-            {
-                 var tr = '<tr>';
-                 tr += '<td>'+val.ID+'</td>';
-                 tr += '<td>'+val.Nome+'</td>';
-                 tr += '<td>actions</td>';
-                 tr += '</tr>';                 
-                 
-                 tbody.append(tr);                
-
-                 console.info(tbody);
-                 console.info(val);
-                 console.info(tr);                 
-            });*/
-            location.reload();
-        })        
-        .fail(function(jqXHR, textStatus, errorThrown) {
-            console.info(jqXHR);
-            console.info(textStatus);
-            console.info(errorThrown);
-        })
-        .always(function() {
-            console.log("complete");
-        });
+        changeTable({'_controller': controller, '_linhas': nLinhas, '_orderBy': nome, '_orderAD': desc});      
     });
 </script>
 

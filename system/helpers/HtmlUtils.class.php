@@ -29,14 +29,7 @@
                     $class = sprintf(' class="header%s"', ($fieldName == $orderBy) ? " $desc" : "");                    
                 } else {
                     $class = '';
-                }
-                //$Aux .= $class.$value[0]."</th>";*/
-
-                /*if ($fieldName != "actions") {
-                    $Aux .= '<th><a href="'.$path.'/orderBy/column/'.$fieldName.$orderBy.'">'.$value[0].'</a></th>';
-                } else {
-                    $Aux .= '<th>'.$value[0].'</th>';
-                }*/
+                }                
                 $Aux .= '<th'.$class.' data_aux="'.$orderAD.'" id="'.$fieldName.'">'.$value[0].'</th>';
             }
 			return "<tr>$Aux</tr>";
@@ -115,22 +108,12 @@
         //---------------------------------------------------------------------------------------------
     	public function MontarBreadCrumbs($ctrlActive, $nomeCtrl = NULL, $linkCtrl = NULL, $id = NULL) 
     	{
-    		$aux = '<ol class="breadcrumb">
-                            <li>
-                                <i class="fa fa-home"></i> <a href="'.PATH.'">Home</a>
-                            </li>';
+    		$aux = '<ol class="breadcrumb"><li><i class="fa fa-home"></i> <a href="'.PATH.'">Home</a></li>';
             if (isset($nomeCtrl)) {
-            	$aux .= '    <li>
-                                <i class="fa fa-folder-open"></i> <a href="'.$linkCtrl.'">'.$nomeCtrl.'</a>
-                             </li>';
+            	$aux .= '<li><i class="fa fa-folder-open"></i> <a href="'.$linkCtrl.'">'.$nomeCtrl.'</a></li>';
             }
-
             $auxActive = isset($id) ? ($id > 0 ? 'Editar' : 'Incluir') : $ctrlActive;
-
-            $aux .= '    <li class="active">
-                             <i class="fa fa-folder-open"></i> '.$auxActive.'
-                         </li>
-                     </ol>';
+            $aux .= '<li class="active"><i class="fa fa-folder-open"></i> '.$auxActive.'</li></ol>';
             return $aux;
     	}
 
@@ -138,7 +121,6 @@
         public function OpcoesLinhasTable($selected) 
         {
             $lista = array(10,20,50,100);
-
             $aux = '';
             for ($i=0; $i < count($lista); $i++) 
             {

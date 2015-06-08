@@ -41,14 +41,29 @@
 		public function show() 
 		{
 			$oDados = $this->objetoDados;
-			$oCtrl = $this->controller;
+			$oCtrl = $this->controller;		
 
-			$this->controller->filtros->getValuesFromSession($oDados::NOME_LISTA);
-			$filtros = $this->controller->filtros->getText();
+			//Informações da session do controller, para a action INDEX --------------------------------
+			$orderBy = Session::getFrom($oDados::NOME_LISTA, '_orderBy');
+			$orderBy = (!isset($orderBy)) ? $oCtrl->nomeCampoID : $orderBy;
+			$orderDESC = Session::getFrom($oDados::NOME_LISTA, '_orderAD');
+			$nrLinhas = Session::getFrom($oDados::NOME_LISTA, '_linhas');
+			$nrLinhas = (!isset($nrLinhas) || $nrLinhas < 10) ? 10 : $nrLinhas;
+
+			//tem alguma coisa de pesquisa na tela, senão busca da tela de filtros MODAL...
+			$txtPesquisa = Session::getFrom($oDados::NOME_LISTA, '_filtros');
+			if ($txtPesquisa) {				
+				$filtros = $this->controller->filtros->getTextAnyField($txtPesquisa);
+			} else {
+				$this->controller->filtros->getValuesFromSession($oDados::NOME_LISTA);
+				$filtros = $this->controller->filtros->getText();
+			}
+			//------------------------------------------------------------------------------------------
+
 			$camposFiltros = $oCtrl->filtros->getParams();
 			$totalRegistros = $oDados->getRecordCount($filtros);
 
-			$this->setItensPorPagina(Session::get('_linhas'));
+			$this->setItensPorPagina($nrLinhas);
 
 			$paginacao = new Paginacao($this->itensPorPagina);
 			$paginacao->setTotalRegistros($totalRegistros);
@@ -57,20 +72,8 @@
 			}			
 			$paginacao->setPaginaAtual($this->paginaAtual);
 
-			//$orderBy = $oCtrl->getOrderBy();
-			$orderBy = Session::get('_orderBy');
-			$orderBy = isset($orderBy) ? $orderBy : '';
-
-			$orderDESC = Session::get('_orderAD');
-			$orderDESC = isset($orderDESC) ? $orderDESC : '';
-			/*$orderDESC = '';
-			$pos = strpos($orderBy, 'DESC');
-			if ($pos === FALSE) {
-				$orderDESC = " DESC";
-			}			*/
-
-			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), $filtros, 
-			                          $orderBy, $orderDESC);
+			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), 
+			                          $filtros, $orderBy, $orderDESC);
 
 			$tpl = new Template($this->arqTemplate);
 
@@ -93,7 +96,8 @@
 		    $tpl->set("NOME_LISTA", $oDados::NOME_LISTA);
 		    $tpl->set("PATH", PATH);
 		    $tpl->set("BREADCRUMBS", HtmlUtils::MontarBreadCrumbs($oDados::NOME_LISTA));
-		    $tpl->set("LISTA_NRLINHAS", HtmlUtils::OpcoesLinhasTable(Session::get('_linhas')));
+		    $tpl->set("LISTA_NRLINHAS", HtmlUtils::OpcoesLinhasTable($nrLinhas));
+		    $tpl->set("TXT_FILTRO", Session::getFrom($oDados::NOME_LISTA, '_filtros'));
     
 		    foreach ($result as $dados) 
 		    {
@@ -101,11 +105,12 @@
 		    	{
 		    		if ($fieldName != "actions") {
 		    			if($tpl->exists($fieldName))
-		    			  $tpl->{"$fieldName"} = $dados[$fieldName];
+		    				$tpl->{"$fieldName"} = $dados[$fieldName];
 		    		} else {
-		    			$tpl->LINK_EDITAR = $this->path.'/editar/id/'.$dados[$oCtrl->nomeCampoID];
-		    			$tpl->LINK_EXCLUIR = $this->path.'/excluir/id/'.$dados[$oCtrl->nomeCampoID];
-		    			if($tpl->exists("REG_ID")) $tpl->REG_ID = $dados[$oCtrl->nomeCampoID];
+		    			$cmpID = $oCtrl->nomeCampoID;
+		    			$tpl->LINK_EDITAR = $this->path.'/editar/id/'.$dados[$cmpID];
+		    			$tpl->LINK_EXCLUIR = $this->path.'/excluir/id/'.$dados[$cmpID];
+		    			if($tpl->exists("REG_ID")) $tpl->REG_ID = $dados[$cmpID];
 		    		}
 		    	}
 		    	$tpl->block("BLOCK_REGISTROS");
@@ -113,16 +118,16 @@
 
 		    if($tpl->exists("TXT_REGISTROS")) {
 		    	if ($filtros) {
-		    		$Aux = "<p>Encontrados <strong>{$oDados->getRecordCountFromLastRead()}</strong> registro(s).</p>";	
+		    		$Aux = "<p>Encontrados <strong>{$totalRegistros}</strong> registro(s).</p>";
 		    	} else {
-		    		$Aux = "<p>Exibindo <strong>{$oDados->getRecordCountFromLastRead()}</strong> de um total de <strong>{$totalRegistros}</strong> Registros.</p>";	
-		    	}		    			    		
-		    	$tpl->TXT_REGISTROS = $Aux;	    	
+		    		$Aux = "<p>Exibindo <strong>{$oDados->getRecordCountFromLastRead()}</strong> de um total de <strong>{$totalRegistros}</strong> Registros.</p>";
+		    	}
+		    	$tpl->TXT_REGISTROS = $Aux;
 		    }
 
 		    if($tpl->exists("NR_REGISTROS")) $tpl->NR_REGISTROS = $oDados->getRecordCountFromLastRead();
-		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $totalRegistros;		    
-		    if($tpl->exists("PAGINACAO")) $tpl->PAGINACAO = $paginacao->htmlPaginacao($this->path);		    
+		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $totalRegistros;
+		    if($tpl->exists("PAGINACAO")) $tpl->PAGINACAO = $paginacao->htmlPaginacao($this->path);
 
 		    $tpl->show();
 		}
