@@ -33,11 +33,12 @@
 		//-----------------------------------------------------------------------------------		
 		public function validar() 
 		{
-			if (strlen($this->dataCache['Celular']) >= 8) {
-				return TRUE;
+			//if (strlen($this->dataCache['Celular']) >= 8) {
+			if( !isset( $this->dataCache['Celular'][7] ) ) {			
+				Alert::set(NAO_SALVO, "Celular precisa ter pelo menos 8 dígitos!");
+				return FALSE;
 			}
-			Alert::set(NAO_SALVO, "Celular precisa ter pelo menos 8 dígitos!");
-			return FALSE;
+			return TRUE;
 		}		
 	}
 ?>

@@ -15,9 +15,6 @@
     if (isset($_GET['_pesquisa'])) {
         $_SESSION[$controller]['_pesquisa'] = $_GET['_pesquisa'];
     }    
-    if (isset($_GET['_filtros'])) {
-        $_SESSION[$controller]['_filtros'] = $_GET['_filtros'];
-    }
 
     //print_r(json_encode([['ID'=>777, 'Nome'=>'Jean Fabio Fuchs']]));
     print_r(json_encode(['result'=>$controller]));

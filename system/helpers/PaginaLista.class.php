@@ -51,7 +51,7 @@
 			$nrLinhas = (!isset($nrLinhas) || $nrLinhas < 10) ? 10 : $nrLinhas;
 
 			//tem alguma coisa de pesquisa na tela, senão busca da tela de filtros MODAL...
-			$txtPesquisa = Session::getFrom($oDados::NOME_LISTA, '_filtros');
+			$txtPesquisa = Session::getFrom($oDados::NOME_LISTA, '_pesquisa');
 			if ($txtPesquisa) {				
 				$filtros = $this->controller->filtros->getTextAnyField($txtPesquisa);
 			} else {
@@ -72,7 +72,7 @@
 			}			
 			$paginacao->setPaginaAtual($this->paginaAtual);
 
-			$result = $oDados->getAll($paginacao->getInicio(), $paginacao->getLimite(), 
+			$result = $oDados->getAll($oCtrl->SQL, $paginacao->getInicio(), $paginacao->getLimite(), 
 			                          $filtros, $orderBy, $orderDESC);
 
 			$tpl = new Template($this->arqTemplate);
@@ -83,7 +83,7 @@
 			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($camposFiltros));			
 
 			$telaConf = ["Confirmação", "Este procedimento é irreversível.<br />Confirma proceder adiante e excluir o registro?", "danger", "Excluir"];
-			if($tpl->exists("MODAL_EXCLUIR")) $tpl->MODAL_EXCLUIR = Htmlutils::MontarConfirmacao($telaConf);
+			if($tpl->exists("MODAL_EXCLUIR")) $tpl->MODAL_EXCLUIR = Htmlutils::Confirmacao($telaConf);
 
 			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oCtrl->colunas->get(), $orderBy, $this->path, $orderDESC);
 		    if($tpl->exists("NOME_LISTA")) $tpl->NOME_LISTA =  $oDados::NOME_LISTA;
@@ -95,9 +95,9 @@
 		    //Ver isso depois, se não é melhor!
 		    $tpl->set("NOME_LISTA", $oDados::NOME_LISTA);
 		    $tpl->set("PATH", PATH);
-		    $tpl->set("BREADCRUMBS", HtmlUtils::MontarBreadCrumbs($oDados::NOME_LISTA));
+		    $tpl->set("BREADCRUMBS", HtmlUtils::BreadCrumbs($oDados::NOME_LISTA));
 		    $tpl->set("LISTA_NRLINHAS", HtmlUtils::OpcoesLinhasTable($nrLinhas));
-		    $tpl->set("TXT_FILTRO", Session::getFrom($oDados::NOME_LISTA, '_filtros'));
+		    $tpl->set("TXT_FILTRO", Session::getFrom($oDados::NOME_LISTA, '_pesquisa'));
     
 		    foreach ($result as $dados) 
 		    {
@@ -118,9 +118,9 @@
 
 		    if($tpl->exists("TXT_REGISTROS")) {
 		    	if ($filtros) {
-		    		$Aux = "<p>Encontrados <strong>{$totalRegistros}</strong> registro(s).</p>";
+		    		$Aux = '<p align="right">Encontrados <strong>'.$totalRegistros.'</strong> registro(s).</p>';
 		    	} else {
-		    		$Aux = "<p>Exibindo <strong>{$oDados->getRecordCountFromLastRead()}</strong> de um total de <strong>{$totalRegistros}</strong> Registros.</p>";
+		    		$Aux = '<p align="right">Exibindo <strong>'.$oDados->getRecordCountFromLastRead().'</strong> de um total de <strong>'.$totalRegistros.'</strong> Registros.</p>';
 		    	}
 		    	$tpl->TXT_REGISTROS = $Aux;
 		    }

@@ -4,7 +4,7 @@
         //---------------------------------------------------------------------------------------------
 		//Cria o html da mensagem de alerta 
 		public static function Alerta($msgAlerta) 
-		{	
+		{
 			if ($msgAlerta) {
 				$Aux = '<div class="alert alert-'.$msgAlerta["class"].' "alert-dismissible" role="alert">
 			    	    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -24,12 +24,11 @@
             foreach ($colunas as $fieldName => $value)
             {
                 $desc = ($orderAD == 'DESC') ? 'headerSortUp' : 'headerSortDown';
-
                 if ($fieldName != "actions") {
-                    $class = sprintf(' class="header%s"', ($fieldName == $orderBy) ? " $desc" : "");                    
+                    $class = sprintf(' class="header%s"', ($fieldName == $orderBy) ? " $desc" : "");
                 } else {
                     $class = '';
-                }                
+                }
                 $Aux .= '<th'.$class.' data_aux="'.$orderAD.'" id="'.$fieldName.'">'.$value[0].'</th>';
             }
 			return "<tr>$Aux</tr>";
@@ -44,7 +43,7 @@
             {
                 if ($fieldName != "actions") {
                     $Aux .= '<td align="'.$value[3].'">{'.$fieldName.'}</td>';
-                }                
+                }
             }
 			return $Aux;
 		}
@@ -57,41 +56,67 @@
             foreach($filtros as $key => $value)
             {
                 $Aux .= '<div class="form-group">
-                         <label>'.$filtros[$key][0].'</label>  
+                         <label>'.$filtros[$key][0].'</label> 
                          <input type="'.$filtros[$key][2].'" name="filtros[]" class="form-control" 
                          value="'.$filtros[$key][3].'">
                          </div>';
-            }                          
+            }
         	return $Aux;
 		}
 
         //---------------------------------------------------------------------------------------------
 		//Cria os links html dos itens de menu
 		//Expandir aqui pra mais níveis
-		public static function MontarMenus($menus) 
+		public static function Menus($menus) 
 		{
-        	$aux = "";
+        	/*$aux = "";
         	foreach ($menus as $item) 
         	{
                 $controller = $item[0];
-            	$aux .= '<li '.activeMenu($controller).'><a href="'.PATH.$controller.'"><i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';
+                if (is_array($controller)) {
+                    $aux .= '<li><a href="#"><i class="fa fa-print fa-fw"></i> '.$item[1].'<span class="fa arrow"></span></a>';
+                    $aux .= '<ul class="nav nav-second-level">';
+                    $aux .= self::Menus($controller);
+                    $aux .= '</ul></li>';
+                } else {
+                    $aux .= '<li '.activeMenu($controller).'><a href="'.PATH.$controller.'"><i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';
+                }            	
         	}
-        	return $aux;
+        	return $aux;*/
+
+
+            $aux = "";
+            foreach ($menus as $item) 
+            {
+                $controller = $item[0];
+
+var_export($controller);
+
+                if (is_array($controller)) {
+                    $aux .= '<li><a href="#"><i class="fa fa-print fa-fw"></i> '.$item[1].'<span class="fa arrow"></span></a>';
+                    $aux .= '<ul class="nav nav-second-level">';
+                    $aux .= self::Menus($controller);
+                    $aux .= '</ul></li>';
+                } else {
+                    $aux .= '<li '.activeMenu($controller).'><a href="'.PATH.$controller.'"><i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';
+                }               
+            }
+            return $aux;
     	}
 
         //---------------------------------------------------------------------------------------------
-    	public static function MontarConfirmacao($tipo) 
+    	public static function Confirmacao($tipo) 
     	{
     		$aux = '<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 					<div class="modal-dialog">
-					<div class="modal-content">            
+					<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 		<h4 class="modal-title" id="myModalLabel">'.$tipo[0].'</h4>
-					</div>            
+					</div>
             		<div class="modal-body">
             			<p><strong>ATENÇÃO</strong></p>
-            			<p>'.$tipo[1].'</p>                		
+            			<p>'.$tipo[1].'</p>
                 		<p class="debug-url"></p>
 					</div>
                 
@@ -106,7 +131,7 @@
     	}
 
         //---------------------------------------------------------------------------------------------
-    	public function MontarBreadCrumbs($ctrlActive, $nomeCtrl = NULL, $linkCtrl = NULL, $id = NULL) 
+    	public function BreadCrumbs($ctrlActive, $nomeCtrl = NULL, $linkCtrl = NULL, $id = NULL) 
     	{
     		$aux = '<ol class="breadcrumb"><li><i class="fa fa-home"></i> <a href="'.PATH.'">Home</a></li>';
             if (isset($nomeCtrl)) {

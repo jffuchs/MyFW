@@ -1,5 +1,5 @@
 <?php 
-    class CidadesRepo extends Repository
+    class UsuariosRepo extends Repository
     {
         //-----------------------------------------------------------------------------------
         public function __construct($nome) 
@@ -10,7 +10,7 @@
         //-----------------------------------------------------------------------------------
         public function lista($id = NULL) 
         {
-            return $this->model->read(NULL, isset($id) ? "id = $id" : NULL);
+            return $this->model->read(NULL, isset($id) ? "ID = $id" : NULL);
         }
 
         //-----------------------------------------------------------------------------------

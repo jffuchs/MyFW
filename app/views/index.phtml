@@ -1,14 +1,15 @@
 <?php   
     ob_start();
 
-    function activeMenu($menu) {
-        $aux = isset($_GET) ? implode("/", $_GET) : "";
-        return (strpos($aux, $menu) === 0) ? 'class="active"' : NULL;
-    }
-
-    $menus = [];
-    $menus[] = array("fornecedores", "Fornecedores", 'table');
-    $menus[] = array("cidades", "Cidades", 'table');    
+    $menus = new Menu();
+    $menus->add('fornecedores', 'Fornecedores', 'table');
+    $menus->add('cidades', 'Cidades', 'table');
+    $menus->add(NULL, 'Relatórios', 'print', 'second', 
+                array($menus->createItem('', 'Fornecedores'),
+                      $menus->createItem(NULL, 'Cidades', NULL, 'third', 
+                                         array($menus->createItem('', 'por UF'),
+                                               $menus->createItem('', 'por CEP')))));
+    $menus->add('usuarios', 'Usuários', 'user');
 ?> 
 
 <!DOCTYPE html>
@@ -24,7 +25,7 @@
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
     <link href="<?php echo PATH_PUBLIC; ?>sb/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo PATH_PUBLIC; ?>js/tablesorter/themes/blue/style2.css" rel="stylesheet" type="text/css">
+    <link href="<?php echo PATH_PUBLIC; ?>css/style2.css" rel="stylesheet" type="text/css">
 </head>
 <body>    
     <div id="wrapper">
@@ -238,7 +239,7 @@
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
                         </li>
-                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="usuarios/config"><i class="fa fa-gear fa-fw"></i> Settings</a>
                         </li>
                         <li class="divider"></li>
                         <li><a href="usuarios/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
@@ -265,38 +266,7 @@
                             <!-- /input-group -->
                         </li>
                         
-                        <?php echo HtmlUtils::MontarMenus($menus); ?>                        
-                        
-                        <li>
-                            <a href="#"><i class="fa fa-sitemap fa-fw"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Second Level Item</a>
-                                </li>
-                                <li>
-                                    <a href="#">Third Level <span class="fa arrow"></span></a>
-                                    <ul class="nav nav-third-level">
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">Third Level Item</a>
-                                        </li>
-                                    </ul>
-                                    <!-- /.nav-third-level -->
-                                </li>
-                            </ul>
-                            <!-- /.nav-second-level -->
-                        </li>                        
+                        <?php echo $menus->HTML(); ?>                                              
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->

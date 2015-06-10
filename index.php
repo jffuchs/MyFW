@@ -35,6 +35,7 @@
     require_once 'system/Repository.php';
     require_once 'system/Model.php';
     require_once 'system/Alert.class.php';    
+    require_once 'system/Menu.php';    
 
     function __autoload($file) 
     {
@@ -55,7 +56,7 @@
     if (Session::init()) {
         Session::setAdd('Login', 'ID', 0);
         Session::setAdd('Login', 'Nome', 'jffuchs');
-        Session::setAdd('Login', 'Debug', TRUE);
+        //Session::setAdd('Login', 'Debug', TRUE);
     };    
 
     if (file_exists(VIEWS.'index.phtml')) {

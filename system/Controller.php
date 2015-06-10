@@ -13,12 +13,13 @@
 		protected $regForm;
 		protected $dataCache;		//dados que vem do POST
 		protected $dataSet;			//dados que irão para o BD
-		protected $orderBy;
+		protected $orderBy;		
 
 		public $nome;
 		public $nomeCampoID;		
 		public $colunas;
 		public $filtros;
+		public $SQL;
 
 		//-----------------------------------------------------------------------------------
 		public function __construct($nome = NULL, $nomeLogico = NULL) 
@@ -34,6 +35,7 @@
 			$this->regForm = 'RegForm';
 			$this->nomeCampoID = 'ID';
 
+			$this->SQL = '';
 			$this->colunas = new Columns();
 			$this->filtros = new Filter();
 		}		

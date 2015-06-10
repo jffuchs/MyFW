@@ -60,7 +60,7 @@
 			$disabledFirst = ($this->paginaAtual == 1) ? "disabled" : NULL;
 			$disabledLast = ($this->paginaAtual == $this->totalPaginas) ? "disabled" : NULL;
 
-			$listaPaginas = '<ul class="pagination">';
+			$listaPaginas = '<ul class="pagination center-block">';
 			$listaPaginas .= '<li><a class="back-to-top" href="#top"><i class="fa fa-arrow-up"></i></a></li>';
 			$listaPaginas .= '<li class="'.$disabledFirst.'">
 				      		      <a href="'.$paginaList.'/index/pag/'.$pagAnt.'" 

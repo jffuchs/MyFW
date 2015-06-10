@@ -68,13 +68,14 @@
 		}
 
 		//--------------------------------------------------------------------------------------------		
-		public function read($where = NULL, $limit = null, $orderBy = NULL) 
+		public function read($SQL = NULL, $where = NULL, $limit = null, $orderBy = NULL) 
 		{			
 			$where = ($where != NULL ? " WHERE {$where}" : "");
 			$limit = ($limit != NULL ? " LIMIT {$limit}" : "");
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
-			$sql = "SELECT * FROM {$this->nomeTabela}".$where.$orderBy.$limit;
-			$q = $this->db->query($sql);
+			$comandoSQL = (!$SQL) ? "SELECT * FROM {$this->nomeTabela}" : $SQL;
+			$comandoSQL = $comandoSQL.$where.$orderBy.$limit;
+			$q = $this->db->query($comandoSQL);
 			$this->nrRegistros = $q->rowCount();
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
@@ -82,14 +83,14 @@
 		//--------------------------------------------------------------------------------------------		
 		public function find($where) 
 		{
-			return count($this->read($where)) > 0;
+			return count($this->read(NULL, $where)) > 0;
 		}
 
 		//--------------------------------------------------------------------------------------------		
-		public function getAll($inicio, $limite, $where, $orderBy = NULL, $orderAD = NULL) 
+		public function getAll($SQL, $inicio, $limite, $where, $orderBy = NULL, $orderAD = NULL) 
 		{
 			$orderBy = isset($orderBy) ? $orderBy.' '.$orderAD : NULL;
-			return $this->read($where, $inicio.', '.$limite, $orderBy);
+			return $this->read($SQL, $where, $inicio.', '.$limite, $orderBy);
 		}
 	}
 ?>

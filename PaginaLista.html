@@ -31,8 +31,7 @@
                                 </label> 
 
                                 <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
-                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" 
-                                        data-toggle="modal" data-target="#myModal">Filtrar</button>
+                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
                             </form>
                             
                             <table class="table table-striped table-bordered table-hover table-condensed tablesorter" id="myTable">    
@@ -50,12 +49,11 @@
                                 </tr>           
                                 <!-- END BLOCK_REGISTROS -->
                             </tbody>    
-                            </table>
-
-                            {TXT_REGISTROS}     
+                            </table>                            
 
                             {PAGINACAO}
-                        </div>
+                            {TXT_REGISTROS}
+                        </div>                        
                     </div>
                 </div>                
             </div>            
@@ -75,7 +73,7 @@
     function changePesquisarFunc($txt) 
     {
         var controller = $("body[id^=index]").attr("controller");
-        changeTable({'_controller': controller, '_filtros': $txt});
+        changeTable({'_controller': controller, '_pesquisa': $txt});
     }
 </script>
 

@@ -41,12 +41,11 @@
 
         public function getValuesFromSession($nomeLista) 
         {
-        	$filtroSession = 'filtro'.$nomeLista;
-			$filtros = Request::post("filtros");
+        	$filtros = Request::post("filtros");
 			if (isset($filtros)) {
-				Session::set($filtroSession, $filtros);
+				Session::setAdd($nomeLista, 'Filtros', $filtros);
 			} else {
-				$filtros = Session::get($filtroSession);
+				$filtros = Session::getFrom($nomeLista, 'Filtros');
 			}
 			$this->setValues($filtros);
         }

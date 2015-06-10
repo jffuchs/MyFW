@@ -16,11 +16,15 @@
         {
             $this->colunas->add('id', 'ID', 'number', '.col-md-1', "right")
                           ->add('nome', 'Nome', 'text', '.col-md-9')
-                          ->add('estado', 'UF', 'text', '.col-md-1')
+                          ->add('uf', 'UF', 'text', '.col-md-1')
                           ->add('actions', 'Ações', 'text', '.col-md-1');
 
             $this->filtros->add('id', 'ID', '= %d', 'number')
                           ->add('nome', 'Nome', 'LIKE', 'text');
+
+            $this->SQL = "SELECT id, nome, uf 
+                          FROM cidade 
+                          INNER JOIN estado ON id_estado = estado";
 
             parent::index_action();
         }   
