@@ -21,16 +21,16 @@
                             </div>
                         <div class="panel-body">
                     
-                        <form action="/TESTE/fornecedores/gravar" id="reservationForm" role="form" method="post">
+                        <form action="<?php echo PATH; ?>fornecedores/gravar" id="reservationForm" role="form" method="post">
                             <div class="form-group">
                                 <label for="Nome">Nome do Fornecedor</label>
-                                <input type="text" name="RegForm[Nome]" class="form-control" id="Nome" required value="<?php echo $view_get["Nome"]; ?>">
+                                <input type="text" name="RegForm[Nome]" class="form-control" id="Nome" autofocus required value="<?php echo $view_get["Nome"]; ?>">
                             </div>
 
                             <div class="form-group">
                                 <label for="Celular">Celular</label>
                                 <input type="text" name="RegForm[Celular]" class="form-control" id="Celular" required value="<?php echo $view_get["Celular"]; ?>">
-                            </div>
+                            </div>                            
                                 
                             <div>
                                 <input type="hidden" name="RegForm[ID]" value="<?php echo $view_get["ID"]; ?>">

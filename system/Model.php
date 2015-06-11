@@ -21,9 +21,10 @@
 			return $this->nrRegistros;
 		}
 
-		public function getRecordCount($where = NULL) 
+		public function getRecordCount($SQL = NULL, $where = NULL) 
 		{
-			$query = "SELECT 1 FROM ".$this->nomeTabela;
+			$query = (!$SQL) ? "SELECT 1 FROM {$this->nomeTabela}" : $SQL;
+			//$query = "SELECT 1 FROM ".$this->nomeTabela;
 			if ($where) {
 				$query .= ' WHERE '.$where;
 			}
@@ -73,10 +74,14 @@
 			$where = ($where != NULL ? " WHERE {$where}" : "");
 			$limit = ($limit != NULL ? " LIMIT {$limit}" : "");
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
+
 			$comandoSQL = (!$SQL) ? "SELECT * FROM {$this->nomeTabela}" : $SQL;
 			$comandoSQL = $comandoSQL.$where.$orderBy.$limit;
+
 			$q = $this->db->query($comandoSQL);
+
 			$this->nrRegistros = $q->rowCount();
+
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 

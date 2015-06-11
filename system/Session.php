@@ -10,6 +10,11 @@
             return FALSE;
     	}
 
+        public static function started()
+        {
+            return (session_id() == '') ? FALSE : TRUE;
+        }
+
 		public static function set($key, $value) 
         {
         	$_SESSION[$key] = $value;
@@ -22,7 +27,12 @@
         	}
     	}
 
-    	public static function setAdd($keyPrimary, $key, $value) 
+        public static function delete($key)
+        {
+            unset($_SESSION[$key]);
+        }
+
+    	public static function setPlus($keyPrimary, $key, $value) 
         {
         	$_SESSION[$keyPrimary][$key] = $value;
     	}

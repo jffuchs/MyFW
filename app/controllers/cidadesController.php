@@ -20,7 +20,8 @@
                           ->add('actions', 'Ações', 'text', '.col-md-1');
 
             $this->filtros->add('id', 'ID', '= %d', 'number')
-                          ->add('nome', 'Nome', 'LIKE', 'text');
+                          ->add('nome', 'Nome', 'LIKE', 'text')
+                          ->add('uf', 'UF', 'LIKE', 'text');
 
             $this->SQL = "SELECT id, nome, uf 
                           FROM cidade 

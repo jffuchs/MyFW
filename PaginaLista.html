@@ -7,54 +7,52 @@
         <div id="page-wrapper">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <p>
-                        {ALERTA}
+                    <p>
+                    {ALERTA}
 
-                        {BREADCRUMBS}
+                    {BREADCRUMBS}
+                    
+                    <div class="panel panel-default">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title"><strong>{NOME_LISTA}</strong></h3>
+                        </div>
+                    <div class="panel-body">
+                        <form class="form-inline">
+                            <label>Linhas
+                                <select id="selectNrLinhas" class="form-control input-sm" onchange="changeFunc(value);">
+                                    {LISTA_NRLINHAS}
+                                </select>
+                            </label>
+
+                            <label style="margin-left: 10px;">Pesquisar
+                               <input type="text" name="pesquisar" class="form-control input-sm" id="pesquisar" value="{TXT_FILTRO}" 
+                               onchange="changePesquisarFunc(value);">
+                            </label> 
+
+                            <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
+                            <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
+                        </form>
                         
-                        <div class="panel panel-default">
-                            <div class="panel-heading clearfix">                                  
-                                <h3 class="panel-title"><strong>{NOME_LISTA}</strong></h3>
-                            </div>                           
-                        <div class="panel-body">    
-                            <form class="form-inline">
-                                <label>Linhas                                    
-                                    <select id="selectNrLinhas" class="form-control input-sm" onchange="changeFunc(value);">
-                                        {LISTA_NRLINHAS}                                        
-                                    </select>                                    
-                                </label>      
+                        <table class="table table-striped table-bordered table-hover table-condensed tablesorter" id="myTable">
+                        <thead>
+                            {TABELA_TITULOS}
+                        </thead>
+                        <tbody>
+                            <!-- BEGIN BLOCK_REGISTROS -->
+                            <tr>
+                                {TABELA_CAMPOS}
+                                <td>
+                                    <a class="btn btn-warning btn-xs" href="{LINK_EDITAR}">Editar</a>                       
+                                    <a href="#" class="confirm-delete btn btn-danger btn-xs" data-href="{LINK_EXCLUIR}" data-toggle="modal" data-target="#confirm-delete" data-id="{REG_ID}">Excluir</a>
+                                </td>
+                            </tr>
+                            <!-- END BLOCK_REGISTROS -->
+                        </tbody>
+                        </table>
 
-                                <label style="margin-left: 10px;">Pesquisar
-                                   <input type="text" name="pesquisar" class="form-control input-sm" id="pesquisar" value="{TXT_FILTRO}" 
-                                   onchange="changePesquisarFunc(value);">
-                                </label> 
-
-                                <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
-                                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal">Filtrar</button>
-                            </form>
-                            
-                            <table class="table table-striped table-bordered table-hover table-condensed tablesorter" id="myTable">    
-                            <thead>
-                                {TABELA_TITULOS}
-                            </thead>            
-                            <tbody> 
-                                <!-- BEGIN BLOCK_REGISTROS -->
-                                <tr>                        
-                                    {TABELA_CAMPOS}                     
-                                    <td>
-                                        <a class="btn btn-warning btn-xs" href="{LINK_EDITAR}">Editar</a>                       
-                                        <a href="#" class="confirm-delete btn btn-danger btn-xs" data-href="{LINK_EXCLUIR}" data-toggle="modal" data-target="#confirm-delete" data-id="{REG_ID}">Excluir</a>    
-                                    </td>
-                                </tr>           
-                                <!-- END BLOCK_REGISTROS -->
-                            </tbody>    
-                            </table>                            
-
-                            {PAGINACAO}
-                            {TXT_REGISTROS}
-                        </div>                        
-                    </div>
+                        {PAGINACAO}
+                        {TXT_REGISTROS}
+                    </div>                    
                 </div>                
             </div>            
         </div>        

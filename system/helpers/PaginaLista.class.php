@@ -61,7 +61,7 @@
 			//------------------------------------------------------------------------------------------
 
 			$camposFiltros = $oCtrl->filtros->getParams();
-			$totalRegistros = $oDados->getRecordCount($filtros);
+			$totalRegistros = $oDados->getRecordCount($oCtrl->SQL, $filtros);
 
 			$this->setItensPorPagina($nrLinhas);
 

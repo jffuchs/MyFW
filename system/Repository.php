@@ -30,6 +30,12 @@
 		}
 
 		//-----------------------------------------------------------------------------------
+		public function getRecord($where) 
+		{
+			return $this->model->read(NULL, $where);
+		}
+
+		//-----------------------------------------------------------------------------------
 		public function excluir($id)
 		{
 			return $this->model->delete("ID = $id");

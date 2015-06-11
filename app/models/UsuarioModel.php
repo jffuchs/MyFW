@@ -1,13 +1,13 @@
 <?php
-    class CidadesModel extends Model 
+    class UsuarioModel extends Model 
     {
-        const NOME = "Cidade";
-        const NOME_LISTA = "Cidades";
+        const NOME = "Usuário";
+        const NOME_LISTA = "Usuários";
 
         //-----------------------------------------------------------------------------------
         public function __construct() 
         {
-            parent::__construct("cidade");  
+            parent::__construct("usuario");  
         }
 
         //-----------------------------------------------------------------------------------

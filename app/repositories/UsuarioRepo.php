@@ -1,5 +1,5 @@
 <?php 
-    class UsuariosRepo extends Repository
+    class UsuarioRepo extends Repository
     {
         //-----------------------------------------------------------------------------------
         public function __construct($nome) 

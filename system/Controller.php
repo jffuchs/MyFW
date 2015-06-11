@@ -71,8 +71,8 @@
 		//-----------------------------------------------------------------------------------
 		public function index_action() 
 		{
-			Session::setAdd($this->nomeLogico, DADOS_CACHE, NULL);
-			Session::setAdd($this->nomeLogico, 'actualPage', $this->pageNumber);
+			Session::setPlus($this->nomeLogico, DADOS_CACHE, NULL);
+			Session::setPlus($this->nomeLogico, 'actualPage', $this->pageNumber);
 
 			$pagina = new PaginaLista($this->repository->model, $this);
 			$pagina->setPaginaAtual($this->pageNumber);
@@ -98,7 +98,10 @@
 		//-----------------------------------------------------------------------------------
 		protected function regPOST($nome) 
 		{
-			return Request::post($this->regForm)[$nome];			
+			if (isset(Request::post($this->regForm)[$nome])) {
+				return Request::post($this->regForm)[$nome];
+			}
+			return NULL;
 		}
 
 		//-----------------------------------------------------------------------------------
@@ -124,6 +127,16 @@
 			return $this->extrairPOST($this->camposPost);
 		}
 
+		protected function getRecord($id)
+		{
+			$lista = array_fill_keys($this->camposEdicao, '');
+			if ($id > 0) {					
+				$dados = $this->repository->lista($id);
+				$lista = array_merge($lista, $dados[0]);
+			}
+			return $lista;
+		}
+
 		//-----------------------------------------------------------------------------------
 		protected function getDadosEdicao($id = 0) 
 		{
@@ -132,11 +145,12 @@
 			if (isset($dataView)) {		
 				$lista = $dataView;
 			} else {
-				$lista = array_fill_keys($this->camposEdicao, '');
+				/*$lista = array_fill_keys($this->camposEdicao, '');
 				if ($id > 0) {					
 					$dados = $this->repository->lista($id);
-					$lista = array_merge($lista, $dados[0]);
-				}
+					$lista = array_merge($lista, $dados[0]);					
+				}*/
+				$lista = $this->getRecord($id);
 			}
 			$datas['get'] = $lista;
 			$datas[ACAO] = ($id > 0) ? ACAO_EDITAR : ACAO_INCLUIR;
@@ -238,7 +252,6 @@
 
 			$this->dataCache = $this->getDataView();
 			$this->dataSet = $this->getDadosGravacao();
-			
 			if ($this->validar()) {
 				$this->antesGravar($this->dataSet);	
 
@@ -251,7 +264,7 @@
 					$this->redirectIndexPaginate();
 				}					
 			}						
-			Session::setAdd($this->nomeLogico, DADOS_CACHE, $this->dataCache);
+			Session::setPlus($this->nomeLogico, DADOS_CACHE, $this->dataCache);
 			$this->redirectEditOrInsert($id);			
 		}
 	}

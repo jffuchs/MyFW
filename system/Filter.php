@@ -43,7 +43,7 @@
         {
         	$filtros = Request::post("filtros");
 			if (isset($filtros)) {
-				Session::setAdd($nomeLista, 'Filtros', $filtros);
+				Session::setPlus($nomeLista, 'Filtros', $filtros);
 			} else {
 				$filtros = Session::getFrom($nomeLista, 'Filtros');
 			}

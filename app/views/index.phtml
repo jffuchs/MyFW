@@ -5,11 +5,11 @@
     $menus->add('fornecedores', 'Fornecedores', 'table');
     $menus->add('cidades', 'Cidades', 'table');
     $menus->add(NULL, 'Relatórios', 'print', 'second', 
-                array($menus->createItem('', 'Fornecedores'),
-                      $menus->createItem(NULL, 'Cidades', NULL, 'third', 
-                                         array($menus->createItem('', 'por UF'),
-                                               $menus->createItem('', 'por CEP')))));
-    $menus->add('usuarios', 'Usuários', 'user');
+                $menus->childs([$menus->createItem('', 'Fornecedores'),
+                                $menus->createItem(NULL, 'Cidades', NULL, 'third', 
+                                                  $menus->childs([$menus->createItem('', 'por UF'),
+                                                  $menus->createItem('', 'por CEP')]))]));
+    $menus->add('usuario', 'Usuários', 'user');
 ?> 
 
 <!DOCTYPE html>
@@ -39,7 +39,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="<?php echo PATH; ?>"><i class="fa fa-home"></i> HOME</a>
-            </div>            
+            </div>   
+
+            <?php if (Session::getFrom('Login','ID') > 0): ?>            
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
@@ -231,23 +233,22 @@
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
-                <!-- /.dropdown -->
+                
+                <!-- Usuário -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo Session::getFrom('Login','Nome'); ?>
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
                         </li>
-                        <li><a href="usuarios/config"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                        <li><a href="<?php echo PATH; ?>usuarios/config"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="usuarios/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="<?php echo PATH; ?>usuario/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                         </li>
-                    </ul>
-                    <!-- /.dropdown-user -->
-                </li>
-                <!-- /.dropdown -->
+                    </ul>                    
+                </li>                
             </ul>            
 
             <!-- Menu lateral -->
@@ -262,20 +263,25 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-                            </div>
-                            <!-- /input-group -->
+                            </div>                            
                         </li>
                         
-                        <?php echo $menus->HTML(); ?>                                              
+                        <?php
+                            if (Session::getFrom('Login','ID') > 0) {
+                                echo $menus->HTML(); 
+                            }                            
+                        ?>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
+
+            <?php endif; ?>
         </nav>
         <!-- CONTENT -->
     </div>
-     <!-- jQuery -->
+     
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.js"></script>

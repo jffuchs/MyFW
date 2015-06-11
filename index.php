@@ -53,18 +53,14 @@
         }      
     }
 
-    if (Session::init()) {
-        Session::setAdd('Login', 'ID', 0);
-        Session::setAdd('Login', 'Nome', 'jffuchs');
-        //Session::setAdd('Login', 'Debug', TRUE);
-    };    
+    Session::init();
 
     if (file_exists(VIEWS.'index.phtml')) {
         include VIEWS.'index.phtml';
     } else {
         Warning::page404("Arquivo <strong>".VIEWS."index.phtml</strong> não encontrado!");
-        exit;
-    }
+        exit;        
+    }     
 
     $start = new Router;
     $start->run();
