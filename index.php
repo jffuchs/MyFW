@@ -21,11 +21,11 @@
     define('ACAO_INCLUIR', 'incluir');
     define('ACAO_EDITAR', 'editar');
     define('MSG_ALERTAS', 'alertaMsg');
-    define('DADOS_CACHE', 'dadosCache');    
+    define('DADOS_CACHE', 'dadosCache');
 
     require_once 'system/Warning.php';
     require_once 'system/Session.php';
-    require_once 'system/Request.php';    
+    require_once 'system/Request.php';
     require_once 'system/Redirect.php';
     require_once 'system/Router.php';
     require_once 'system/Data.class.php';
@@ -34,10 +34,10 @@
     require_once 'system/Controller.php';
     require_once 'system/Repository.php';
     require_once 'system/Model.php';
-    require_once 'system/Alert.class.php';    
-    require_once 'system/Menu.php';    
+    require_once 'system/Alert.class.php';
+    require_once 'system/Menu.php';
 
-    function __autoload($file) 
+    function __autoload($file)
     {
         if (file_exists(MODELS.$file.'.php')) {
             require_once(MODELS.$file.'.php');
@@ -50,17 +50,30 @@
         } else {
             Warning::page404("Arquivo <strong>{$file}</strong> não encontrado!");
             exit;
-        }      
+        }
     }
 
     Session::init();
 
+    ob_start();
+
     if (file_exists(VIEWS.'index.phtml')) {
+
+        $menus = new Menu();
+        $menus->add('fornecedores', 'Fornecedores', 'table');
+        $menus->add('cidades', 'Cidades', 'table');
+        $menus->add(NULL, 'Relatórios', 'print', 'second',
+                    $menus->childs([$menus->createItem('', 'Fornecedores'),
+                                    $menus->createItem(NULL, 'Cidades', NULL, 'third',
+                                                      $menus->childs([$menus->createItem('', 'por UF'),
+                                                      $menus->createItem('', 'por CEP')]))]));
+        $menus->add('usuario', 'Usuários', 'user');
+
         include VIEWS.'index.phtml';
     } else {
         Warning::page404("Arquivo <strong>".VIEWS."index.phtml</strong> não encontrado!");
-        exit;        
-    }     
+        exit;
+    }
 
     $start = new Router;
     $start->run();
@@ -68,5 +81,5 @@
     if (Session::getFrom('Login', 'Debug')) {
         echo '<pre>';
         print_r($_SESSION);
-    }    
+    }
 ?>

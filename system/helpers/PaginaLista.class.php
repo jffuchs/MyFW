@@ -1,47 +1,47 @@
-<?php	
-	require_once "lib/raelgc/view/Template.php";	
+<?php
+	require_once "lib/raelgc/view/Template.php";
     use raelgc\view\Template;
 
-	class PaginaLista 
+	class PaginaLista
 	{
 		private $controller;
 		private $objetoDados;
 		private $arqTemplate;
 		private $itensPorPagina = 20;
 		private $paginaAtual;
-		private $path;		
+		private $path;
 
-		public function __construct(Model $objDados, Controller $objCtrl) 
+		public function __construct(Model $objDados, Controller $objCtrl)
 		{
 			$this->controller = $objCtrl;
 			$this->objetoDados = $objDados;
 			$this->arqTemplate = "PaginaLista.html";
 		}
 
-		public function setArqTemplate($arquivo) 
+		public function setArqTemplate($arquivo)
 		{
 			$this->arqTemplate = $arquivo;
 		}
 
-		public function setPaginaAtual($numero) 
+		public function setPaginaAtual($numero)
 		{
 			$this->paginaAtual = $numero;
 		}
 
-		public function setPath($path) 
+		public function setPath($path)
 		{
 			$this->path = $path;
 		}
 
-		public function setItensPorPagina($numero) 
+		public function setItensPorPagina($numero)
 		{
 			$this->itensPorPagina = $numero;
 		}
 
-		public function show() 
+		public function show()
 		{
 			$oDados = $this->objetoDados;
-			$oCtrl = $this->controller;		
+			$oCtrl = $this->controller;
 
 			//Informações da session do controller, para a action INDEX --------------------------------
 			$orderBy = Session::getFrom($oDados::NOME_LISTA, '_orderBy');
@@ -52,7 +52,7 @@
 
 			//tem alguma coisa de pesquisa na tela, senão busca da tela de filtros MODAL...
 			$txtPesquisa = Session::getFrom($oDados::NOME_LISTA, '_pesquisa');
-			if ($txtPesquisa) {				
+			if ($txtPesquisa) {
 				$filtros = $this->controller->filtros->getTextAnyField($txtPesquisa);
 			} else {
 				$this->controller->filtros->getValuesFromSession($oDados::NOME_LISTA);
@@ -69,25 +69,25 @@
 			$paginacao->setTotalRegistros($totalRegistros);
 			if ($paginacao->getTotalPaginas() < $this->paginaAtual) {
 				$this->setPaginaAtual($paginacao->getTotalPaginas());
-			}			
+			}
 			$paginacao->setPaginaAtual($this->paginaAtual);
 
-			$result = $oDados->getAll($oCtrl->SQL, $paginacao->getInicio(), $paginacao->getLimite(), 
+			$result = $oDados->getAll($oCtrl->SQL, $paginacao->getInicio(), $paginacao->getLimite(),
 			                          $filtros, $orderBy, $orderDESC);
 
 			$tpl = new Template($this->arqTemplate);
 
-			$tpl->addFile("FILTRO_MODAL", "modalFiltro.php");	
+			$tpl->addFile("FILTRO_MODAL", "modalFiltro.php");
 
 			$tpl->addContexto("TABELA_CAMPOS", HtmlUtils::CamposTabela($oCtrl->colunas->get()));
-			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($camposFiltros));			
+			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($camposFiltros));
 
 			$telaConf = ["Confirmação", "Este procedimento é irreversível.<br />Confirma proceder adiante e excluir o registro?", "danger", "Excluir"];
 			if($tpl->exists("MODAL_EXCLUIR")) $tpl->MODAL_EXCLUIR = Htmlutils::Confirmacao($telaConf);
 
 			if($tpl->exists("TABELA_TITULOS")) $tpl->TABELA_TITULOS = HtmlUtils::TitulosTabela($oCtrl->colunas->get(), $orderBy, $this->path, $orderDESC);
 		    if($tpl->exists("NOME_LISTA")) $tpl->NOME_LISTA =  $oDados::NOME_LISTA;
-		    if($tpl->exists("LINK_INCLUIR")) $tpl->LINK_INCLUIR = $this->path.'/incluir';		    
+		    if($tpl->exists("LINK_INCLUIR")) $tpl->LINK_INCLUIR = $this->path.'/incluir';
 		    if($tpl->exists("FILTRO_CAMPOS")) $tpl->FILTRO_CAMPOS = Htmlutils::CamposFiltros($camposFiltros);
 		    if($tpl->exists("ALERTA")) $tpl->ALERTA = Alert::render();
 		    if($tpl->exists("COL_ACTIONS")) $tpl->COL_ACTIONS = sizeof($oCtrl->colunas->get())-1;
@@ -98,10 +98,10 @@
 		    $tpl->set("BREADCRUMBS", HtmlUtils::BreadCrumbs($oDados::NOME_LISTA));
 		    $tpl->set("LISTA_NRLINHAS", HtmlUtils::OpcoesLinhasTable($nrLinhas));
 		    $tpl->set("TXT_FILTRO", Session::getFrom($oDados::NOME_LISTA, '_pesquisa'));
-    
-		    foreach ($result as $dados) 
+
+		    foreach ($result as $dados)
 		    {
-		    	foreach ($oCtrl->colunas->get() as $fieldName => $valor) 
+		    	foreach ($oCtrl->colunas->get() as $fieldName => $valor)
 		    	{
 		    		if ($fieldName != "actions") {
 		    			if($tpl->exists($fieldName))

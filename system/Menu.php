@@ -1,4 +1,4 @@
-<?php 
+<?php
 	class Menu
 	{
 		protected $lista;
@@ -29,7 +29,7 @@
 		}
 
 		//-------------------------------------------------------------------------------------------------------
-		public function isActiveMenu($menu) 
+		public function isActiveMenu($menu)
 		{
         	$aux = isset($_GET) ? implode("/", $_GET) : "";
         	if (!$menu) {
@@ -39,13 +39,13 @@
     	}
 
     	//-------------------------------------------------------------------------------------------------------
-    	public function pathMenu($menu) 
+    	public function pathMenu($menu)
     	{
     		return ($menu) ? PATH.$menu : '#';
     	}
 
     	//-------------------------------------------------------------------------------------------------------
-		public function HTML($lista = NULL) 
+		public function HTML($lista = NULL)
 		{
 			$aux = "";
 
@@ -53,10 +53,10 @@
 				$lista = $this->lista;
 			}
 
-		    foreach ($lista as $itemMenu => $item) 
+		    foreach ($lista as $itemMenu => $item)
 		    {
 		        $childs = $item[4];
-		        $controller = $item[0];		        
+		        $controller = $item[0];
 
 		        if (is_array($childs)) {
 		            $aux .= '<li><a href="#"><i class="fa fa-'.$item[2].' fa-fw"></i> '.$item[1].'<span class="fa arrow"></span></a>';
@@ -64,9 +64,9 @@
 		        } else {
 		            $aux .= '<li '.$this->isActiveMenu($controller).'><a href="'.$this->pathMenu($controller).'">
 		            		 <i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';
-		        }               
+		        }
 		    }
-		    return $aux;		   	
+		    return $aux;
 		}
 	}
 ?>

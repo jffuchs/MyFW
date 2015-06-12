@@ -1,18 +1,18 @@
-<?php 
+<?php
     class Cidades extends Controller
-    {       
+    {
         //-----------------------------------------------------------------------------------
-        public function __construct() 
+        public function __construct()
         {
             parent::__construct('cidades', 'Cidades');
 
             $this->camposEdicao = array("id", "nome");
             $this->camposPost = array("nome");
             $this->nomeCampoID = 'id';
-        }       
-        
+        }
+
         //-----------------------------------------------------------------------------------
-        public function index_action() 
+        public function index_action()
         {
             $this->colunas->add('id', 'ID', 'number', '.col-md-1', "right")
                           ->add('nome', 'Nome', 'text', '.col-md-9')
@@ -23,11 +23,11 @@
                           ->add('nome', 'Nome', 'LIKE', 'text')
                           ->add('uf', 'UF', 'LIKE', 'text');
 
-            $this->SQL = "SELECT id, nome, uf 
-                          FROM cidade 
+            $this->SQL = "SELECT id, nome, uf
+                          FROM cidade
                           INNER JOIN estado ON id_estado = estado";
 
             parent::index_action();
-        }   
+        }
     }
 ?>

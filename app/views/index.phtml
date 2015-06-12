@@ -1,17 +1,3 @@
-<?php   
-    ob_start();
-
-    $menus = new Menu();
-    $menus->add('fornecedores', 'Fornecedores', 'table');
-    $menus->add('cidades', 'Cidades', 'table');
-    $menus->add(NULL, 'Relatórios', 'print', 'second', 
-                $menus->childs([$menus->createItem('', 'Fornecedores'),
-                                $menus->createItem(NULL, 'Cidades', NULL, 'third', 
-                                                  $menus->childs([$menus->createItem('', 'por UF'),
-                                                  $menus->createItem('', 'por CEP')]))]));
-    $menus->add('usuario', 'Usuários', 'user');
-?> 
-
 <!DOCTYPE html>
 <html lang="pt">
 <head>
@@ -20,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Exemplo utilizando MVC e Templates em PHP">
     <meta name="author" content="JEAN FABIO FUCHS">
-    <title>Teste</title>   
+    <title>Teste</title>
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
     <link href="<?php echo PATH_PUBLIC; ?>sb/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="<?php echo PATH_PUBLIC; ?>css/style2.css" rel="stylesheet" type="text/css">
 </head>
-<body>    
+<body>
     <div id="wrapper">
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -39,9 +25,9 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="<?php echo PATH; ?>"><i class="fa fa-home"></i> HOME</a>
-            </div>   
+            </div>
 
-            <?php if (Session::getFrom('Login','ID') > 0): ?>            
+            <?php if (Session::getFrom('Login','ID') > 0): ?>
 
             <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
@@ -233,23 +219,24 @@
                     </ul>
                     <!-- /.dropdown-alerts -->
                 </li>
-                
+
                 <!-- Usuário -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo Session::getFrom('Login','Nome'); ?>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo Session::getFrom('Login','Apelido'); ?>
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
+                        <li><a href="<?php echo PATH; ?>usuario/editar/id/<?php echo Session::getFrom('Login', 'ID'); ?>">
+                            <i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
                         </li>
-                        <li><a href="<?php echo PATH; ?>usuarios/config"><i class="fa fa-gear fa-fw"></i> Configurações</a>
+                        <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo PATH; ?>usuario/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="<?php echo PATH; ?>login/out"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                         </li>
-                    </ul>                    
-                </li>                
-            </ul>            
+                    </ul>
+                </li>
+            </ul>
 
             <!-- Menu lateral -->
             <div class="navbar-default sidebar" role="navigation">
@@ -263,29 +250,28 @@
                                         <i class="fa fa-search"></i>
                                     </button>
                                 </span>
-                            </div>                            
+                            </div>
                         </li>
-                        
+
                         <?php
                             if (Session::getFrom('Login','ID') > 0) {
-                                echo $menus->HTML(); 
-                            }                            
+                                echo $menus->HTML();
+                            }
                         ?>
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
             <!-- /.navbar-static-side -->
-
             <?php endif; ?>
         </nav>
         <!-- CONTENT -->
     </div>
-     
+
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <script src="<?php echo PATH_PUBLIC; ?>sb/dist/js/sb-admin-2.js"></script>
-    <script src="<?php echo PATH; ?>changeTable.js"></script>    
-</html>
+    <script src="<?php echo PATH; ?>changeTable.js"></script>
 </body>
+</html>

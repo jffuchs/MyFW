@@ -5,9 +5,9 @@ function changeTable($myjson)
           dataType: 'json',
           data: $myjson
 	})
-    .done(function(dados) {            
+    .done(function(dados) {
 		location.reload();
-	})        
+	})
     .fail(function(jqXHR, textStatus, errorThrown) {
 		console.info(jqXHR);
 		console.info(textStatus);

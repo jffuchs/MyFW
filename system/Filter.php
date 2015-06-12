@@ -1,5 +1,5 @@
-<?php 
-	class Filter 
+<?php
+	class Filter
 	{
 		private $params;
         private $values;
@@ -9,13 +9,13 @@
         const COL_VALUE = 3;
 
         //-----------------------------------------------------------------------------------
-		public function add($key, $label, $operator, $type, $value = NULL) 
+		public function add($key, $label, $operator, $type, $value = NULL)
 		{
 			$this->params[$key] = array($label, $operator, $type, $value);
             return $this;
 		}
 
-        public function getParams() 
+        public function getParams()
         {
             return $this->params;
         }
@@ -34,12 +34,12 @@
             return $this;
         }
 
-        public function getValues() 
+        public function getValues()
         {
         	return $this->values;
         }
 
-        public function getValuesFromSession($nomeLista) 
+        public function getValuesFromSession($nomeLista)
         {
         	$filtros = Request::post("filtros");
 			if (isset($filtros)) {
@@ -51,7 +51,7 @@
         }
 
         //-----------------------------------------------------------------------------------
-        public function getText() 
+        public function getText()
         {
             $result = "";
             foreach($this->params as $key => $value)
@@ -60,26 +60,26 @@
                 if ($valor) {
                     if ($result) {
                         $result .= " AND ";
-                    }                
+                    }
                     if ($this->params[$key][self::COL_OPERATOR] == "LIKE") {
                         $result .= $key." LIKE '%".$valor."%'";
                     } else {
-                        $result .= $key.' = '.$valor; 
+                        $result .= $key.' = '.$valor;
                     }
-                }                
+                }
             }
-            return $result;            
+            return $result;
         }
 
         //-----------------------------------------------------------------------------------
-        public function getTextAnyField($text) 
+        public function getTextAnyField($text)
         {
             $result = "";
             foreach($this->params as $key => $value)
-            {                
+            {
                 if ($this->params[$key][self::COL_OPERATOR] == "LIKE") {
                     $parametros = array($key, $text, $key." LIKE '%".$text."%'");
-                } elseif ($this->params[$key][self::COL_TYPE] == "number") {                    
+                } elseif ($this->params[$key][self::COL_TYPE] == "number") {
                     $valor = abs(filter_var($text, FILTER_SANITIZE_NUMBER_INT));
                     $parametros = array($key, $valor, $key.' = '.$valor);
                 }
@@ -87,10 +87,10 @@
                     if ($result) {
                        $result .= " OR ";
                     }
-                    $result .= $parametros[2]; 
+                    $result .= $parametros[2];
                 }
             }
-            return $result;            
+            return $result;
         }
 	}
 ?>

@@ -1,27 +1,27 @@
-<?php 
-	class Model 
+<?php
+	class Model
 	{
 		protected $db;
-		protected $nomeTabela;		
+		protected $nomeTabela;
 		protected $nrRegistros;
-		
-		const NOME = "";
-		const NOME_LISTA = "";		
 
-		//--------------------------------------------------------------------------------------------		
-		public function __construct($nomeTabela) 
+		const NOME = "";
+		const NOME_LISTA = "";
+
+		//--------------------------------------------------------------------------------------------
+		public function __construct($nomeTabela)
 		{
 			$this->nomeTabela = $nomeTabela;
 			$this->db = new PDO('mysql:host=localhost;dbname=phpbasico', 'root', '');
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function getRecordCountFromLastRead() 
+		public function getRecordCountFromLastRead()
 		{
 			return $this->nrRegistros;
 		}
 
-		public function getRecordCount($SQL = NULL, $where = NULL) 
+		public function getRecordCount($SQL = NULL, $where = NULL)
 		{
 			$query = (!$SQL) ? "SELECT 1 FROM {$this->nomeTabela}" : $SQL;
 			//$query = "SELECT 1 FROM ".$this->nomeTabela;
@@ -32,45 +32,45 @@
     		return $sth->rowCount();
 		}
 
-		//--------------------------------------------------------------------------------------------		
-		public function insert(Array $dados) 
+		//--------------------------------------------------------------------------------------------
+		public function insert(Array $dados)
 		{
 			$campos = implode(", ", array_keys($dados));
 			$valores = "'".implode("', '", array_values($dados))."'";
 
 			$sql = "INSERT INTO {$this->nomeTabela} ({$campos}) VALUES ({$valores})";
 			return $this->db->query($sql);
-		}		
+		}
 
-		//--------------------------------------------------------------------------------------------		
-		public function update(Array $dados, $where = NULL) 
+		//--------------------------------------------------------------------------------------------
+		public function update(Array $dados, $where = NULL)
 		{
 			$where = ($where != NULL ? "WHERE {$where};" : "");
 
-			foreach ($dados as $inds => $vals) 
+			foreach ($dados as $inds => $vals)
 			{
-				$campos[] = "{$inds} = '{$vals}'";				
+				$campos[] = "{$inds} = '{$vals}'";
 			}
 			$campos = implode(", ", $campos);
 
 			$sql = "UPDATE {$this->nomeTabela} SET {$campos} ".$where;
   			return $this->db->query($sql);
-		}	
+		}
 
-		//--------------------------------------------------------------------------------------------		
-		public function delete($where = NULL) 
+		//--------------------------------------------------------------------------------------------
+		public function delete($where = NULL)
 		{
-			if ($where != NULL) {				
+			if ($where != NULL) {
 				$sql = "DELETE FROM {$this->nomeTabela} WHERE ".$where;
 				return $this->db->query($sql);
 			} else {
 				return FALSE;
-			}			
+			}
 		}
 
-		//--------------------------------------------------------------------------------------------		
-		public function read($SQL = NULL, $where = NULL, $limit = null, $orderBy = NULL) 
-		{			
+		//--------------------------------------------------------------------------------------------
+		public function read($SQL = NULL, $where = NULL, $limit = null, $orderBy = NULL)
+		{
 			$where = ($where != NULL ? " WHERE {$where}" : "");
 			$limit = ($limit != NULL ? " LIMIT {$limit}" : "");
 			$orderBy = ($orderBy != NULL ? " ORDER BY {$orderBy}" : "");
@@ -85,14 +85,14 @@
 			return $q->fetchAll(PDO::FETCH_ASSOC);
 		}
 
-		//--------------------------------------------------------------------------------------------		
-		public function find($where) 
+		//--------------------------------------------------------------------------------------------
+		public function find($where)
 		{
 			return count($this->read(NULL, $where)) > 0;
 		}
 
-		//--------------------------------------------------------------------------------------------		
-		public function getAll($SQL, $inicio, $limite, $where, $orderBy = NULL, $orderAD = NULL) 
+		//--------------------------------------------------------------------------------------------
+		public function getAll($SQL, $inicio, $limite, $where, $orderBy = NULL, $orderAD = NULL)
 		{
 			$orderBy = isset($orderBy) ? $orderBy.' '.$orderAD : NULL;
 			return $this->read($SQL, $where, $inicio.', '.$limite, $orderBy);

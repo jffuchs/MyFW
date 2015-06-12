@@ -13,16 +13,16 @@
 		protected $regForm;
 		protected $dataCache;		//dados que vem do POST
 		protected $dataSet;			//dados que irão para o BD
-		protected $orderBy;		
+		protected $orderBy;
 
 		public $nome;
-		public $nomeCampoID;		
+		public $nomeCampoID;
 		public $colunas;
 		public $filtros;
 		public $SQL;
 
 		//-----------------------------------------------------------------------------------
-		public function __construct($nome = NULL, $nomeLogico = NULL) 
+		public function __construct($nome = NULL, $nomeLogico = NULL)
 		{
 			parent::__construct();
 
@@ -38,14 +38,14 @@
 			$this->SQL = '';
 			$this->colunas = new Columns();
 			$this->filtros = new Filter();
-		}		
+		}
 
 		//-----------------------------------------------------------------------------------
-		private function loadRepository() 
+		private function loadRepository()
 		{
 			$repo_path = REPOSITORIES.$this->nome.'Repo.php';
-			
-			if (!file_exists($repo_path)) {				
+
+			if (!file_exists($repo_path)) {
 				Warning::page404("Arquivo de repositório <b>{$repo_path}</b> não encontrado!");
 				exit;
 			}
@@ -54,7 +54,7 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function setNome($nome) 
+		protected function setNome($nome)
 		{
 			$this->nome = $nome;
 
@@ -69,7 +69,7 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function index_action() 
+		public function index_action()
 		{
 			Session::setPlus($this->nomeLogico, DADOS_CACHE, NULL);
 			Session::setPlus($this->nomeLogico, 'actualPage', $this->pageNumber);
@@ -81,22 +81,22 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function view($nome, $vars = NULL) 
+		protected function view($nome, $vars = NULL)
 		{
 			$arqView = VIEWS.$nome.'.phtml';
-			if (!file_exists($arqView)) {				
+			if (!file_exists($arqView)) {
 				Warning::page404("Arquivo de view <b>{$arqView}</b> não encontrado!");
 				exit;
 			}
 
 			if (is_array($vars) && count($vars) > 0) {
-				extract($vars, EXTR_PREFIX_ALL, $this->prefixView);				
+				extract($vars, EXTR_PREFIX_ALL, $this->prefixView);
 			}
 			require_once($arqView);
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function regPOST($nome) 
+		protected function regPOST($nome)
 		{
 			if (isset(Request::post($this->regForm)[$nome])) {
 				return Request::post($this->regForm)[$nome];
@@ -105,24 +105,24 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function extrairPOST($arrayCampos) 
+		protected function extrairPOST($arrayCampos)
 		{
 			$dados = array();
-			foreach ($arrayCampos as $nomeCampo) 
+			foreach ($arrayCampos as $nomeCampo)
 			{
 				$dados[$nomeCampo] = $this->regPOST($nomeCampo);
 			}
 			return $dados;
-		}		
+		}
 
 		//-----------------------------------------------------------------------------------
-		protected function getDataView() 
+		protected function getDataView()
 		{
 			return $this->extrairPOST($this->camposEdicao);
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function getDadosGravacao() 
+		protected function getDadosGravacao()
 		{
 			return $this->extrairPOST($this->camposPost);
 		}
@@ -130,7 +130,7 @@
 		protected function getRecord($id)
 		{
 			$lista = array_fill_keys($this->camposEdicao, '');
-			if ($id > 0) {					
+			if ($id > 0) {
 				$dados = $this->repository->lista($id);
 				$lista = array_merge($lista, $dados[0]);
 			}
@@ -138,29 +138,29 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function getDadosEdicao($id = 0) 
+		protected function getDadosEdicao($id = 0)
 		{
 			$dataView = Session::getFrom($this->nomeLogico, DADOS_CACHE);
 
-			if (isset($dataView)) {		
+			if (isset($dataView)) {
 				$lista = $dataView;
 			} else {
 				/*$lista = array_fill_keys($this->camposEdicao, '');
-				if ($id > 0) {					
+				if ($id > 0) {
 					$dados = $this->repository->lista($id);
-					$lista = array_merge($lista, $dados[0]);					
+					$lista = array_merge($lista, $dados[0]);
 				}*/
 				$lista = $this->getRecord($id);
 			}
 			$datas['get'] = $lista;
 			$datas[ACAO] = ($id > 0) ? ACAO_EDITAR : ACAO_INCLUIR;
 			$datas['linkCancelar'] = $this->redirectIndexPaginate(TRUE);
-	
+
 			return $datas;
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function getID() 
+		protected function getID()
 		{
 			$idParam = $this->getParam("id");
 			$id = (int)$idParam;
@@ -173,17 +173,17 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function redirectEditOrInsert($id = NULL) 
+		protected function redirectEditOrInsert($id = NULL)
 		{
 			if ($id > 0) {
-				Redirect::to($this->locationEdit.$id);	
+				Redirect::to($this->locationEdit.$id);
 			} else {
-				Redirect::to($this->locationInsert);	
+				Redirect::to($this->locationInsert);
 			}
 		}
 
 		//-----------------------------------------------------------------------------------
-		protected function redirectIndexPaginate($retornarLink = NULL) 
+		protected function redirectIndexPaginate($retornarLink = NULL)
 		{
 			$link = $this->locationIndexPaginate.Session::getFrom($this->nomeLogico, 'actualPage');
 			if (isset($retornarLink)) {
@@ -192,26 +192,26 @@
 			Redirect::to($link);
 		}
 
-		//-----------------------------------------------------------------------------------		
-		public function antesIncluir(&$dados) 
+		//-----------------------------------------------------------------------------------
+		public function antesIncluir(&$dados)
 		{
 			return $dados;
 		}
 
-		public function incluir() 
+		public function incluir()
 		{
 			$dados = $this->getDadosEdicao();
 			$this->antesIncluir($dados);
-			$this->view(CONTROLLER_EDICAO, $dados);	
+			$this->view(CONTROLLER_EDICAO, $dados);
 		}
 
-		//-----------------------------------------------------------------------------------		
-		public function antesEditar(&$dados) 
+		//-----------------------------------------------------------------------------------
+		public function antesEditar(&$dados)
 		{
 			return $dados;
 		}
 
-		public function editar($id = NULL) 
+		public function editar($id = NULL)
 		{
 			$id = $this->getID();
 			$dados = $this->getDadosEdicao($id);
@@ -220,52 +220,52 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function excluir() 
+		public function excluir()
 		{
 			$id = $this->getID();
 			$ok = $this->repository->Delete($id);
 			$this->depoisExcluir($ok);
-		}				
+		}
 
-		protected function depoisExcluir($ok) 
-		{			
-			Alert::set($ok ? EXCLUIDO : NAO_EXCLUIDO);	
+		protected function depoisExcluir($ok)
+		{
+			Alert::set($ok ? EXCLUIDO : NAO_EXCLUIDO);
 			$this->redirectIndexPaginate();
 		}
 
-		//-----------------------------------------------------------------------------------		
-		public function antesGravar(&$dados) 
+		//-----------------------------------------------------------------------------------
+		public function antesGravar(&$dados)
 		{
 			return $dados;
 		}
 
-		//-----------------------------------------------------------------------------------		
-		public function validar() 
+		//-----------------------------------------------------------------------------------
+		public function validar()
 		{
 			return TRUE;
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function gravar() 
+		public function gravar()
 		{
 			$id = (int)$this->regPOST("ID");
 
 			$this->dataCache = $this->getDataView();
 			$this->dataSet = $this->getDadosGravacao();
 			if ($this->validar()) {
-				$this->antesGravar($this->dataSet);	
+				$this->antesGravar($this->dataSet);
 
-				$ok = $this->repository->salvar($this->dataSet, $id); 
+				$ok = $this->repository->salvar($this->dataSet, $id);
 				//$ok = FALSE;
 
 				Alert::set($ok ? SALVO : NAO_SALVO);
 
 				if ($ok) {
 					$this->redirectIndexPaginate();
-				}					
-			}						
+				}
+			}
 			Session::setPlus($this->nomeLogico, DADOS_CACHE, $this->dataCache);
-			$this->redirectEditOrInsert($id);			
+			$this->redirectEditOrInsert($id);
 		}
 	}
 ?>
