@@ -6,9 +6,9 @@
 			$dados = $this->getParam();
 			$this->view("Home", $dados);
 
-            if (Session::getFrom('Login','ID') <= 0) {
+            /*if (Session::getFrom('Login','ID') <= 0) {
                 Redirect::toPath('usuario/Login');
-            }
+            }*/
 		}
 	}
 ?>

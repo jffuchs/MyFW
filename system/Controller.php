@@ -2,7 +2,7 @@
 	class Controller extends Router
 	{
 		protected $nomeLogico;
-		protected $repository;
+		public $repository;
 		protected $locationIndex;
 		protected $locationIndexPaginate;
 		protected $locationEdit;
@@ -74,25 +74,30 @@
 			Session::setPlus($this->nomeLogico, DADOS_CACHE, NULL);
 			Session::setPlus($this->nomeLogico, 'actualPage', $this->pageNumber);
 
-			$pagina = new PaginaLista($this->repository->model, $this);
+			$pagina = new IndexPage($this);
+			$pagina->show(TRUE, "PaginaLista.html");
+
+			/*$pagina = new PaginaLista($this->repository->model, $this);
 			$pagina->setPaginaAtual($this->pageNumber);
 			$pagina->setPath(PATH.$this->nome);
-			$pagina->show();
+			$pagina->show();*/
 		}
 
 		//-----------------------------------------------------------------------------------
 		protected function view($nome, $vars = NULL)
 		{
-			$arqView = VIEWS.$nome.'.phtml';
+			$arqView = VIEWS.$nome.'.php';
 			if (!file_exists($arqView)) {
-				Warning::page404("Arquivo de view <b>{$arqView}</b> não encontrado!");
-				exit;
+				$arqView = VIEWS.$nome.'.phtml';
+				if (!file_exists($arqView)) {
+					Warning::page404("Arquivo de view <b>{$arqView}</b> não encontrado!");
+					exit;
+				}
 			}
 
-			if (is_array($vars) && count($vars) > 0) {
-				extract($vars, EXTR_PREFIX_ALL, $this->prefixView);
-			}
-			require_once($arqView);
+			$pagina = new IndexPage($this);
+			$pagina->show(FALSE, $arqView, $vars);
+			//require_once($arqView);
 		}
 
 		//-----------------------------------------------------------------------------------
@@ -223,7 +228,7 @@
 		public function excluir()
 		{
 			$id = $this->getID();
-			$ok = $this->repository->Delete($id);
+			$ok = $this->repository->excluir($id);
 			$this->depoisExcluir($ok);
 		}
 

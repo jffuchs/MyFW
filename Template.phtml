@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Exemplo utilizando MVC e Templates em PHP">
     <meta name="author" content="JEAN FABIO FUCHS">
+    
     <title>Teste</title>
-    <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
-    <link href="<?php echo PATH_PUBLIC; ?>sb/dist/css/sb-admin-2.css" rel="stylesheet">
-    <link href="<?php echo PATH_PUBLIC; ?>sb/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href="<?php echo PATH_PUBLIC; ?>css/style2.css" rel="stylesheet" type="text/css">
+
+    <link href="{PATH_PUBLIC}sb/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="{PATH_PUBLIC}sb/bower_components/metisMenu/dist/metisMenu.min.css" rel="stylesheet">
+    <link href="{PATH_PUBLIC}sb/dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="{PATH_PUBLIC}sb/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{PATH_PUBLIC}css/style2.css" rel="stylesheet" type="text/css">
+    
+    <script src="{PATH_PUBLIC}sb/bower_components/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -24,25 +28,23 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="<?php echo PATH; ?>"><i class="fa fa-home"></i> HOME</a>
-            </div>
-
-            <?php if (Session::getFrom('Login','ID') > 0): ?>
+                <a class="navbar-brand" href="{PATH}"><i class="fa fa-home"></i> HOME</a>
+            </div>           
 
             <ul class="nav navbar-top-links navbar-right">
                 <!-- Usuário -->
                 <li class="dropdown">
-                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <?php echo Session::getFrom('Login','Apelido'); ?>
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#"> {USU_APELIDO}
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="<?php echo PATH; ?>usuario/editar/id/<?php echo Session::getFrom('Login', 'ID'); ?>">
+                        <li><a href="{PATH}usuario/editar/id/{USU_ID}">
                             <i class="fa fa-user fa-fw"></i> Perfil do Usuário</a>
                         </li>
                         <li><a href="#"><i class="fa fa-gear fa-fw"></i> Configurações</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="<?php echo PATH; ?>login/out"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                        <li><a href="{PATH}login/out"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
                         </li>
                     </ul>
                 </li>
@@ -63,25 +65,18 @@
                             </div>
                         </li>
 
-                        <?php
-                            if (Session::getFrom('Login','ID') > 0) {
-                                echo $menus->HTML();
-                            }
-                        ?>
+                        {MENUS}
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
-            <!-- /.navbar-static-side -->
-            <?php endif; ?>
         </nav>
-        <!-- CONTENT -->
-    </div>
-
-    <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="<?php echo PATH_PUBLIC; ?>sb/bower_components/metisMenu/dist/metisMenu.min.js"></script>
-    <script src="<?php echo PATH_PUBLIC; ?>sb/dist/js/sb-admin-2.js"></script>
-    <script src="<?php echo PATH; ?>changeTable.js"></script>
+        {PAGE_CONTENT}
+    </div>   
+    
+    <script src="{PATH_PUBLIC}sb/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="{PATH_PUBLIC}sb/bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="{PATH_PUBLIC}sb/dist/js/sb-admin-2.js"></script>
+    <script src="{PATH}changeTable.js"></script>
 </body>
 </html>

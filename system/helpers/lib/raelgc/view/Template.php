@@ -110,13 +110,15 @@ namespace raelgc\view {
 		 * @param     string $varname		existing template var
 		 * @param     string $filename		file to be loaded
 		 */
-		public function addFile($varname, $filename){
+		public function addFile($varname, $filename, $vars = NULL)
+		{
 			if(!$this->exists($varname)) throw new \InvalidArgumentException("addFile: var $varname does not exist");
-			$this->loadfile($varname, $filename);
+			$this->loadfile($varname, $filename, $vars);
 		}
 
 		//Jean.Fuchs: 15/04/2015 - substitui uma {variável} antes de começar as substituições
-		public function addContexto($varname, $str) {
+		public function addContexto($varname, $str) 
+		{
 			$this->setValue($varname, $str);
 			$blocks = $this->identify($str, $varname);
 			$this->createBlocks($blocks);
@@ -181,12 +183,18 @@ namespace raelgc\view {
 		 *
 		 * @return    void
 		 */
-		private function loadfile($varname, $filename) {
+		private function loadfile($varname, $filename, $vars = NULL) {
 			if (!file_exists($filename)) throw new InvalidArgumentException("file $filename does not exist");
 			// If it's PHP file, parse it
 			if($this->isPHP($filename)){
 				ob_start();
-				require $filename;
+
+				if (is_array($vars) && count($vars) > 0) {
+					extract($vars, EXTR_PREFIX_ALL, 'view');
+				}
+
+				require_once $filename;
+				
 				$str = ob_get_contents();
 				ob_end_clean();
 				$this->setValue($varname, $str);
@@ -198,6 +206,11 @@ namespace raelgc\view {
 				$blocks = $this->identify($str, $varname);
 				$this->createBlocks($blocks);
 			}
+		}
+
+		public function addContent($filename) 
+		{
+			require $filename;
 		}
 
 		/**

@@ -110,11 +110,11 @@
 			}
 
 			//Se não tiver usuário logado...
-			if (Session::getFrom('Login', 'ID') <= 0) {
+			/*if (Session::getFrom('Login', 'ID') <= 0) {
 				if ($aux != 'login') {
 					Redirect::toPath('login');
 				}
-			}
+			}*/
 
 			require_once($controller_path);
 

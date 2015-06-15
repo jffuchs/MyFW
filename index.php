@@ -55,9 +55,9 @@
 
     Session::init();
 
-    ob_start();
+    //ob_start();
 
-    if (file_exists(VIEWS.'index.phtml')) {
+    //if (file_exists(VIEWS.'index.phtml')) {
 
         $menus = new Menu();
         $menus->add('fornecedores', 'Fornecedores', 'table');
@@ -69,11 +69,13 @@
                                                       $menus->createItem('', 'por CEP')]))]));
         $menus->add('usuario', 'Usuários', 'user');
 
-        include VIEWS.'index.phtml';
-    } else {
+        Session::set('menu', $menus->HTML());
+
+        //include VIEWS.'index.phtml';
+    /*} else {
         Warning::page404("Arquivo <strong>".VIEWS."index.phtml</strong> não encontrado!");
         exit;
-    }
+    }*/
 
     $start = new Router;
     $start->run();

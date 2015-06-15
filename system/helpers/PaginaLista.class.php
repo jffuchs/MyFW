@@ -38,7 +38,7 @@
 			$this->itensPorPagina = $numero;
 		}
 
-		public function show()
+		public function show($arqTpl = NULL, $toShow = NULL)
 		{
 			$oDados = $this->objetoDados;
 			$oCtrl = $this->controller;
@@ -75,10 +75,13 @@
 			$result = $oDados->getAll($oCtrl->SQL, $paginacao->getInicio(), $paginacao->getLimite(),
 			                          $filtros, $orderBy, $orderDESC);
 
-			$tpl = new Template($this->arqTemplate);
+			if (isset($arqTpl)) {
+				$tpl = $arqTpl;
+			} else {
+				$tpl = new Template($this->arqTemplate);
+			}
 
 			$tpl->addFile("FILTRO_MODAL", "modalFiltro.php");
-
 			$tpl->addContexto("TABELA_CAMPOS", HtmlUtils::CamposTabela($oCtrl->colunas->get()));
 			$tpl->addContexto("FILTRO_CAMPOS", Htmlutils::CamposFiltros($camposFiltros));
 
@@ -129,7 +132,9 @@
 		    if($tpl->exists("TOTAL_REGISTROS")) $tpl->TOTAL_REGISTROS = $totalRegistros;
 		    if($tpl->exists("PAGINACAO")) $tpl->PAGINACAO = $paginacao->htmlPaginacao($this->path);
 
-		    $tpl->show();
+		    /*if (isset($toShow)) {
+		    	$tpl->show();
+		    }*/
 		}
 	}
 ?>

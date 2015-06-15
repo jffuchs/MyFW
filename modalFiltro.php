@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Filtrar {NOME_LISTA}</h4>
+        <h4 class="modal-title" id="myModalLabel"><i class="fa fa-filter"></i> Filtrar {NOME_LISTA}</h4>
       </div>
       <form id="myFormModalFilter" class="form" action="{PAGE_LISTA}" method="post">
       <div class="modal-body">
