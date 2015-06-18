@@ -1,8 +1,6 @@
 <?php
 	class Controller extends Router
 	{
-		protected $nomeLogico;
-		public $repository;
 		protected $locationIndex;
 		protected $locationIndexPaginate;
 		protected $locationEdit;
@@ -15,6 +13,8 @@
 		protected $dataSet;			//dados que irão para o BD
 		protected $orderBy;
 
+		public $nomeLogico;
+		public $repository;
 		public $nome;
 		public $nomeCampoID;
 		public $colunas;
@@ -72,7 +72,7 @@
 		public function index_action()
 		{
 			Session::setPlus($this->nomeLogico, DADOS_CACHE, NULL);
-			Session::setPlus($this->nomeLogico, 'actualPage', $this->pageNumber);
+			//Session::setPlus($this->nomeLogico, 'actualPage', $this->pageNumber);
 
 			$pagina = new IndexPage($this);
 			$pagina->show(TRUE, "PaginaLista.html");
@@ -190,7 +190,8 @@
 		//-----------------------------------------------------------------------------------
 		protected function redirectIndexPaginate($retornarLink = NULL)
 		{
-			$link = $this->locationIndexPaginate.Session::getFrom($this->nomeLogico, 'actualPage');
+			//$link = $this->locationIndexPaginate.Session::getFrom($this->nomeLogico, 'actualPage');
+			$link = $this->locationIndex;
 			if (isset($retornarLink)) {
 				return $link;
 			}
@@ -228,7 +229,7 @@
 		public function excluir()
 		{
 			$id = $this->getID();
-			$ok = $this->repository->excluir($id);
+			$ok = $this->repository->Delete($id);
 			$this->depoisExcluir($ok);
 		}
 

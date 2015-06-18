@@ -530,6 +530,10 @@ namespace raelgc\view {
 			echo $this->parse();
 		}
 
+		public function render() {
+			return $this->parse();
+		}
+
 	}
 
 }

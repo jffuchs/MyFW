@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Exemplo utilizando MVC e Templates em PHP">
     <meta name="author" content="JEAN FABIO FUCHS">
-    
+
     <title>Teste</title>
 
     <link href="{PATH_PUBLIC}sb/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -14,8 +14,10 @@
     <link href="{PATH_PUBLIC}sb/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="{PATH_PUBLIC}sb/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="{PATH_PUBLIC}css/style2.css" rel="stylesheet" type="text/css">
-    
+
     <script src="{PATH_PUBLIC}sb/bower_components/jquery/dist/jquery.min.js"></script>
+
+    <script src="{PATH}changeTable.js"></script>
 </head>
 <body>
     <div id="wrapper">
@@ -29,7 +31,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="{PATH}"><i class="fa fa-home"></i> HOME</a>
-            </div>           
+            </div>
 
             <ul class="nav navbar-top-links navbar-right">
                 <!-- Usuário -->
@@ -52,7 +54,7 @@
 
             <!-- Menu lateral -->
             <div class="navbar-default sidebar" role="navigation">
-                <div class="sidebar-nav navbar-collapse">
+                <div id="sidebarPage" class="sidebar-nav navbar-collapse collapse">
                     <ul class="nav" id="side-menu">
                         <li class="sidebar-search">
                             <div class="input-group custom-search-form">
@@ -71,12 +73,13 @@
                 <!-- /.sidebar-collapse -->
             </div>
         </nav>
-        {PAGE_CONTENT}
-    </div>   
-    
+        <div id="page-wrapper">
+            {PAGE_CONTENT}
+        </div>
+    </div>
+
     <script src="{PATH_PUBLIC}sb/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="{PATH_PUBLIC}sb/bower_components/metisMenu/dist/metisMenu.min.js"></script>
     <script src="{PATH_PUBLIC}sb/dist/js/sb-admin-2.js"></script>
-    <script src="{PATH}changeTable.js"></script>
 </body>
 </html>

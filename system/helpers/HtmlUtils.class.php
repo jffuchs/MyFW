@@ -25,7 +25,7 @@
             {
                 $desc = ($orderAD == 'DESC') ? 'headerSortUp' : 'headerSortDown';
                 if ($fieldName != "actions") {
-                    $class = sprintf(' class="header%s"', ($fieldName == $orderBy) ? " $desc" : "");
+                    $class = sprintf(' class="header%s"', ($fieldName == $orderBy) ? " $desc" : "").' onclick="changeTableOrder('.$fieldName.')"';
                 } else {
                     $class = '';
                 }
@@ -145,7 +145,7 @@ var_export($controller);
         //---------------------------------------------------------------------------------------------
         public function OpcoesLinhasTable($selected)
         {
-            $lista = array(10,20,50,100);
+            $lista = array(10,15,20,50,100);
             $aux = '';
             for ($i=0; $i < count($lista); $i++)
             {

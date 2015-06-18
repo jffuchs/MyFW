@@ -60,6 +60,7 @@
 
         public function out()
         {
+            Session::destroy();
             Session::setPlus('Login', 'ID', 0);
             Session::setPlus('Login', 'Nome', '');
             Session::setPlus('Login', 'ADMIN', 0);

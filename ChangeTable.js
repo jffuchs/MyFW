@@ -33,3 +33,49 @@ function resetForm(myFormId)
     }
   }
  }
+
+function getController()
+{
+  return $("div[id^=index]").attr("controller");
+}
+
+var divContent = '#page-wrapper';
+
+function changeNrLinhas($i)
+{
+  $(divContent).load('RouterAJAX.php', {'_controller': getController(), '_linhas': $i});
+}
+
+function changePesquisar($txt)
+{
+  $(divContent).load('RouterAJAX.php', {'_controller': getController(), '_pesquisa': $txt});
+}
+
+function chamarAjax($i)
+{
+  var nLinhas = $('#selectNrLinhas').val();
+  $(divContent).load('RouterAJAX.php', {'_controller': getController(), page: $i, '_linhas': nLinhas});
+}
+
+function changeTableOrder($fieldName)
+{
+    var nome = $($fieldName).attr("id");
+
+    //console.info($fieldName);
+    //console.info(nome);
+
+    var desc = $(this).attr("data_aux");
+    if (desc == 'DESC') {
+        desc = "ASC"
+    } else {
+        desc = "DESC"
+    };
+    $(this).attr("data_aux", desc);
+
+    var nLinhas = $('#selectNrLinhas').val();
+
+    $(divContent).load('RouterAJAX.php', {'_controller': getController(),
+                                          '_linhas': nLinhas,
+                                          '_orderBy': nome,
+                                          '_orderAD': desc});
+}

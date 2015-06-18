@@ -135,6 +135,8 @@
 		    /*if (isset($toShow)) {
 		    	$tpl->show();
 		    }*/
+
+		    return $tpl->render();
 		}
 	}
 ?>

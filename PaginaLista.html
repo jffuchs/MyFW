@@ -2,99 +2,55 @@
 
 {MODAL_EXCLUIR}
 
-<body id="index" controller="{NOME_LISTA}">
-    <div id="wrapper">
-        <div id="page-wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <p>
-                    {ALERTA}
+<div id="index" class="container-fluid" controller="{NOME_LISTA}">
+    <div class="row">
+        <p>
+        {ALERTA}
 
-                    {BREADCRUMBS}
+        {BREADCRUMBS}
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading clearfix">
-                            <h3 class="panel-title"><strong>{NOME_LISTA}</strong></h3>
-                        </div>
-                    <div class="panel-body">
-                        <form class="form-inline">
-                            <label>Linhas
-                                <select id="selectNrLinhas" class="form-control input-sm" onchange="changeFunc(value);">
-                                    {LISTA_NRLINHAS}
-                                </select>
-                            </label>
-
-                            <label style="margin-left: 10px;">Pesquisar
-                               <input type="text" name="pesquisar" class="form-control input-sm" id="pesquisar" value="{TXT_FILTRO}"
-                               onchange="changePesquisarFunc(value);">
-                            </label>
-
-                            <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
-                            <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-filter"></i> Filtros</button>
-                        </form>
-
-                        <table class="table table-striped table-bordered table-hover table-condensed" id="myTable">
-                        <thead>
-                            {TABELA_TITULOS}
-                        </thead>
-                        <tbody>
-                            <!-- BEGIN BLOCK_REGISTROS -->
-                            <tr>
-                                {TABELA_CAMPOS}
-                                <td>
-                                    <a class="btn btn-warning btn-xs" href="{LINK_EDITAR}">Editar</a>
-                                    <a href="#" class="confirm-delete btn btn-danger btn-xs" data-href="{LINK_EXCLUIR}" data-toggle="modal" data-target="#confirm-delete" data-id="{REG_ID}">Excluir</a>
-                                </td>
-                            </tr>
-                            <!-- END BLOCK_REGISTROS -->
-                        </tbody>
-                        </table>
-
-                        {PAGINACAO}
-                        {TXT_REGISTROS}
-                    </div>
-                </div>
+        <div class="panel panel-default">
+            <div class="panel-heading clearfix">
+                <h3 class="panel-title"><strong>{NOME_LISTA}</strong></h3>
             </div>
+        <div class="panel-body">
+            <form class="form-inline">
+                <label>Linhas
+                    <select id="selectNrLinhas" class="form-control input-sm" onchange="changeNrLinhas(value);">
+                        {LISTA_NRLINHAS}
+                    </select>
+                </label>
+
+                <label style="margin-left: 10px;">Pesquisar
+                   <input type="text" name="pesquisar" class="form-control input-sm" id="pesquisar" value="{TXT_FILTRO}"
+                   onchange="changePesquisar(value);">
+                </label>
+
+                <a class="btn btn-success pull-right" href="{LINK_INCLUIR}">Incluir</a>
+                <button type="button" class="btn btn-info pull-right" style="margin-right: 5px; margin-bottom: 10px;" data-toggle="modal" data-target="#myModal"><i class="fa fa-filter"></i> Filtros</button>
+            </form>
+
+            <table class="table table-striped table-bordered table-hover table-condensed tablesorter" id="myTable">
+            <thead>
+                {TABELA_TITULOS}
+            </thead>
+            <tbody>
+                <!-- BEGIN BLOCK_REGISTROS -->
+                <tr>
+                    {TABELA_CAMPOS}
+                    <td>
+                        <a class="btn btn-warning btn-xs" href="{LINK_EDITAR}">Editar</a>
+                        <a href="#" class="confirm-delete btn btn-danger btn-xs" data-href="{LINK_EXCLUIR}" data-toggle="modal" data-target="#confirm-delete" data-id="{REG_ID}">Excluir</a>
+                    </td>
+                </tr>
+                <!-- END BLOCK_REGISTROS -->
+            </tbody>
+            </table>
+            {PAGINACAO}
+            {TXT_REGISTROS}
         </div>
     </div>
-</body>
-
-<script type="text/javascript">
-    function changeFunc($i)
-    {
-        var controller = $("body[id^=index]").attr("controller");
-        changeTable({'_controller': controller, '_linhas': $i});
-    }
-</script>
-
-<script type="text/javascript">
-    function changePesquisarFunc($txt)
-    {
-        var controller = $("body[id^=index]").attr("controller");
-        changeTable({'_controller': controller, '_pesquisa': $txt});
-    }
-</script>
-
-<script type="text/javascript">
-    $('#myTable th').click(function()
-    {
-        var nome = $(this).attr("id");
-        if (nome == 'actions') return;
-
-        var desc = $(this).attr("data_aux");
-        if (desc == 'DESC') {
-            desc = "ASC"
-        } else {
-            desc = "DESC"
-        };
-        $(this).attr("data_aux", desc);
-
-        var nLinhas = $('#selectNrLinhas').val();
-        var controller = $("body[id^=index]").attr("controller");
-
-        changeTable({'_controller': controller, '_linhas': nLinhas, '_orderBy': nome, '_orderAD': desc});
-    });
-</script>
+</div>
 
 <script>
     $('#confirm-delete').on('show.bs.modal', function(e) {

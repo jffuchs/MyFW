@@ -2,7 +2,7 @@
     class UsuarioModel extends Model
     {
         const NOME = "Usuário";
-        const NOME_LISTA = "Usuários";
+        const NOME_LISTA = "Usuario";
 
         //-----------------------------------------------------------------------------------
         public function __construct()

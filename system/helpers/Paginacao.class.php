@@ -62,8 +62,8 @@
 
 			$listaPaginas = '<ul class="pagination center-block">';
 			$listaPaginas .= '<li><a class="back-to-top" href="#top"><i class="fa fa-arrow-up"></i></a></li>';
-			$listaPaginas .= '<li class="'.$disabledFirst.'">
-				      		      <a href="'.$paginaList.'/index/pag/'.$pagAnt.'"
+			$listaPaginas .= '<li class="'.$disabledFirst.'" onclick="chamarAjax('.$pagAnt.')">
+				      		      <a href="javascript:void(0);"
 								      aria-label="Previous"><span aria-hidden="true">&laquo;</span>
 						      	  </a>
 						 	  </li>';
@@ -104,11 +104,11 @@
 
 			foreach ($links as $number => $content) {
 				$classe = ($number == $this->paginaAtual) ? ' class="active"' : NULL;
-    			$listaPaginas .= '<li'.$classe.'><a href="'.$paginaList.'/index/pag/'.$number.'"> '.$content.'</a></li>';
+    			$listaPaginas .= '<li'.$classe.' onclick="chamarAjax('.$number.')"><a href="javascript:void(0);"> '.$content.'</a></li>';
 			}
 
-			$listaPaginas .= '<li class="'.$disabledLast.'">
-						  	      <a href="'.$paginaList.'/index/pag/'.$proxPag.'"
+			$listaPaginas .= '<li class="'.$disabledLast.'" onclick="chamarAjax('.$proxPag.')">
+						  	      <a href="javascript:void(0);"
 						  	          aria-label="Next"><span aria-hidden="true">&raquo;</span>
 						          </a>
 						      </li>';

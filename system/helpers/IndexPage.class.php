@@ -38,7 +38,8 @@
 			//Se é um controller/index
 			if ($ehIndex) {
 				$pagina = new PaginaLista($oCtrl->repository->model, $oCtrl);
-				$pagina->setPaginaAtual($oCtrl->pageNumber);
+				//$pagina->setPaginaAtual($oCtrl->pageNumber);
+				$pagina->setPaginaAtual(Session::getFrom($oCtrl->nomeLogico, 'actualPage'));
 				$pagina->setPath(PATH.$oCtrl->nome);
 				$pagina->show($tpl, False);
 			}
