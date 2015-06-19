@@ -25,7 +25,11 @@
 
 		public function setPaginaAtual($numero)
 		{
-			$this->paginaAtual = $numero;
+			if ($numero) {
+				$this->paginaAtual = $numero;
+			} else {
+				$this->paginaAtual = 1;
+			}
 		}
 
 		public function setPath($path)

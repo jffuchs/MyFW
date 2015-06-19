@@ -23,27 +23,16 @@
 
     Session::init();
 
-    //ob_start();
-
-    //if (file_exists(VIEWS.'index.phtml')) {
-
-        $menus = new Menu();
-        $menus->add('fornecedores', 'Fornecedores', 'table');
-        $menus->add('cidades', 'Cidades', 'table');
-        $menus->add(NULL, 'Relatórios', 'print', 'second',
-                    $menus->childs([$menus->createItem('', 'Fornecedores'),
-                                    $menus->createItem(NULL, 'Cidades', NULL, 'third',
-                                                      $menus->childs([$menus->createItem('', 'por UF'),
-                                                      $menus->createItem('', 'por CEP')]))]));
-        $menus->add('usuario', 'Usuários', 'user');
-
-        Session::set('menu', $menus->HTML());
-
-        //include VIEWS.'index.phtml';
-    /*} else {
-        Warning::page404("Arquivo <strong>".VIEWS."index.phtml</strong> não encontrado!");
-        exit;
-    }*/
+    $menus = new Menu();
+    $menus->add('fornecedores', 'Fornecedores', 'table');
+    $menus->add('cidades', 'Cidades', 'table');
+    $menus->add(NULL, 'Relatórios', 'print', 'second',
+                $menus->childs([$menus->createItem('', 'Fornecedores'),
+                                $menus->createItem(NULL, 'Cidades', NULL, 'third',
+                                                  $menus->childs([$menus->createItem('', 'por UF'),
+                                                  $menus->createItem('', 'por CEP')]))]));
+    $menus->add('usuario', 'Usuários', 'user');
+    Session::set('menu', $menus->HTML());
 
     $start = new Router;
     $start->run();

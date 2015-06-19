@@ -13,9 +13,9 @@
 		protected $dataSet;			//dados que irão para o BD
 		protected $orderBy;
 
+		public $nome;
 		public $nomeLogico;
 		public $repository;
-		public $nome;
 		public $nomeCampoID;
 		public $colunas;
 		public $filtros;

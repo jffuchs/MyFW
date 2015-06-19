@@ -4,7 +4,7 @@
         //-----------------------------------------------------------------------------------
         public function __construct()
         {
-            parent::__construct('usuario');
+            parent::__construct('usuario', 'Usuario');
 
             $this->camposEdicao = array("ID", "Senha");
             $this->nomeCampoID = 'ID';

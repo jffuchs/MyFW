@@ -36,7 +36,7 @@
 		}
 
 		//-----------------------------------------------------------------------------------
-		public function excluir($id)
+		public function delete($id)
 		{
 			return $this->model->delete("ID = $id");
 		}
