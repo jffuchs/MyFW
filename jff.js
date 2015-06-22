@@ -79,3 +79,12 @@ function changeTableOrder($fieldName)
                                           '_orderBy': nome,
                                           '_orderAD': desc});
 }
+
+//Para chamar controller por Ajax...
+function changeController($controller)
+{
+  $(divContent).load('RouterAJAX.php', {'_controller': $controller});
+  if($controller!=window.location) {
+    window.history.pushState({path: $controller}, '', $controller);
+  }
+}

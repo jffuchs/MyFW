@@ -77,6 +77,8 @@
 			$pagina = new IndexPage($this);
 			$pagina->show(TRUE, "PaginaLista.html");
 
+			//echo "<script>changeController(fornecedores);</script>";
+
 			/*$pagina = new PaginaLista($this->repository->model, $this);
 			$pagina->setPaginaAtual($this->pageNumber);
 			$pagina->setPath(PATH.$this->nome);

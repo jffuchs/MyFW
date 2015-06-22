@@ -11,7 +11,7 @@
             </div>
         <div class="panel-body">
 
-        <form action="<?php echo PATH; ?>fornecedores/gravar" id="reservationForm" role="form" method="post">
+        <form action="<?php echo PATH; ?>fornecedores/gravar" id="formFor" role="form" method="post">
             <div class="form-group">
                 <label for="Nome">Nome do Fornecedor</label>
                 <input type="text" name="RegForm[Nome]" class="form-control" id="Nome" autofocus required value="<?php echo $view_get["Nome"]; ?>">
@@ -25,7 +25,7 @@
             <div>
                 <input type="hidden" name="RegForm[ID]" value="<?php echo $view_get["ID"]; ?>">
                 <input type="hidden" name="acao" value="<?php echo $view_acao; ?>" />
-                <input name="reset" type="reset" class="btn btn-danger" value="Limpar" onclick="resetForm('reservationForm'); return false;" />
+                <input name="reset" type="reset" class="btn btn-danger" value="Limpar" onclick="resetForm('formFor'); return false;" />
                 <input class="btn btn-success pull-right" type="submit" value="Salvar">
                 <a class="btn btn-default" href="<?php echo $view_linkCancelar; ?>">Cancelar</a>
             </div>

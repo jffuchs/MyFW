@@ -64,6 +64,11 @@
 		        } else {
 		            $aux .= '<li '.$this->isActiveMenu($controller).'><a href="'.$this->pathMenu($controller).'">
 		            		 <i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';
+
+		            //Com ajax...
+		           	/*$sctrl = "'$controller'";
+		           	$aux .= '<li '.$this->isActiveMenu($controller).' onclick="changeController('.$sctrl.');"><a href="javascript:void(0);">
+		            		 <i class="fa fa-fw fa-'.$item[2].'"></i> '.$item[1].'</a></li>';*/
 		        }
 		    }
 		    return $aux;
