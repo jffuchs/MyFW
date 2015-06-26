@@ -125,10 +125,18 @@
 
 		    if($tpl->exists("TXT_REGISTROS")) {
 		    	if ($filtros) {
-		    		$Aux = '<p align="right">Encontrados <strong>'.$totalRegistros.'</strong> registro(s).</p>';
-		    	} else {
-		    		$Aux = '<p align="right">Exibindo <strong>'.$oDados->getRecordCountFromLastRead().'</strong> de um total de <strong>'.$totalRegistros.'</strong> Registros.</p>';
+		    		$tpl->NRREG_FILTER = '<small style="margin-left: 5px;">Encontrados <strong>'.$totalRegistros.'</strong> registro(s).</small>';
 		    	}
+		    }
+
+		    if($tpl->exists("TXT_REGISTROS")) {
+		    	$inicio = $paginacao->getInicio() + 1;  //$oDados->getRecordCountFromLastRead()
+		    	$ate = $inicio + $paginacao->getLimite() - 1;
+		    	if ($ate > $totalRegistros) {
+		    		$ate = $totalRegistros;
+		    	}
+		    	$Aux = '<p align="right">Exibindo <strong>'.$inicio.'</strong> até <strong>'.$ate.'</strong> de <strong>'.$totalRegistros.'</strong> Registros.</p>';
+
 		    	$tpl->TXT_REGISTROS = $Aux;
 		    }
 
