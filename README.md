@@ -1,2 +1,2 @@
 # MyFW
-Meu Framework
+Meu Framework PHP
